@@ -1,0 +1,587 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VitaSense • Cadastro</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/cadastro.css}">
+</head>
+
+<body class="wiz">
+
+    <aside class="wiz-side">
+
+        <div class="wiz-brand">
+            <img th:src="@{/img/logo.png}"
+                 alt="Logo VitaSense"
+                 class="logo"
+                 onerror="this.style.display='none'">
+
+            <h2>VitaSense</h2>
+        </div>
+
+        <ol class="steps">
+
+            <li data-s="1">
+                <span>1</span>
+                <div>
+                    <b>Administrador</b>
+                    <small></small>
+                </div>
+            </li>
+
+            <li data-s="2">
+                <span>2</span>
+                <div>
+                    <b>Cadastro do idoso</b>
+                    <small></small>
+                </div>
+            </li>
+
+            <li data-s="3">
+                <span>3</span>
+                <div>
+                    <b>Cadastro do imóvel</b>
+                    <small></small>
+                </div>
+            </li>
+
+            <li data-s="4">
+                <span>4</span>
+                <div>
+                    <b>Revisão</b>
+                    <small></small>
+                </div>
+            </li>
+
+        </ol>
+
+        <p class="quote">
+            Porque cuidar vai muito além de estar presente:
+            é garantir que cada pessoa idosa viva com mais
+            independência, conforto e segurança.
+        </p>
+
+    </aside>
+
+    <main class="wiz-main">
+
+        <form th:action="@{/cadastro}"
+              th:object="${form}"
+              method="post"
+              id="f"
+              novalidate>
+
+            <!-- ERROS DE VALIDAÇÃO -->
+            <div th:if="${#fields.hasErrors('*')}"
+                 class="alert alert-erro"
+                 role="alert">
+
+                <b>Corrija os itens abaixo:</b>
+
+                <ul>
+                    <li th:each="e : ${#fields.errors('*')}"
+                        th:text="${e}">
+                    </li>
+                </ul>
+
+            </div>
+
+            <!-- =================================
+                 ETAPA 1 — ADMINISTRADOR
+            ================================== -->
+
+            <section data-step="1">
+
+                <small>Etapa 1 de 4</small>
+
+                <h1>Cadastro do responsável</h1>
+
+                <p>
+                    Informe os dados do administrador que será responsável pela conta.
+                </p>
+
+                <label for="nome">Nome completo</label>
+                <input type="text"
+                       id="nome"
+                       th:field="*{nome}"
+                       autocomplete="name"
+                       placeholder="Digite o nome completo"
+                       required>
+
+                <label for="email">E-mail</label>
+                <input type="email"
+                       id="email"
+                       th:field="*{email}"
+                       autocomplete="email"
+                       placeholder="nome@exemplo.com"
+                       required>
+
+                <label for="telefone">Telefone</label>
+                <input type="tel"
+                       id="telefone"
+                       th:field="*{telefone}"
+                       autocomplete="tel"
+                       data-digits
+                       maxlength="11"
+                       inputmode="numeric"
+                       placeholder="11900000000"
+                       pattern="[0-9]{10,11}"
+                       required>
+
+                <!-- SENHA -->
+                <label for="senha">Senha</label>
+
+                <div class="password-wrapper">
+                    <input type="password"
+                           id="senha"
+                           th:field="*{senha}"
+                           autocomplete="new-password"
+                           placeholder="Crie uma senha (mín. 6 caracteres)"
+                           minlength="6"
+                           required>
+
+                    <button type="button"
+                            class="toggle-password"
+                            data-target="senha"
+                            aria-label="Mostrar senha"
+                            aria-pressed="false">
+
+                        <svg class="eye-open"
+                             xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="1.8"
+                             stroke-linecap="round"
+                             stroke-linejoin="round"
+                             aria-hidden="true">
+                            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+
+                        <svg class="eye-closed"
+                             xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="1.8"
+                             stroke-linecap="round"
+                             stroke-linejoin="round"
+                             aria-hidden="true"
+                             hidden>
+                            <path d="M3 3l18 18"/>
+                            <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/>
+                            <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a14.8 14.8 0 0 1-3.1 3.9"/>
+                            <path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10.5 10.5 0 0 0 4-.8"/>
+                        </svg>
+
+                    </button>
+                </div>
+
+                <!-- CONFIRMAR SENHA -->
+                <label for="confirmarSenha">Confirmar senha</label>
+
+                <div class="password-wrapper">
+                    <input type="password"
+                           id="confirmarSenha"
+                           th:field="*{confirmarSenha}"
+                           autocomplete="new-password"
+                           placeholder="Digite a senha novamente"
+                           required>
+
+                    <button type="button"
+                            class="toggle-password"
+                            data-target="confirmarSenha"
+                            aria-label="Mostrar senha"
+                            aria-pressed="false">
+
+                        <svg class="eye-open"
+                             xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="1.8"
+                             stroke-linecap="round"
+                             stroke-linejoin="round"
+                             aria-hidden="true">
+                            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+
+                        <svg class="eye-closed"
+                             xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="1.8"
+                             stroke-linecap="round"
+                             stroke-linejoin="round"
+                             aria-hidden="true"
+                             hidden>
+                            <path d="M3 3l18 18"/>
+                            <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/>
+                            <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a14.8 14.8 0 0 1-3.1 3.9"/>
+                            <path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10.5 10.5 0 0 0 4-.8"/>
+                        </svg>
+
+                    </button>
+                </div>
+
+            </section>
+
+            <!-- =================================
+                 ETAPA 2 — PESSOA IDOSA
+            ================================== -->
+
+            <section data-step="2" hidden>
+
+                <small>Etapa 2 de 4</small>
+
+                <h1>Cadastro da pessoa idosa</h1>
+
+                <p>
+                    Informe os dados da pessoa que será acompanhada pelo VitaSense.
+                </p>
+
+                <label for="idosoNome">Nome completo</label>
+                <input type="text"
+                       id="idosoNome"
+                       th:field="*{idosoNome}"
+                       autocomplete="off"
+                       placeholder="Digite o nome completo"
+                       required>
+
+                <div class="row3">
+
+                    <div>
+                        <label for="idosoNascimento">Data de nascimento</label>
+                        <input type="date"
+                               id="idosoNascimento"
+                               th:field="*{idosoNascimento}"
+                               autocomplete="off"
+                               required>
+                    </div>
+
+                    <div>
+                        <label>Mora sozinho(a)?</label>
+
+                        <label class="rd">
+                            <input type="radio"
+                                   th:field="*{idosoMoraSozinho}"
+                                   value="true"
+                                   required>
+                            Sim
+                        </label>
+
+                        <label class="rd">
+                            <input type="radio"
+                                   th:field="*{idosoMoraSozinho}"
+                                   value="false">
+                            Não
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>Consegue utilizar o celular?</label>
+
+                        <label class="rd">
+                            <input type="radio"
+                                   th:field="*{idosoUsaCelular}"
+                                   value="true"
+                                   required>
+                            Sim
+                        </label>
+
+                        <label class="rd">
+                            <input type="radio"
+                                   th:field="*{idosoUsaCelular}"
+                                   value="false">
+                            Não
+                        </label>
+                    </div>
+
+                </div>
+
+                <label for="idosoCondicoes">
+                    Condições de saúde relevantes (opcional)
+                </label>
+
+                <textarea id="idosoCondicoes"
+                          th:field="*{idosoCondicoes}"
+                          autocomplete="off"
+                          placeholder="Descreva, se houver"></textarea>
+
+                <label for="idosoMobilidade">
+                    Necessidades especiais ou limitações de mobilidade (opcional)
+                </label>
+
+                <textarea id="idosoMobilidade"
+                          th:field="*{idosoMobilidade}"
+                          autocomplete="off"
+                          placeholder="Descreva, se houver"></textarea>
+
+                <label for="contatoNome">
+                    Nome do contato de emergência
+                </label>
+
+                <input type="text"
+                       id="contatoNome"
+                       th:field="*{contatoNome}"
+                       autocomplete="off"
+                       placeholder="Digite o nome completo"
+                       required>
+
+                <div class="row2">
+
+                    <div>
+                        <label for="contatoParentesco">Parentesco</label>
+
+                        <input type="text"
+                               id="contatoParentesco"
+                               th:field="*{contatoParentesco}"
+                               autocomplete="off"
+                               placeholder="Informe o parentesco"
+                               required>
+                    </div>
+
+                    <div>
+                        <label for="contatoTelefone">
+                            Telefone de emergência
+                        </label>
+
+                        <input type="tel"
+                               id="contatoTelefone"
+                               th:field="*{contatoTelefone}"
+                               autocomplete="tel"
+                               data-digits
+                               maxlength="11"
+                               inputmode="numeric"
+                               placeholder="11900000000"
+                               pattern="[0-9]{10,11}"
+                               required>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =================================
+                 ETAPA 3 — RESIDÊNCIA
+            ================================== -->
+
+            <section data-step="3" hidden>
+
+                <small>Etapa 3 de 4</small>
+
+                <h1>Cadastro da residência</h1>
+
+                <p>
+                    Informe o endereço e as características do imóvel que será monitorado.
+                </p>
+
+                <label for="imovelNome">Nome do imóvel</label>
+
+                <input type="text"
+                       id="imovelNome"
+                       th:field="*{imovelNome}"
+                       autocomplete="off"
+                       placeholder="Ex.: Residência principal"
+                       required>
+
+                <div class="row2">
+
+                    <div>
+                        <label for="cep">CEP</label>
+
+                        <input type="text"
+                               id="cep"
+                               th:field="*{cep}"
+                               autocomplete="postal-code"
+                               data-digits
+                               maxlength="8"
+                               inputmode="numeric"
+                               placeholder="00000000"
+                               pattern="[0-9]{8}"
+                               required>
+                    </div>
+
+                    <div>
+                        <label for="rua">Rua</label>
+
+                        <input type="text"
+                               id="rua"
+                               th:field="*{rua}"
+                               autocomplete="address-line1"
+                               placeholder="Digite o nome da rua"
+                               required>
+                    </div>
+
+                    <div>
+                        <label for="numero">Número</label>
+
+                        <input type="text"
+                               id="numero"
+                               th:field="*{numero}"
+                               autocomplete="off"
+                               data-digits
+                               maxlength="6"
+                               inputmode="numeric"
+                               placeholder="00"
+                               required>
+                    </div>
+
+                    <div>
+                        <label for="complemento">Complemento</label>
+
+                        <input type="text"
+                               id="complemento"
+                               th:field="*{complemento}"
+                               autocomplete="address-line2"
+                               placeholder="Digite o complemento">
+                    </div>
+
+                    <div>
+                        <label for="bairro">Bairro</label>
+
+                        <input type="text"
+                               id="bairro"
+                               th:field="*{bairro}"
+                               autocomplete="address-level3"
+                               placeholder="Digite o bairro"
+                               required>
+                    </div>
+
+                    <div>
+                        <label for="cidade">Cidade</label>
+
+                        <input type="text"
+                               id="cidade"
+                               th:field="*{cidade}"
+                               autocomplete="address-level2"
+                               placeholder="Digite a cidade"
+                               required>
+                    </div>
+
+                    <div>
+                        <label for="tipoResidencia">
+                            Tipo de residência
+                        </label>
+
+                        <select id="tipoResidencia"
+                                th:field="*{tipoResidencia}"
+                                autocomplete="off"
+                                required>
+
+                            <option value="">Selecione uma opção</option>
+                            <option value="Casa">Casa</option>
+                            <option value="Apartamento">Apartamento</option>
+                            <option value="Sobrado">Sobrado</option>
+                            <option value="Outro">Outro</option>
+
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="comodos">
+                            Quantidade de cômodos
+                        </label>
+
+                        <input type="number"
+                               id="comodos"
+                               min="1"
+                               max="99"
+                               th:field="*{comodos}"
+                               autocomplete="off"
+                               placeholder="Informe uma quantidade"
+                               required>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =================================
+                 ETAPA 4 — REVISÃO
+            ================================== -->
+
+            <section data-step="4" hidden>
+
+                <small>Etapa 4 de 4</small>
+
+                <h1>Revise seu cadastro</h1>
+
+                <p>
+                    Confira as informações abaixo. Para corrigir um dado,
+                    selecione Editar no bloco correspondente.
+                </p>
+
+                <div class="card">
+
+                    <div class="card-h">
+                        <h3>Dados do administrador</h3>
+                        <a href="#" data-edit="1">Editar</a>
+                    </div>
+
+                    <div id="rv1"></div>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-h">
+                        <h3>Dados da pessoa idosa</h3>
+                        <a href="#" data-edit="2">Editar</a>
+                    </div>
+
+                    <div id="rv2"></div>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-h">
+                        <h3>Dados da residência</h3>
+                        <a href="#" data-edit="3">Editar</a>
+                    </div>
+
+                    <div id="rv3"></div>
+
+                </div>
+
+            </section>
+
+        </form>
+
+        <!-- RODAPÉ FORA DO FORM -->
+        <footer class="wiz-foot">
+
+            <span id="prox"></span>
+
+            <div>
+                <button type="button"
+                        class="btn ghost"
+                        id="voltar">
+                    Voltar
+                </button>
+
+                <button type="button"
+                        class="btn"
+                        id="proximo">
+                    Próximo
+                </button>
+            </div>
+
+        </footer>
+
+    </main>
+
+    <!-- MANTÉM O JAVASCRIPT ORIGINAL DAS ETAPAS -->
+    <script th:src="@{/js/cadastro.js}"></script>
+
+</body>
+</html>

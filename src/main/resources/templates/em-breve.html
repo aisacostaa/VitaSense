@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VitaSense • Em breve</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="app">
+  <div class="page">
+    <header th:replace="~{fragments/layout :: topo(${ativo})}"></header>
+    <h1 class="titulo" th:text="${titulo}">Tela</h1>
+    <p class="vazio">Esta tela será construída nas próximas etapas.</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+target/
+*.db
+.vscode/
+.idea/
+*.log
+.env

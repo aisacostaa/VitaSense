@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fafaff">
+    <title>VitaSense • Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body class="app dashboard-page">
+<div class="page dashboard">
+    <header th:replace="~{fragments/layout :: topo('dashboard')}"></header>
+
+    <main class="dashboard-main" data-dashboard-motion>
+        <div class="dashboard-title-row"><h1 class="dashboard-title">Dashboard</h1></div>
+
+        <section class="welcome-row" aria-label="Boas-vindas">
+            <div class="welcome-copy">
+                <h2>Olá! Bem-vindo ao VitaSense</h2>
+                <p th:text="${imovel.nome}">Residência de Dona Maria</p>
+            </div>
+            <div class="dashboard-date">
+                <p th:text="${hoje}">Quinta-feira, 29 de outubro de 2026</p>
+                <small>Atualizado às <span th:text="${agora}">21:30</span></small>
+            </div>
+        </section>
+
+        <section class="dashboard-section summary-section" aria-labelledby="summary-title">
+            <div class="section-heading"><h2 id="summary-title">Resumo geral</h2></div>
+            <div class="summary-grid">
+                <article class="summary-card">
+                    <div class="summary-label"><span class="summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 5.2-8.8 11-8.8 11s-8.8-5.8-8.8-11A4.8 4.8 0 0 1 12 6.2a4.8 4.8 0 0 1 8.8 2.6Z"/><path d="M3.5 12h4l2-3.2 3.1 6.3 2-3.1h5.9"/></svg></span><span>Saúde</span></div>
+                    <strong th:text="${leitura != null ? leitura.bpm + ' BPM' : '—'}">78 BPM</strong>
+                    <small th:text="${leitura != null ? 'Última leitura às ' + #temporals.format(leitura.momento,'HH:mm') : 'Sem leituras'}">Última leitura às 21:28</small>
+                </article>
+                <article class="summary-card">
+                    <div class="summary-label"><span class="summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg></span><span>Câmeras</span></div>
+                    <strong><span th:text="${camerasOnline}">3</span> de <span th:text="${camerasTotal}">4</span></strong>
+                    <small>câmeras online</small>
+                </article>
+                <article class="summary-card">
+                    <div class="summary-label"><span class="summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1Z"/></svg></span><span>Casa</span></div>
+                    <strong><span th:text="${dispositivosConectados}">8</span> de <span th:text="${dispositivosTotal}">10</span></strong>
+                    <small>dispositivos conectados</small>
+                </article>
+                <article class="summary-card">
+                    <div class="summary-label"><span class="summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.8 19a1.3 1.3 0 0 0 1.1 2h16.2a1.3 1.3 0 0 0 1.1-2L12 3Z"/><path d="M12 9v5m0 3h.01"/></svg></span><span>Alertas</span></div>
+                    <strong><span th:text="${pendentes}">2</span> alertas</strong>
+                    <small>pendentes de revisão</small>
+                </article>
+            </div>
+        </section>
+
+        <div class="monitor-grid">
+            <section class="dashboard-section" aria-labelledby="health-title">
+                <div class="section-heading"><h2 id="health-title">Monitoramento do idoso</h2></div>
+                <article class="surface-card health-card">
+                    <div class="card-heading">
+                        <h3 th:text="${'Saúde de ' + (pessoa != null ? pessoa.nome : '—')}">Saúde de Dona Maria</h3>
+                        <span class="status-pill status-pill-dark"><span class="status-dot"></span>Relógio conectado</span>
+                    </div>
+                    <div th:if="${leitura != null}" class="health-metrics">
+                        <div class="metric-card"><span class="metric-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 5.2-8.8 11-8.8 11s-8.8-5.8-8.8-11A4.8 4.8 0 0 1 12 6.2a4.8 4.8 0 0 1 8.8 2.6Z"/><path d="M3.5 12h4l2-3.2 3.1 6.3 2-3.1h5.9"/></svg></span><small>Frequência cardíaca</small><strong th:text="${leitura.bpm}">78</strong><em>BPM</em></div>
+                        <div class="metric-card"><span class="metric-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13a8 8 0 1 1 16 0"/><path d="M12 13 16.5 8.5M6 19h12"/><circle cx="12" cy="13" r="1"/></svg></span><small>Pressão arterial</small><strong th:text="${leitura.sistolica} + '/' + ${leitura.diastolica}">120/80</strong><em>mmHg</em></div>
+                        <div class="metric-card"><span class="metric-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z"/><path d="M8 13h2l1-2 2 4 1-2h2"/></svg></span><small>Oxigenação</small><strong th:text="${leitura.oxigenacao}">98</strong><em>%</em></div>
+                    </div>
+                    <p th:if="${leitura == null}" class="empty-state">Nenhuma leitura registrada ainda.</p>
+                    <div class="history-card">
+                        <div class="history-heading"><span>Histórico das leituras</span><small>Gráficos esquemáticos</small></div>
+                        <div class="history-grid">
+                            <div class="history-item"><svg class="spark" th:attr="data-spark=${serieBpm}" role="img" aria-label="Histórico de frequência cardíaca"></svg><small>Frequência</small></div>
+                            <div class="history-item"><svg class="spark" th:attr="data-spark=${serieSis}" role="img" aria-label="Histórico de pressão arterial"></svg><small>Pressão</small></div>
+                            <div class="history-item"><svg class="spark" th:attr="data-spark=${serieOxi}" role="img" aria-label="Histórico de oxigenação"></svg><small>Oxigenação</small></div>
+                        </div>
+                    </div>
+                    <div class="card-footer health-footer">
+                        <div class="sync-info"><small>Última sincronização do smartwatch</small><strong th:text="${leitura != null ? leitura.momentoTexto : '—'}">Hoje, às 21:28</strong></div>
+                        <a th:href="@{/saude}" class="button button-primary">Ver monitoramento completo</a>
+                    </div>
+                </article>
+            </section>
+
+            <section class="dashboard-section" aria-labelledby="camera-title">
+                <div class="section-heading"><h2 id="camera-title">Monitoramento por câmeras</h2></div>
+                <article class="surface-card camera-card" th:if="${camera != null}">
+                    <div class="card-heading">
+                        <h3><span class="heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg></span><span th:text="${camera.nome}">Sala</span></h3>
+                        <span class="status-pill status-pill-dark"><span class="status-dot" th:classappend="${camera.online ? '' : ' is-offline'}"></span><span th:text="${camera.online} ? 'Câmera online' : 'Câmera offline'">Câmera online</span></span>
+                    </div>
+                    <div class="camera-preview">
+                        <img th:src="@{/img/camera-sala.jpg}" alt="Visualização ilustrativa da sala" onerror="this.style.display='none'">
+                        <span class="camera-placeholder">Visualização da câmera</span>
+                    </div>
+                    <p class="camera-updated"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Última atualização: <span th:text="${camera.ultimaTexto}">hoje, às 21:29</span></p>
+                    <div class="camera-actions">
+                        <a th:href="@{/cameras}" class="button button-primary">Visualizar câmeras</a>
+                        <a th:href="@{/cameras}" class="button button-secondary">Falar com o idoso</a>
+                    </div>
+                </article>
+                <article class="surface-card camera-card empty-camera" th:if="${camera == null}">
+                    <span class="empty-camera-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg></span><h3>Nenhuma câmera cadastrada</h3>
+                    <p>Adicione uma câmera para acompanhar os ambientes da residência.</p><a th:href="@{/cameras}" class="button button-primary">Acessar câmeras</a>
+                </article>
+            </section>
+        </div>
+
+        <section class="dashboard-section devices-section" aria-labelledby="devices-title">
+            <div class="section-heading section-heading-action"><h2 id="devices-title">Controle da casa</h2><a th:href="@{/casa}" class="button button-outline">Acessar minha casa</a></div>
+            <div class="devices-grid">
+                <article class="device-card" th:each="d : ${dispositivos}">
+                    <div class="device-top"><span class="device-icon" aria-hidden="true">
+                            <svg th:if="${#strings.containsIgnoreCase(d.nome, 'luz') or #strings.containsIgnoreCase(d.nome, 'lâmpada')}" viewBox="0 0 24 24"><path d="M9 18h6m-5 3h4m-2-19a7 7 0 0 0-4 12.7c.6.4 1 1.1 1 1.8h6c0-.7.4-1.4 1-1.8A7 7 0 0 0 12 2Z"/></svg>
+                            <svg th:if="${#strings.containsIgnoreCase(d.nome, 'tomada') or #strings.containsIgnoreCase(d.nome, 'energia')}" viewBox="0 0 24 24"><path d="M9 7V3m6 4V3M7 7h10v4a5 5 0 0 1-5 5v5m-5-14v4a5 5 0 0 0 5 5"/></svg>
+                            <svg th:if="${!#strings.containsIgnoreCase(d.nome, 'luz') and !#strings.containsIgnoreCase(d.nome, 'lâmpada') and !#strings.containsIgnoreCase(d.nome, 'tomada') and !#strings.containsIgnoreCase(d.nome, 'energia')}" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12h8m-4-4v8"/></svg>
+                        </span>
+                        <form th:action="@{/dispositivos/{id}/alternar(id=${d.id})}" method="post">
+                            <button class="switch" type="submit" th:classappend="${d.ligado} ? ' is-on' : ''" th:disabled="${!d.conectado}"
+                                    th:attr="aria-label=${d.ligado ? 'Desligar ' + d.nome : 'Ligar ' + d.nome}, aria-pressed=${d.ligado}"><span></span></button>
+                        </form>
+                    </div>
+                    <h3 th:text="${d.nome}">Luz da sala</h3>
+                    <p class="device-state" th:classappend="${!d.conectado ? ' state-offline' : (d.ligado ? ' state-on' : '')}" th:text="${!d.conectado ? 'Desconectado' : (d.ligado ? 'Ligado' : 'Desligado')}">Ligado</p>
+                    <form th:action="@{/dispositivos/{id}/alternar(id=${d.id})}" method="post"><button class="button button-device" type="submit" th:disabled="${!d.conectado}" th:text="${d.ligado} ? 'Desligar' : 'Ligar'">Desligar</button></form>
+                </article>
+                <p th:if="${#lists.isEmpty(dispositivos)}" class="empty-state empty-devices">Nenhum dispositivo cadastrado.</p>
+            </div>
+        </section>
+
+        <div class="bottom-grid">
+            <section class="dashboard-section" aria-labelledby="alerts-title">
+                <div class="section-heading section-heading-between"><h2 id="alerts-title">Alertas recentes</h2><small class="section-meta"><span th:text="${pendentes}">2</span> pendentes · <span th:text="${alertasInfo}">1</span> informativa</small></div>
+                <div class="surface-card alerts-list">
+                    <article class="alert-item" th:each="a : ${alertas}">
+                        <div class="alert-item-heading"><div><h3 th:text="${a.titulo}">Dispositivo da cozinha desconectado</h3><small>Ocorrência: <span th:text="${a.ocorrenciaTexto}">Hoje, 21:12</span></small></div>
+                            <span class="status-pill status-pill-dark"><span class="status-dot"></span><span th:text="${a.status.rotulo}">Pendente</span></span>
+                        </div>
+                        <p th:text="${a.descricao}">O dispositivo deixou de responder. Estado atual: desconectado; aguardando revisão.</p>
+                        <div class="alert-item-footer"><small class="priority-label"><span class="priority-dot"></span><span th:text="${a.prioridade}">Prioridade média</span></small><a th:href="@{/alertas}" class="button button-alert">Ver detalhes</a></div>
+                    </article>
+                    <p th:if="${#lists.isEmpty(alertas)}" class="empty-state">Nenhum alerta no momento. Tudo certo!</p>
+                </div>
+            </section>
+
+            <section class="dashboard-section" aria-labelledby="activity-title">
+                <div class="section-heading"><h2 id="activity-title">Atividades recentes</h2></div>
+                <div class="surface-card activity-card">
+                    <p class="activity-caption">Hoje · Mais recentes primeiro</p>
+                    <div class="activity-list">
+                        <article class="activity-item" th:each="e : ${atividades}">
+                            <span class="activity-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+                            <div class="activity-content"><small th:text="${#temporals.format(e.momento,'HH:mm')}">21:28</small><h3 th:text="${e.titulo}">Smartwatch sincronizado</h3><p th:text="${e.descricao}">Últimas leituras recebidas.</p></div>
+                        </article>
+                    </div>
+                    <p th:if="${#lists.isEmpty(atividades)}" class="empty-state">Nenhuma atividade registrada.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+<script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VitaSense • Minha casa</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <link rel="stylesheet" th:href="@{/css/casa.css}">
+</head>
+<body class="app">
+<div class="page">
+  <header th:replace="~{fragments/layout :: topo('casa')}"></header>
+  <h1 class="titulo">Minha casa</h1>
+
+  <div class="alert ok" th:if="${ok}" th:text="${ok}"></div>
+  <div class="alert erro" th:if="${erros}"><ul><li th:each="e : ${erros}" th:text="${e}"></li></ul></div>
+
+  <div class="cabecalho">
+    <div>
+      <p class="lead">Gerencie os dispositivos da residência remotamente</p>
+      <p th:text="${imovel.nome}">Residência</p>
+      <small class="conexao">● Casa conectada · <span th:text="${online}">0</span> de <span th:text="${total}">0</span> dispositivos conectados · <span th:text="${offline}">0</span> sem conexão</small>
+    </div>
+    <div class="dir"><a th:href="@{/casa}" class="btn-azul">↻ Atualizar status</a><small th:text="${agora}">data</small></div>
+  </div>
+
+  <!-- CÔMODOS -->
+  <div class="secao-linha"><h2 class="sec">Visão dos cômodos</h2>
+    <small><span th:text="${#lists.size(cards)}">5</span> cômodos · <span th:text="${total}">0</span> dispositivos · <span th:text="${ligados}">0</span> ligados</small></div>
+  <div class="comodos">
+    <div class="comodo" th:each="c : ${cards}">
+      <b th:text="${c.nome}">Sala</b>
+      <p th:text="${c.total} + (${c.total} == 1 ? ' dispositivo' : ' dispositivos')">3 dispositivos</p>
+      <p th:text="${c.ligados} + (${c.ligados} == 1 ? ' ligado' : ' ligados')">1 ligado</p>
+      <p th:text="${c.conectados} + ' de ' + ${c.total} + ' conectados'">3 de 3</p>
+      <small th:text="${c.conectados == c.total} ? 'Todos disponíveis' : (${c.total - c.conectados} + ' sem conexão')">Todos disponíveis</small>
+      <a class="btn-claro2" th:href="@{/casa(comodo=${c.nome})} + '#equipamentos'">Acessar cômodo</a>
+    </div>
+  </div>
+
+  <!-- ESTATÍSTICAS -->
+  <h2 class="sec">Dispositivos</h2>
+  <div class="stats">
+    <div><small>Total de dispositivos</small><strong th:text="${total}">0</strong><p>Equipamentos cadastrados</p></div>
+    <div><small>Dispositivos online</small><strong th:text="${online}">0</strong><p>Com conexão disponível</p></div>
+    <div><small>Dispositivos offline</small><strong th:text="${offline}">0</strong><p>Sem comunicação atual</p></div>
+    <div><small>Dispositivos com falha</small><strong th:text="${falhas}">0</strong><p>Requerem verificação</p></div>
+  </div>
+
+  <!-- FILTROS -->
+  <form class="filtros" th:action="@{/casa}" method="get" id="filtros">
+    <div class="secao-linha"><b>Filtros</b>
+      <small th:if="${filtrosAtivos == 0}">Nenhum filtro aplicado</small>
+      <a th:if="${filtrosAtivos > 0}" th:href="@{/casa}" class="limpar"><span th:text="${filtrosAtivos}">1</span> filtro(s) · Limpar</a></div>
+    <div class="f4">
+      <label>Cômodo<select name="comodo"><option value="">Todos os cômodos</option>
+        <option th:each="c : ${nomesComodos}" th:value="${c}" th:text="${c}" th:selected="${c == fComodo}"></option></select></label>
+      <label>Categoria<select name="categoria"><option value="">Todas as categorias</option>
+        <option th:each="c : ${categorias}" th:value="${c}" th:text="${c}" th:selected="${c == fCategoria}"></option></select></label>
+      <label>Estado de conexão<select name="conexao"><option value="">Todos os estados</option>
+        <option th:each="c : ${{'Online','Offline'}}" th:value="${c}" th:text="${c}" th:selected="${c == fConexao}"></option></select></label>
+      <label>Estado de funcionamento<select name="estado"><option value="">Todos os estados</option>
+        <option th:each="c : ${{'Ligado','Desligado','Com falha'}}" th:value="${c}" th:text="${c}" th:selected="${c == fEstado}"></option></select></label>
+    </div>
+  </form>
+
+  <!-- TABELA -->
+  <div class="secao-linha" id="equipamentos"><h2 class="sec">Equipamentos da residência</h2>
+    <small>Exibindo <span th:text="${#lists.size(lista)}">0</span> de <span th:text="${total}">0</span> dispositivos</small></div>
+  <div class="tabela-wrap">
+    <table class="tabela">
+      <thead><tr><th></th><th>Nome do dispositivo</th><th>Categoria</th><th>Cômodo</th><th>Conexão</th><th>Estado atual</th><th>Última atualização</th><th>Ações</th><th></th></tr></thead>
+      <tbody>
+        <tr th:each="d : ${lista}">
+          <td><input type="checkbox" name="ids" th:value="${d.id}" form="formSel" class="chk" aria-label="Selecionar"></td>
+          <td><a class="nome" th:href="@{/casa(sel=${d.id})} + '#detalhes'" th:text="${d.nome}">Luz</a></td>
+          <td th:text="${d.categoria}">Iluminação</td>
+          <td th:text="${d.comodo}">Sala</td>
+          <td><span th:class="${d.conectado} ? 'on' : 'off'" th:text="${d.conectado} ? '● Online' : '○ Offline'">● Online</span></td>
+          <td><b th:text="${d.estado}">Ligado</b><small class="bl" th:text="${d.estadoDetalhe}">Funcionamento normal</small></td>
+          <td th:text="${d.ultimaTexto}">Hoje, 21:30</td>
+          <td><form th:action="@{/dispositivos/{id}/alternar(id=${d.id})}" method="post">
+            <button class="btn-azul peq" th:disabled="${!d.conectado}" th:text="${d.ligado} ? 'Desligar' : 'Ligar'">Ligar</button></form></td>
+          <td><a class="sub" th:href="@{/casa(editar=${d.id})} + '#cadastro'">Editar</a></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(lista)}"><td colspan="9" class="vazio">Nenhum dispositivo encontrado com esses filtros.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CONTROLE REMOTO -->
+  <div class="secao-linha" id="remoto"><h2 class="sec">Controle remoto</h2><small>Comandos rápidos · Escopos definidos</small></div>
+  <div class="remoto">
+    <form th:action="@{/casa/remoto/apagar-luzes}" method="post" class="cmd">
+      <h4>🌙 Apagar todas as luzes</h4>
+      <p>Desliga todas as luzes conectadas da casa. Hoje há <b th:text="${luzesLigadas}">0</b> luz(es) ligada(s).</p>
+      <small>Somente iluminação. Não altera ar-condicionado, aquecedor, exaustor ou tomada.</small>
+      <button class="btn-azul">Apagar todas as luzes</button>
+    </form>
+    <form th:action="@{/casa/remoto/luzes-corredor}" method="post" class="cmd">
+      <h4>💡 Acender luzes do corredor</h4>
+      <p>Liga somente as luzes do corredor que estiverem conectadas.</p>
+      <small>Não altera luzes de outros cômodos nem outros equipamentos.</small>
+      <button class="btn-azul">Acender luzes do corredor</button>
+    </form>
+    <form th:action="@{/casa/remoto/rotina-noturna}" method="post" class="cmd">
+      <h4>🌛 Ativar rotina noturna</h4>
+      <p>Apaga as luzes (mantém a do corredor ligada) e liga o ar-condicionado do quarto.</p>
+      <small>Não altera os demais dispositivos.</small>
+      <button class="btn-azul">Ativar rotina noturna</button>
+    </form>
+    <form th:action="@{/casa/remoto/desativar}" method="post" class="cmd" id="formSel">
+      <h4>⏻ Desativar dispositivos selecionados</h4>
+      <p><b id="selCount">0</b> dispositivo(s) selecionado(s) na tabela acima.</p>
+      <small>Selecione os dispositivos nas caixas da tabela. Dispositivos offline não são afetados.</small>
+      <button class="btn-azul">Desativar dispositivos selecionados</button>
+    </form>
+  </div>
+
+  <!-- CADASTRO + DETALHES -->
+  <h2 class="sec" id="cadastro" th:text="${edit != null} ? 'Editar dispositivo' : 'Cadastrar novo dispositivo'">Cadastrar novo dispositivo</h2>
+  <div class="duas">
+    <form class="painel" th:action="@{/casa/dispositivos/salvar}" method="post" id="formDisp" novalidate>
+      <h3 th:text="${edit != null} ? 'Editar dispositivo' : 'Adicionar dispositivo'">Adicionar dispositivo</h3>
+      <p class="mut">Preencha as informações básicas do equipamento. Os valores abaixo são apenas ilustrativos.</p>
+      <input type="hidden" name="id" th:value="${edit?.id}">
+      <label>Nome do dispositivo<input name="nome" maxlength="60" placeholder="Ex.: Luz de leitura" required th:value="${edit?.nome}"></label>
+      <div class="r2">
+        <label>Categoria<select name="categoria" required>
+          <option th:each="c : ${categorias}" th:value="${c}" th:text="${c}" th:selected="${edit != null and edit.categoria == c}"></option></select></label>
+        <label>Cômodo<select name="comodo" required>
+          <option th:each="c : ${nomesComodos}" th:value="${c}" th:text="${c}" th:selected="${edit != null and edit.comodo == c}"></option></select></label>
+      </div>
+      <div class="rd-grupo"><span>Origem do dispositivo</span>
+        <label class="rd"><input type="radio" name="origem" value="Real" th:checked="${edit != null and edit.origem == 'Real'}"> Real</label>
+        <label class="rd"><input type="radio" name="origem" value="Simulado" th:checked="${edit == null or edit.origem != 'Real'}"> Simulado</label></div>
+      <div class="r2">
+        <label>Tipo de conexão<select name="tipoConexao">
+          <option th:each="c : ${{'Wi-Fi','Bluetooth','Zigbee'}}" th:value="${c}" th:text="${c}" th:selected="${edit != null and edit.tipoConexao == c}"></option></select></label>
+        <label th:unless="${edit != null}">Estado inicial<select name="estadoInicial"><option>Desligada</option><option>Ligada</option></select></label>
+      </div>
+      <label>Identificação do equipamento<input name="identificacao" maxlength="30" placeholder="Ex.: DEMO-LUZ-007" th:value="${edit?.identificacao}"></label>
+      <small>Código genérico para identificar um equipamento real ou simulado, sem vínculo com fabricantes.</small>
+      <div class="acoes"><button class="btn-azul">Salvar dispositivo</button><a class="btn-claro2" th:href="@{/casa}">Cancelar</a></div>
+    </form>
+
+    <section class="painel det" id="detalhes">
+      <h3>Detalhes do dispositivo</h3>
+      <div th:if="${det != null}">
+        <div class="det-h"><div><h4 th:text="${det.nome}">Exaustor</h4><small th:text="${det.categoria} + ' · ' + ${det.comodo}">Ventilação · Banheiro</small></div>
+          <span class="badge navy" th:if="${det.falha}" th:text="${det.falhaDescricao}">Falha</span></div>
+        <h5>Informações técnicas</h5>
+        <div class="grid2">
+          <div><small>Identificação</small><b th:text="${det.identificacao ?: '—'}">DEMO</b></div>
+          <div><small>Origem</small><b th:text="${det.origem}">Simulado</b></div>
+          <div><small>Tipo de conexão</small><b th:text="${det.tipoConexao}">Wi-Fi</b></div>
+          <div><small>Estado atual</small><b th:text="${det.estado}">Ligado</b></div>
+        </div>
+        <div class="conn"><div><small>Estado de conexão</small><b th:text="${det.conectado} ? '● Online' : '○ Offline'">Online</b></div>
+          <div><small>Última comunicação</small><b th:text="${det.ultimaTexto}">Hoje</b></div></div>
+        <h5>Histórico de funcionamento</h5>
+        <div class="hist" th:each="h : ${historico}"><small th:text="${#temporals.format(h.momento,'HH:mm')}">21:26</small>
+          <div><b th:text="${h.titulo}">Título</b><p th:text="${h.descricao}">Descrição</p></div></div>
+        <p class="vazio" th:if="${#lists.isEmpty(historico)}">Sem registros para este dispositivo.</p>
+        <div class="acoes">
+          <a class="btn-azul" th:href="@{/casa(editar=${det.id})} + '#cadastro'">Editar dispositivo</a>
+          <form th:action="@{/casa/dispositivos/{id}/remover(id=${det.id})}" method="post" data-confirma="Remover este dispositivo?">
+            <button class="btn-claro2">Remover dispositivo</button></form>
+        </div>
+      </div>
+      <p class="vazio" th:if="${det == null}">Nenhum dispositivo cadastrado.</p>
+    </section>
+  </div>
+</div>
+<script th:src="@{/js/casa.js}"></script>
+</body>
+</html>

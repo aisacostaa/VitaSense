@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>VitaSense • Entrar</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="auth-page">
+
+<main class="auth-container">
+
+    <div class="auth-grid">
+
+        <!-- PAINEL VITA -->
+
+        <section class="auth-hero">
+
+            <div class="hero-content">
+
+                <h1>Vita</h1>
+
+                <span class="hero-pronunciation">
+                    /ˈvi.ta/ · substantivo feminino
+                </span>
+
+                <div class="dictionary-definition">
+                    <span id="typingContent"></span><span class="typing-cursor">|</span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- FORMULÁRIO -->
+
+        <section class="auth-form">
+
+            <div class="form-content">
+
+                <img
+                    th:src="@{/img/logo.png}"
+                    alt="VitaSense"
+                    class="logo"
+                >
+
+                <h2>Bem-vindo!</h2>
+
+                <p class="form-subtitle">
+                    Entre na sua conta VitaSense
+                </p>
+
+                <!-- MENSAGENS DO SISTEMA -->
+
+                <div
+                    class="alert alert-error"
+                    th:if="${param.error}"
+                >
+                    E-mail ou senha incorretos.
+                </div>
+
+                <div
+                    class="alert alert-success"
+                    th:if="${param.logout}"
+                >
+                    Você saiu da sua conta.
+                </div>
+
+                <div
+                    class="alert alert-success"
+                    th:if="${param.cadastrado}"
+                >
+                    Cadastro realizado com sucesso!
+                </div>
+
+                <!-- LOGIN -->
+
+                <form
+                    th:action="@{/login}"
+                    method="post"
+                    id="loginForm"
+                    novalidate
+                >
+
+                    <!-- E-MAIL -->
+
+                    <div class="form-group">
+
+                        <label for="email">E-mail</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Digite seu e-mail"
+                            required
+                        >
+
+                        <small
+                            class="error-message"
+                            id="emailError"
+                        ></small>
+
+                    </div>
+
+                    <!-- SENHA -->
+
+                    <div class="form-group">
+
+                        <label for="senha">Senha</label>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="senha"
+                                name="password"
+                                placeholder="Digite sua senha"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                id="toggleSenha"
+                                class="toggle-password"
+                                aria-label="Mostrar senha"
+                            >
+
+                                <svg
+                                    id="icone-olho"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="22"
+                                    height="22"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+
+                            </button>
+
+                        </div>
+
+                        <small
+                            class="error-message"
+                            id="senhaError"
+                        ></small>
+
+                    </div>
+
+                    <!-- ESQUECEU A SENHA -->
+
+                    <div class="forgot-password">
+                        <a href="#">Esqueceu a senha?</a>
+                    </div>
+
+                    <!-- ENTRAR -->
+
+                    <button type="submit" class="btn-primary">
+                        Entrar
+                    </button>
+
+                </form>
+
+                <!-- CADASTRO -->
+
+                <p class="register-text">
+                    Não tem uma conta?
+                    <a th:href="@{/cadastro}">Cadastre-se</a>
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+<script>
+
+// ========================================
+// MÁQUINA DE ESCREVER
+// ========================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const typingContent = document.getElementById("typingContent");
+
+    if (typingContent) {
+
+        const frases = [
+            "1. Do latim vita, significa vida.",
+            "2. Representa a essência de viver com autonomia, segurança e bem-estar.",
+            "3. É o propósito do VitaSense: unir tecnologia e cuidado para tornar a vida mais segura, confortável e independente em todas as fases."
+        ];
+
+        let fraseAtual = 0;
+        let caractereAtual = 0;
+        let apagando = false;
+
+        const velocidadeEscrita = 45;
+        const velocidadeApagar = 25;
+        const pausaFinal = 2200;
+
+        function escreverTexto() {
+
+            const frase = frases[fraseAtual];
+
+            if (!apagando) {
+
+                typingContent.textContent =
+                    frase.substring(0, caractereAtual + 1);
+
+                caractereAtual++;
+
+                if (caractereAtual >= frase.length) {
+
+                    apagando = true;
+
+                    setTimeout(escreverTexto, pausaFinal);
+
+                    return;
+                }
+
+            } else {
+
+                typingContent.textContent =
+                    frase.substring(0, caractereAtual - 1);
+
+                caractereAtual--;
+
+                if (caractereAtual <= 0) {
+
+                    apagando = false;
+
+                    fraseAtual = (fraseAtual + 1) % frases.length;
+                }
+            }
+
+            setTimeout(
+                escreverTexto,
+                apagando ? velocidadeApagar : velocidadeEscrita
+            );
+        }
+
+        escreverTexto();
+    }
+
+});
+
+
+// ========================================
+// MOSTRAR E OCULTAR SENHA
+// ========================================
+
+const senha = document.getElementById("senha");
+const toggleSenha = document.getElementById("toggleSenha");
+
+toggleSenha.addEventListener("click", function () {
+
+    const mostrar = senha.type === "password";
+
+    senha.type = mostrar ? "text" : "password";
+
+    toggleSenha.setAttribute(
+        "aria-label",
+        mostrar ? "Ocultar senha" : "Mostrar senha"
+    );
+
+});
+
+
+// ========================================
+// VALIDAÇÃO DO FORMULÁRIO
+// ========================================
+
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+
+    const email = document.getElementById("email");
+    const senha = document.getElementById("senha");
+
+    const emailError = document.getElementById("emailError");
+    const senhaError = document.getElementById("senhaError");
+
+    emailError.textContent = "";
+    senhaError.textContent = "";
+
+    let valido = true;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email.value.trim())) {
+
+        emailError.textContent = "Digite um e-mail válido.";
+
+        valido = false;
+    }
+
+    if (senha.value.length < 6) {
+
+        senhaError.textContent =
+            "A senha deve ter pelo menos 6 caracteres.";
+
+        valido = false;
+    }
+
+    if (!valido) {
+        event.preventDefault();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
