@@ -14,16 +14,17 @@ public class CadastroService {
     private final PessoaAcompanhadaRepository pessoas;
     private final PasswordEncoder enc;
     private final DemoDataService demo;
+    private final AcessoIdosoService acesso;
 
-    public CadastroService(UsuarioRepository u, ImovelRepository i, PessoaAcompanhadaRepository p, PasswordEncoder e, DemoDataService d) {
-        usuarios = u; imoveis = i; pessoas = p; enc = e; demo = d;
+    public CadastroService(UsuarioRepository u, ImovelRepository i, PessoaAcompanhadaRepository p, PasswordEncoder e, DemoDataService d, AcessoIdosoService ai) {
+        usuarios = u; imoveis = i; pessoas = p; enc = e; demo = d; acesso = ai;
     }
 
     public boolean emailEmUso(String email) { return usuarios.existsByEmail(email.trim().toLowerCase()); }
 
     /** Salva admin + imóvel + pessoa acompanhada numa única transação. */
     @Transactional
-    public void cadastrar(CadastroForm f) {
+    public String cadastrar(CadastroForm f) {
         Usuario admin = new Usuario(f.getNome().trim(), f.getEmail().trim().toLowerCase(), enc.encode(f.getSenha()), Perfil.ADMIN);
         admin.setTelefone(f.getTelefone());
         usuarios.save(admin);
@@ -42,5 +43,6 @@ public class CadastroService {
         p.setContatoTelefone(f.getContatoTelefone()); p.setImovel(im);
         pessoas.save(p);
         demo.popular(im, p); // dados simulados do dashboard
+        return acesso.garantirCodigo(p);   // código de acesso da pessoa acompanhada
     }
 }

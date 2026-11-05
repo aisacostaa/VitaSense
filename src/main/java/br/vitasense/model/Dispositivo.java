@@ -34,9 +34,13 @@ public class Dispositivo {
     public boolean isFalha() { return falhaDescricao != null && !falhaDescricao.isBlank(); }
     public String getUltimaTexto() { return Datas.curto(ultimaAtualizacao); }
     public String getCategoria() {
-        return switch (tipo) { case "LUZ" -> "Iluminação"; case "AQUECEDOR", "AR" -> "Climatização"; case "EXAUSTOR" -> "Ventilação";
+        return switch (tipo) { case "LUZ" -> "Iluminação"; case "AR" -> "Climatização"; case "AQUECEDOR" -> "Aquecimento"; case "EXAUSTOR" -> "Ventilação";
             case "SENSOR" -> "Sensor"; case "TOMADA" -> "Energia"; case "FECHADURA" -> "Segurança"; default -> "Outros"; };
     }
+    /** Regra única: sem conexão nada muda; com falha só é permitido DESLIGAR. */
+    public boolean permiteAlterar(boolean ligar) { return conectado && !(ligar && isFalha()); }
+    /** Por que o dispositivo não pode ser ligado (null = pode). */
+    public String motivoBloqueio() { return !conectado ? "dispositivo sem conexão" : isFalha() ? "dispositivo com falha (" + falhaDescricao + ")" : null; }
     public String getEstado() { return !conectado ? "Desconhecido" : isFalha() ? falhaDescricao : ligado ? "Ligado" : "Desligado"; }
     public String getEstadoDetalhe() {
         return !conectado ? "Último estado: " + (ligado ? "ligado" : "desligado") : isFalha() ? "Requer verificação" : "Funcionamento normal";

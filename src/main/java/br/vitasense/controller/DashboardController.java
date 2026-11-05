@@ -6,6 +6,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +15,7 @@ import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
 @Controller
-public class DashboardController {
+public class DashboardController extends BaseController {
     private final ImovelRepository imoveis; private final PessoaAcompanhadaRepository pessoas; private final LeituraSaudeRepository leituras;
     private final CameraRepository cameras; private final DispositivoRepository dispositivos; private final AlertaRepository alertas;
     private final AtividadeRepository atividades;
@@ -26,8 +27,7 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String dashboard(Authentication auth, Model m) {
-        Imovel im = imoveis.findFirstByAdministradorEmail(auth.getName())
-                .orElseThrow(() -> new IllegalStateException("Este usuário não tem imóvel cadastrado."));
+        Imovel im = imovel(auth);
         PessoaAcompanhada pessoa = pessoas.findFirstByImovel(im).orElse(null);
 
         String hoje = LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM 'de' yyyy", Locale.forLanguageTag("pt-BR")));
@@ -60,7 +60,7 @@ public class DashboardController {
         List<Alerta> as = alertas.findTop3ByImovelOrderByOcorrenciaDesc(im);
         m.addAttribute("alertas", as);
         m.addAttribute("alertasInfo", as.stream().filter(a -> a.getStatus() == StatusAlerta.INFORMATIVO).count());
-        m.addAttribute("pendentes", alertas.countByImovelAndStatus(im, StatusAlerta.PENDENTE));
+        m.addAttribute("pendentes", alertas.countByImovelAndStatusIn(im, StatusAlerta.AGUARDANDO));
         m.addAttribute("atividades", atividades.findTop4ByImovelOrderByMomentoDesc(im));
         m.addAttribute("ativo", "dashboard");
         return "dashboard";
@@ -68,15 +68,17 @@ public class DashboardController {
 
     /** Liga/desliga um dispositivo (só o administrador dono do imóvel). */
     @PostMapping("/dispositivos/{id}/alternar")
-    public String alternar(@PathVariable Long id, Authentication auth, @RequestHeader(value = "Referer", required = false) String ref) {
+    public String alternar(@PathVariable Long id, Authentication auth, @RequestHeader(value = "Referer", required = false) String ref, RedirectAttributes ra) {
         Dispositivo d = dispositivos.findById(id).orElseThrow();
         if (!d.getImovel().getAdministrador().getEmail().equals(auth.getName()))
             throw new AccessDeniedException("Sem permissão para este dispositivo.");
-        if (d.isConectado()) {
+        if (d.permiteAlterar(!d.isLigado())) {
             d.setLigado(!d.isLigado());
             dispositivos.save(d);
             atividades.save(new Atividade(LocalDateTime.now(), d.getNome() + (d.isLigado() ? " foi ligado" : " foi desligado"),
                     "Alterado manualmente pelo responsável.", "DISPOSITIVO", d.getImovel()));
+        } else {
+            ra.addFlashAttribute("erro", d.getNome() + ": " + d.motivoBloqueio() + ".");
         }
         return ref != null && ref.contains("/casa") ? "redirect:/casa#equipamentos" : "redirect:/dashboard";
     }

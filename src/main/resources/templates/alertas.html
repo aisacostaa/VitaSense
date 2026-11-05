@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VitaSense • Alertas e ocorrências</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <link rel="stylesheet" th:href="@{/css/alertas.css}">
+</head>
+<body class="app alertas-page">
+<div class="page">
+  <header th:replace="~{fragments/layout :: topo('alertas')}"></header>
+
+  <main class="al-main">
+    <div class="al-titulo"><h1>Alertas e ocorrências</h1></div>
+    <div class="al-msg ok" th:if="${ok}" th:text="${ok}"></div>
+    <div class="al-msg erro" th:if="${erro}" th:text="${erro}"></div>
+
+    <section class="al-intro">
+      <div><p class="al-lead">Acompanhe situações importantes da residência</p><small th:text="${imovel.nome}">Residência</small></div>
+      <div class="al-intro-d">
+        <form th:action="@{/alertas/visualizar-todos}" method="post"><input type="hidden" name="categoria" th:value="${categoria}">
+          <button class="al-btn">✓✓ Marcar todos como visualizados</button></form>
+        <small>Marcar como visto não resolve a ocorrência.</small>
+      </div>
+    </section>
+
+    <div class="al-linha"><h2 class="al-sec">Resumo dos alertas</h2><small>Últimas 24h · <span th:text="${periodoTotal}">5</span> ocorrências no período</small></div>
+    <div class="al-resumo">
+      <div><h3>Alertas novos</h3><strong th:text="${novos}">2</strong><small>Aguardam início da verificação</small></div>
+      <div><h3>Alertas em andamento</h3><strong th:text="${andamento}">2</strong><small>Verificação iniciada</small></div>
+      <div><h3>Alertas resolvidos</h3><strong th:text="${resolvidos}">1</strong><small>Concluído neste período</small></div>
+      <div><h3>Alertas de prioridade alta</h3><strong th:text="${altas}">2</strong><small>Entre os <span th:text="${periodoTotal}">5</span> registros; não é um estado</small></div>
+    </div>
+
+    <h2 class="al-sec">Filtros</h2>
+    <nav class="al-chips">
+      <a th:each="c : ${chips}" th:href="@{/alertas(categoria=${c.valor})}" th:classappend="${c.ativo} ? 'on'"><span th:text="${c.nome}">Todos</span> <b th:text="${c.total}">5</b></a>
+    </nav>
+
+    <div class="al-grid">
+      <section>
+        <div class="al-linha"><h2 class="al-sec">Lista de alertas</h2><small><span th:text="${#lists.size(lista)}">5</span> registros · Mais recentes primeiro</small></div>
+        <article class="al-item" th:each="a : ${lista}" th:classappend="${det != null and det.id == a.id} ? 'sel'">
+          <div class="al-item-t"><small class="al-cat" th:text="${a.categoria}">Saúde</small><small th:text="${#temporals.format(a.ocorrencia,'dd/MM/yyyy · HH:mm')}">data</small></div>
+          <h3><span th:text="${a.titulo}">Título</span> <span class="al-warn" th:if="${a.requerAtencao}" title="Requer atenção">⚠</span></h3>
+          <p th:text="${a.descricao}">Descrição</p>
+          <div class="al-meta"><span><b th:text="${a.requerAtencao} ? 'Requer atenção' : 'Informativo'">Requer atenção</b></span><span th:text="${a.prioridade}">Prioridade alta</span>
+            <b th:if="${det != null and det.id == a.id}">Selecionado</b></div>
+          <div class="al-item-f">
+            <div><span class="al-badge" th:classappend="${'st-' + a.status.name()}" th:text="${a.status.rotulo}">Novo</span>
+              <small th:text="${a.visualizado} ? 'Visualizado' : 'Não visualizado'">Visualizado</small></div>
+            <a class="al-btn al-btn-borda" th:href="@{/alertas(sel=${a.id},categoria=${categoria})}">Ver detalhes</a>
+          </div>
+        </article>
+        <p class="al-vazio" th:if="${#lists.isEmpty(lista)}">Nenhum alerta nesta categoria.</p>
+        <small class="al-nota"><span th:text="${naoVisualizados}">2</span> não visualizados · O indicador de visualização é independente do estado e da prioridade.</small>
+      </section>
+
+      <aside>
+        <h2 class="al-sec">Detalhes da ocorrência</h2>
+        <article class="al-det" th:if="${det != null}">
+          <div class="al-det-t"><small>ALERTA SELECIONADO</small><span class="al-badge" th:classappend="${'st-' + det.status.name()}" th:text="${det.status.rotulo}">Novo</span></div>
+          <h3 th:text="${det.titulo}">Queda detectada na sala</h3>
+          <p class="al-det-n"><span th:if="${det.requerAtencao}">⚠ Requer atenção · </span><span th:unless="${det.requerAtencao}">Informativo · </span><span th:text="${det.prioridade}">Prioridade alta</span></p>
+          <p class="al-det-d" th:text="${det.descricao}">Descrição</p>
+          <hr>
+          <dl>
+            <dt>Dispositivo / origem</dt><dd th:text="${det.origem ?: '—'}">Origem</dd>
+            <dt>Horário da ocorrência</dt><dd th:text="${#temporals.format(det.ocorrencia,'dd/MM/yyyy · HH:mm')}">data</dd>
+            <dt>Informações disponíveis</dt><dd th:text="${det.informacoes ?: '—'}">Info</dd>
+            <dt>Visualização</dt>
+            <dd th:if="${det.visualizado and det.visualizadoEm != null}" th:text="'Visualizado por ' + ${det.visualizadoPor} + ' às ' + ${#temporals.format(det.visualizadoEm,'HH:mm')} + '. O estado permanece ' + ${det.status.rotulo} + '.'">Visualizado</dd>
+            <dd th:unless="${det.visualizado}">Ainda não visualizado.</dd>
+            <dt th:if="${det.resolvido and det.resolvidoEm != null}">Resolução</dt>
+            <dd th:if="${det.resolvido and det.resolvidoEm != null}" th:text="'Resolvido por ' + ${det.resolvidoPor} + ' em ' + ${#temporals.format(det.resolvidoEm,'dd/MM/yyyy · HH:mm')} + '.'">Resolvido</dd>
+          </dl>
+          <div class="al-orient" th:if="${!det.resolvido and det.orientacao != null and !det.orientacao.isBlank()}">
+            <b>O que fazer agora</b><p th:each="par : ${#strings.arraySplit(det.orientacao, '&#10;&#10;')}" th:text="${par}">Orientação</p>
+          </div>
+          <div class="al-acoes" th:if="${!det.resolvido}">
+            <form th:if="${det.novo}" th:action="@{/alertas/{id}/iniciar(id=${det.id})}" method="post"><input type="hidden" name="categoria" th:value="${categoria}"><button class="al-btn al-btn-claro">Iniciar verificação</button></form>
+            <form th:action="@{/alertas/{id}/resolver(id=${det.id})}" method="post"><input type="hidden" name="categoria" th:value="${categoria}"><button class="al-btn">Marcar como resolvido</button></form>
+            <a class="al-btn al-btn-borda" href="#historico">Consultar histórico</a>
+            <small>Conclua o registro após verificar a situação. Visualizar não resolve.</small>
+          </div>
+          <div class="al-acoes" th:if="${det.resolvido}"><a class="al-btn al-btn-borda" href="#historico">Consultar histórico</a></div>
+        </article>
+        <p class="al-vazio" th:if="${det == null}">Selecione um alerta para ver os detalhes.</p>
+      </aside>
+    </div>
+
+    <div class="al-linha" id="historico"><h2 class="al-sec">Histórico</h2><small>Registros anteriores a <span th:text="${corte}">29/10/2026</span></small></div>
+    <div class="al-hist">
+      <div class="al-hist-h"></div>
+      <div class="al-hist-l" th:each="h : ${historico}">
+        <span th:text="${#temporals.format(h.ocorrencia,'dd/MM/yyyy · HH:mm')}">data</span>
+        <b th:text="${h.titulo}">Título</b>
+        <span class="al-badge st-RESOLVIDO">Resolvido</span>
+        <span th:text="${#temporals.format(h.resolvidoEm,'dd/MM · HH:mm')} + ' — ' + ${h.resolucao ?: 'Registro concluído.'}">resolução</span>
+      </div>
+      <p class="al-vazio" th:if="${#lists.isEmpty(historico)}">Nenhum registro anterior.</p>
+    </div>
+  </main>
+</div>
+</body>
+</html>

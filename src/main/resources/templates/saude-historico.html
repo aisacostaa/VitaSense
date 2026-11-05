@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VitaSense • Histórico de saúde</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <link rel="stylesheet" th:href="@{/css/saude.css}">
+</head>
+<body class="app saude-page">
+<div class="page">
+  <header th:replace="~{fragments/layout :: topo('saude')}"></header>
+  <main class="sv-main">
+    <div class="sv-titulo"><h1>Histórico de medições</h1></div>
+    <div class="sv-linha"><p class="sv-lead">Registros de <span th:text="${pessoa.nome}">Dona Maria</span></p><a class="sv-btn sv-btn-borda" th:href="@{/saude}">← Voltar</a></div>
+
+    <nav class="sv-abas">
+      <a th:href="@{/saude/historico}" th:classappend="${metrica == 'todas'} ? 'on'">Todas</a>
+      <a th:href="@{/saude/historico(metrica='bpm')}" th:classappend="${metrica == 'bpm'} ? 'on'">Frequência</a>
+      <a th:href="@{/saude/historico(metrica='pressao')}" th:classappend="${metrica == 'pressao'} ? 'on'">Pressão</a>
+      <a th:href="@{/saude/historico(metrica='oxigenacao')}" th:classappend="${metrica == 'oxigenacao'} ? 'on'">Oxigenação</a>
+      <a th:href="@{/saude/historico(metrica='sono')}" th:classappend="${metrica == 'sono'} ? 'on'">Sono</a>
+    </nav>
+
+    <div class="sv-card sv-tabela-wrap" th:if="${metrica != 'sono'}">
+      <table class="sv-tabela">
+        <thead><tr><th>Data e hora</th>
+          <th th:if="${metrica == 'todas' or metrica == 'bpm'}">Frequência (BPM)</th>
+          <th th:if="${metrica == 'todas' or metrica == 'pressao'}">Pressão (mmHg)</th>
+          <th th:if="${metrica == 'todas' or metrica == 'oxigenacao'}">Oxigenação (%)</th></tr></thead>
+        <tbody>
+          <tr th:each="l : ${lista}"><td th:text="${#temporals.format(l.momento,'dd/MM/yyyy · HH:mm')}">data</td>
+            <td th:if="${metrica == 'todas' or metrica == 'bpm'}" th:text="${l.bpm}">78</td>
+            <td th:if="${metrica == 'todas' or metrica == 'pressao'}" th:text="${l.sistolica} + '/' + ${l.diastolica}">120/80</td>
+            <td th:if="${metrica == 'todas' or metrica == 'oxigenacao'}" th:text="${l.oxigenacao}">98</td></tr>
+          <tr th:if="${#lists.isEmpty(lista)}"><td colspan="4" class="sv-vazio">Nenhum registro.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sv-card sv-tabela-wrap" th:if="${metrica == 'sono'}">
+      <table class="sv-tabela">
+        <thead><tr><th>Registrado em</th><th>Duração do sono</th></tr></thead>
+        <tbody>
+          <tr th:each="s : ${sonos}"><td th:text="${#temporals.format(s.registradoEm,'dd/MM/yyyy · HH:mm')}">data</td><td th:text="${s.duracao}">7h 30min</td></tr>
+          <tr th:if="${#lists.isEmpty(sonos)}"><td colspan="2" class="sv-vazio">Nenhum registro.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <small class="sv-nota">Exibindo os 100 registros mais recentes. Valores fictícios para demonstração.</small>
+  </main>
+</div>
+</body>
+</html>

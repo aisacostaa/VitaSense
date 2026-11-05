@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface PessoaAcompanhadaRepository extends JpaRepository<PessoaAcompanhada, Long> {
     Optional<PessoaAcompanhada> findFirstByImovel(Imovel imovel);
+    Optional<PessoaAcompanhada> findByCodigoAcesso(String codigoAcesso);
 }

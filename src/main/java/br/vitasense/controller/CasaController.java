@@ -82,8 +82,8 @@ public class CasaController {
 
     @PostMapping("/dispositivos/{id}/remover")
     public String remover(@PathVariable Long id, Authentication auth, RedirectAttributes ra) {
-        svc.remover(id, auth.getName());
-        ra.addFlashAttribute("ok", "Dispositivo removido.");
+        try { svc.remover(id, auth.getName()); ra.addFlashAttribute("ok", "Dispositivo removido."); }
+        catch (IllegalStateException e) { ra.addFlashAttribute("erro", e.getMessage()); }
         return "redirect:/casa#equipamentos";
     }
 
@@ -99,6 +99,24 @@ public class CasaController {
         };
         ra.addFlashAttribute("ok", n + " dispositivo(s) alterado(s) pelo controle remoto.");
         return "redirect:/casa#remoto";
+    }
+
+    @PostMapping("/dispositivos/{id}/falha")
+    public String falha(@PathVariable Long id, Authentication auth, RedirectAttributes ra) {
+        ra.addFlashAttribute("ok", svc.alternarFalha(id, auth.getName()));
+        return "redirect:/casa?sel=" + id + "#detalhes";
+    }
+
+    @PostMapping("/dispositivos/{id}/conexao")
+    public String conexao(@PathVariable Long id, Authentication auth, RedirectAttributes ra) {
+        ra.addFlashAttribute("ok", svc.alternarConexao(id, auth.getName()));
+        return "redirect:/casa?sel=" + id + "#detalhes";
+    }
+
+    @PostMapping("/atualizar")
+    public String atualizar(Authentication auth, RedirectAttributes ra) {
+        ra.addFlashAttribute("ok", svc.atualizarStatus(auth.getName()));
+        return "redirect:/casa";
     }
 
     private boolean vazio(String s) { return s == null || s.isBlank(); }

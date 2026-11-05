@@ -21,7 +21,7 @@
       <p th:text="${imovel.nome}">Residência</p>
       <small class="conexao">● Casa conectada · <span th:text="${online}">0</span> de <span th:text="${total}">0</span> dispositivos conectados · <span th:text="${offline}">0</span> sem conexão</small>
     </div>
-    <div class="dir"><a th:href="@{/casa}" class="btn-azul">↻ Atualizar status</a><small th:text="${agora}">data</small></div>
+    <div class="dir"><form th:action="@{/casa/atualizar}" method="post"><button class="btn-azul">↻ Atualizar status</button></form><small th:text="${agora}">data</small></div>
   </div>
 
   <!-- CÔMODOS -->
@@ -58,9 +58,9 @@
       <label>Categoria<select name="categoria"><option value="">Todas as categorias</option>
         <option th:each="c : ${categorias}" th:value="${c}" th:text="${c}" th:selected="${c == fCategoria}"></option></select></label>
       <label>Estado de conexão<select name="conexao"><option value="">Todos os estados</option>
-        <option th:each="c : ${{'Online','Offline'}}" th:value="${c}" th:text="${c}" th:selected="${c == fConexao}"></option></select></label>
+        <option th:each="c : ${conexoes}" th:value="${c}" th:text="${c}" th:selected="${c == fConexao}"></option></select></label>
       <label>Estado de funcionamento<select name="estado"><option value="">Todos os estados</option>
-        <option th:each="c : ${{'Ligado','Desligado','Com falha'}}" th:value="${c}" th:text="${c}" th:selected="${c == fEstado}"></option></select></label>
+        <option th:each="c : ${funcionamentos}" th:value="${c}" th:text="${c}" th:selected="${c == fEstado}"></option></select></label>
     </div>
   </form>
 
@@ -136,7 +136,7 @@
         <label class="rd"><input type="radio" name="origem" value="Simulado" th:checked="${edit == null or edit.origem != 'Real'}"> Simulado</label></div>
       <div class="r2">
         <label>Tipo de conexão<select name="tipoConexao">
-          <option th:each="c : ${{'Wi-Fi','Bluetooth','Zigbee'}}" th:value="${c}" th:text="${c}" th:selected="${edit != null and edit.tipoConexao == c}"></option></select></label>
+          <option th:each="c : ${tiposConexao}" th:value="${c}" th:text="${c}" th:selected="${edit != null and edit.tipoConexao == c}"></option></select></label>
         <label th:unless="${edit != null}">Estado inicial<select name="estadoInicial"><option>Desligada</option><option>Ligada</option></select></label>
       </div>
       <label>Identificação do equipamento<input name="identificacao" maxlength="30" placeholder="Ex.: DEMO-LUZ-007" th:value="${edit?.identificacao}"></label>
@@ -160,12 +160,16 @@
           <div><small>Última comunicação</small><b th:text="${det.ultimaTexto}">Hoje</b></div></div>
         <h5>Histórico de funcionamento</h5>
         <div class="hist" th:each="h : ${historico}"><small th:text="${#temporals.format(h.momento,'HH:mm')}">21:26</small>
-          <div><b th:text="${h.titulo}">Título</b><p th:text="${h.descricao}">Descrição</p></div></div>
+          <div><b th:text="${h.titulo}">Título</b><p th:text="${h.descricao} + (${h.autor} != null ? ' — ' + ${h.autor} : '')">Descrição</p></div></div>
         <p class="vazio" th:if="${#lists.isEmpty(historico)}">Sem registros para este dispositivo.</p>
         <div class="acoes">
           <a class="btn-azul" th:href="@{/casa(editar=${det.id})} + '#cadastro'">Editar dispositivo</a>
           <form th:action="@{/casa/dispositivos/{id}/remover(id=${det.id})}" method="post" data-confirma="Remover este dispositivo?">
             <button class="btn-claro2">Remover dispositivo</button></form>
+        </div>
+        <div class="acoes" style="margin-top:10px">
+          <form th:action="@{/casa/dispositivos/{id}/falha(id=${det.id})}" method="post"><button class="btn-claro2" th:text="${det.falha} ? 'Marcar falha como corrigida' : 'Simular falha'">Simular falha</button></form>
+          <form th:action="@{/casa/dispositivos/{id}/conexao(id=${det.id})}" method="post"><button class="btn-claro2" th:text="${det.conectado} ? 'Simular queda de conexão' : 'Reconectar dispositivo'">Reconectar</button></form>
         </div>
       </div>
       <p class="vazio" th:if="${det == null}">Nenhum dispositivo cadastrado.</p>

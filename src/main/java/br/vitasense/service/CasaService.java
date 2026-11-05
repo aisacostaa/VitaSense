@@ -15,11 +15,14 @@ public class CasaService {
     public static final List<String> COMODOS = List.of("Sala", "Quarto", "Cozinha", "Banheiro", "Corredor");
     public static final Map<String, String> CATEGORIAS = new LinkedHashMap<>();
     static {
-        CATEGORIAS.put("Iluminação", "LUZ"); CATEGORIAS.put("Climatização", "AR"); CATEGORIAS.put("Ventilação", "EXAUSTOR");
+        CATEGORIAS.put("Iluminação", "LUZ"); CATEGORIAS.put("Climatização", "AR"); CATEGORIAS.put("Aquecimento", "AQUECEDOR"); CATEGORIAS.put("Ventilação", "EXAUSTOR");
         CATEGORIAS.put("Sensor", "SENSOR"); CATEGORIAS.put("Energia", "TOMADA"); CATEGORIAS.put("Segurança", "FECHADURA");
     }
     private final ImovelRepository imoveis; private final DispositivoRepository disp; private final AtividadeRepository ativ;
-    public CasaService(ImovelRepository i, DispositivoRepository d, AtividadeRepository a) { imoveis = i; disp = d; ativ = a; }
+    private final AutomacaoRepository automacoes; private final AlertaService alertaSvc;
+    public CasaService(ImovelRepository i, DispositivoRepository d, AtividadeRepository a, AutomacaoRepository au, AlertaService al) {
+        imoveis = i; disp = d; ativ = a; automacoes = au; alertaSvc = al;
+    }
 
     public Imovel imovel(String email) {
         return imoveis.findFirstByAdministradorEmail(email).orElseThrow(() -> new IllegalStateException("Usuário sem imóvel."));
@@ -49,6 +52,8 @@ public class CasaService {
     @Transactional
     public void remover(Long id, String email) {
         Dispositivo d = doUsuario(id, email);
+        if (automacoes.existsByDispositivoOrSensor(d, d))
+            throw new IllegalStateException("\"" + d.getNome() + "\" é usado por uma automação. Edite ou exclua a rotina antes de remover o dispositivo.");
         disp.delete(d);
         log(d.getImovel(), d.getNome() + " — dispositivo removido", "Removido pelo responsável.");
     }
@@ -84,9 +89,51 @@ public class CasaService {
         return n;
     }
 
+    /** Simula/corrige uma falha. Abre ou fecha o alerta correspondente automaticamente. */
+    @Transactional
+    public String alternarFalha(Long id, String email) {
+        Dispositivo d = doUsuario(id, email);
+        String titulo = "Falha no dispositivo: " + d.getNome();
+        if (d.isFalha()) {
+            d.setFalhaDescricao(null); d.setUltimaAtualizacao(LocalDateTime.now()); disp.save(d);
+            alertaSvc.resolverPorTitulo(d.getImovel(), titulo, "falha corrigida");
+            log(d.getImovel(), d.getNome() + " — falha corrigida", "Registrado pelo responsável.");
+            return "Falha de " + d.getNome() + " marcada como corrigida e o alerta foi encerrado.";
+        }
+        d.setFalhaDescricao("Falha simulada"); d.setLigado(false); d.setUltimaAtualizacao(LocalDateTime.now()); disp.save(d);
+        alertaSvc.abrir(d.getImovel(), "Dispositivos", titulo, d.getNome() + " reportou falha. Equipamento desligado por segurança.", "Média", d.getNome() + " — " + d.getComodo(), "Falha registrada na tela Minha casa.");
+        log(d.getImovel(), d.getNome() + " — falha registrada", "Registrado pelo responsável.");
+        return "Falha registrada em " + d.getNome() + ". Um alerta foi aberto.";
+    }
+
+    /** Simula queda/retorno de conexão. Abre ou fecha o alerta correspondente automaticamente. */
+    @Transactional
+    public String alternarConexao(Long id, String email) {
+        Dispositivo d = doUsuario(id, email);
+        String titulo = "Dispositivo desconectado: " + d.getNome();
+        d.setConectado(!d.isConectado()); d.setUltimaAtualizacao(LocalDateTime.now()); disp.save(d);
+        if (d.isConectado()) {
+            alertaSvc.resolverPorTitulo(d.getImovel(), titulo, "conexão restabelecida");
+            log(d.getImovel(), d.getNome() + " — reconectado", "Registrado pelo responsável.");
+            return d.getNome() + " reconectado. O alerta foi encerrado.";
+        }
+        alertaSvc.abrir(d.getImovel(), "Dispositivos", titulo, d.getNome() + " deixou de responder. Conexão indisponível.", "Média", d.getNome() + " — " + d.getComodo(), "Queda de conexão registrada.");
+        log(d.getImovel(), d.getNome() + " — conexão perdida", "Registrado pelo responsável.");
+        return d.getNome() + " ficou sem conexão. Um alerta foi aberto.";
+    }
+
+    /** Botão "Atualizar status": renova a última comunicação dos dispositivos conectados. */
+    @Transactional
+    public String atualizarStatus(String email) {
+        List<Dispositivo> todos = disp.findByImovelOrderByIdAsc(imovel(email));
+        LocalDateTime n = LocalDateTime.now();
+        todos.stream().filter(Dispositivo::isConectado).forEach(d -> { d.setUltimaAtualizacao(n); disp.save(d); });
+        return "Status atualizado: " + todos.stream().filter(Dispositivo::isConectado).count() + " de " + todos.size() + " dispositivos conectados.";
+    }
+
     /** Liga/desliga se estiver conectado e o estado for diferente. Retorna 1 se mudou. */
     private int mudar(Dispositivo d, boolean ligar) {
-        if (!d.isConectado() || d.isLigado() == ligar) return 0;
+        if (!d.permiteAlterar(ligar) || d.isLigado() == ligar) return 0;
         d.setLigado(ligar); d.setUltimaAtualizacao(LocalDateTime.now()); disp.save(d); return 1;
     }
     private void log(Imovel im, String titulo, String desc) {

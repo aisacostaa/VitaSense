@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VitaSense • Início</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/acesso.css}">
+</head>
+<body class="ac-page">
+<main class="ac-card ac-larga">
+  <img th:src="@{/img/logo.png}" alt="VitaSense" class="ac-logo" onerror="this.style.display='none'">
+  <h1 th:text="'Olá, ' + ${#strings.arraySplit(pessoa.nome, ' ')[0]} + '!'">Olá, Maria!</h1>
+  <p class="ac-sub">Você entrou com o seu código. Em breve, aqui você verá os seus lembretes, a câmera e a Vi, sua assistente.</p>
+  <form th:action="@{/logout}" method="post"><button class="ac-btn ac-btn-borda" type="submit">Sair</button></form>
+</main>
+</body>
+</html>

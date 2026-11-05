@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VitaSense • Entrar com código</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/acesso.css}">
+</head>
+<body class="ac-page">
+<main class="ac-card">
+  <img th:src="@{/img/logo.png}" alt="VitaSense" class="ac-logo" onerror="this.style.display='none'">
+  <h1>Bem-vindo(a)!</h1>
+  <p class="ac-sub">Digite o código que o seu responsável lhe entregou.</p>
+
+  <div class="ac-aviso erro" th:if="${param.erro}">Código incorreto. Confira os números e tente de novo.</div>
+  <div class="ac-aviso erro" th:if="${param.bloqueado}">Muitas tentativas erradas. Aguarde 10 minutos ou peça ajuda ao seu responsável.</div>
+  <div class="ac-aviso ok" th:if="${param.saiu}">Você saiu. Até logo!</div>
+
+  <form th:action="@{/acesso}" method="post" novalidate>
+    <label for="codigo">Seu código</label>
+    <input id="codigo" name="codigo" inputmode="numeric" autocomplete="off" maxlength="9" placeholder="0000-0000" autofocus aria-describedby="dica">
+    <small id="dica">São 8 números.</small>
+    <button class="ac-btn" type="submit">Entrar</button>
+  </form>
+  <a class="ac-link" th:href="@{/login}">Sou o responsável (entrar com e-mail e senha)</a>
+</main>
+<script th:src="@{/js/acesso.js}"></script>
+</body>
+</html>

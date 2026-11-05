@@ -32,4 +32,11 @@ public class Usuario {
     public void setSenha(String senha) { this.senha = senha; }
     public Perfil getPerfil() { return perfil; }
     public void setPerfil(Perfil perfil) { this.perfil = perfil; }
+
+    /** Só para o perfil COMUM: a pessoa acompanhada que usa este acesso. */
+    @ManyToOne
+    private PessoaAcompanhada pessoa;
+    public PessoaAcompanhada getPessoa() { return pessoa; }
+    public void setPessoa(PessoaAcompanhada pessoa) { this.pessoa = pessoa; }
+    public String getTelefoneFormatado() { return br.vitasense.util.Formatos.telefone(telefone); }
 }
