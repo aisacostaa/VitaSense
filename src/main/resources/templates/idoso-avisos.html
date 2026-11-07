@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#235354">
+
+  <title>VitaSense • Avisos da casa</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" th:href="@{/css/vitasense.css}">
+  <link rel="stylesheet" th:href="@{/css/idoso.css}">
+  <link rel="stylesheet" th:href="@{/css/idoso-extra.css}">
+  <link rel="stylesheet" th:href="@{/css/idoso-avisos.css}">
+</head>
+
+<body class="id-page app">
+
+<div class="id-shell">
+
+  <aside th:replace="~{fragments/idoso :: menu('avisos')}"></aside>
+
+  <div class="id-conteudo">
+
+    <header th:replace="~{fragments/idoso :: topo}"></header>
+
+    <main class="id-principal ia-pagina">
+
+      <div class="ia-cabecalho">
+        <div>
+          <span class="ia-etiqueta">ACOMPANHAMENTO DA CASA</span>
+          <h1>Avisos da casa</h1>
+          <p class="id-sub">Veja se há algo que precisa da sua atenção.</p>
+        </div>
+
+        <div class="ia-cabecalho-icone" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+            <path d="M10 21h4"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Mensagens de retorno -->
+      <div class="ia-feedback ia-sucesso" th:if="${ok != null}" role="status">
+        <span>✓</span>
+        <p th:text="${ok}">Aviso atualizado.</p>
+      </div>
+
+      <div class="ia-feedback ia-erro" th:if="${erro != null}" role="alert">
+        <span>!</span>
+        <p th:text="${erro}">Não foi possível atualizar o aviso.</p>
+      </div>
+
+      <!-- Resumo e filtros: aparecem quando existem avisos -->
+      <div class="ia-painel" th:if="${!#lists.isEmpty(importantes) or !#lists.isEmpty(informativos)}">
+
+        <div class="ia-resumo">
+          <div class="ia-resumo-item">
+            <span class="ia-resumo-icone ia-icone-total">
+              <svg viewBox="0 0 24 24">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                <path d="M10 21h4"/>
+              </svg>
+            </span>
+            <div>
+              <strong id="ia-total">0</strong>
+              <span>Avisos recebidos</span>
+            </div>
+          </div>
+
+          <div class="ia-resumo-item">
+            <span class="ia-resumo-icone ia-icone-pendente">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+              </svg>
+            </span>
+            <div>
+              <strong id="ia-pendentes">0</strong>
+              <span>Ainda não lidos</span>
+            </div>
+          </div>
+
+          <div class="ia-resumo-item">
+            <span class="ia-resumo-icone ia-icone-importante">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 3 2.8 19a1.3 1.3 0 0 0 1.1 2h16.2a1.3 1.3 0 0 0 1.1-2L12 3Z"/>
+                <path d="M12 9v5m0 3h.01"/>
+              </svg>
+            </span>
+            <div>
+              <strong id="ia-importantes">0</strong>
+              <span>Importantes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ia-ferramentas">
+
+          <div class="ia-filtros" role="group" aria-label="Filtrar avisos">
+            <button type="button" class="ia-filtro ativo" data-filtro="todos" aria-pressed="true">
+              Todos <span id="ia-conta-todos">0</span>
+            </button>
+
+            <button type="button" class="ia-filtro" data-filtro="nao-lidos" aria-pressed="false">
+              Não lidos <span id="ia-conta-nao-lidos">0</span>
+            </button>
+
+            <button type="button" class="ia-filtro" data-filtro="lidos" aria-pressed="false">
+              Já lidos <span id="ia-conta-lidos">0</span>
+            </button>
+          </div>
+
+          <label class="ia-busca">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"/>
+              <path d="m16 16 5 5"/>
+            </svg>
+            <input type="search" id="ia-busca" placeholder="Buscar aviso..." aria-label="Buscar aviso">
+          </label>
+
+        </div>
+      </div>
+
+      <!-- Estado sem avisos -->
+      <div class="ia-tudo-certo"
+           th:if="${#lists.isEmpty(importantes) and #lists.isEmpty(informativos)}">
+
+        <div class="ia-ok-icone">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="m8 12.5 2.8 2.8L16 9.5"/>
+          </svg>
+        </div>
+
+        <div>
+          <b>Tudo certo!</b>
+          <span>Não há avisos agora. A sua casa está funcionando normalmente.</span>
+        </div>
+      </div>
+
+      <!-- Avisos importantes -->
+      <section class="ia-secao"
+               th:if="${!#lists.isEmpty(importantes)}"
+               data-secao="importantes">
+
+        <div class="ia-sec">
+          <div>
+            <h2>Importantes</h2>
+            <small>Precisam da sua atenção</small>
+          </div>
+          <span class="ia-sec-contador" th:text="${#lists.size(importantes)}">0</span>
+        </div>
+
+        <article class="ia-aviso importante"
+                 th:each="a : ${importantes}"
+                 th:attr="data-lido=${a.lido}">
+
+          <div class="ia-ico-box ia-ico-alerta">
+            <svg class="ia-ico" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3 2.8 19a1.3 1.3 0 0 0 1.1 2h16.2a1.3 1.3 0 0 0 1.1-2L12 3Z"/>
+              <path d="M12 9v5m0 3h.01"/>
+            </svg>
+          </div>
+
+          <div class="ia-corpo">
+
+            <div class="ia-titulo-linha">
+              <h3 th:text="${a.titulo}">Título</h3>
+              <span class="ia-status" th:if="${!a.lido}">Não lido</span>
+              <span class="ia-status lido" th:if="${a.lido}">Lido</span>
+            </div>
+
+            <p th:text="${a.texto}">Texto do aviso.</p>
+
+            <div class="ia-acoes">
+
+              <form th:unless="${a.lido}"
+                    th:action="@{/idoso/avisos/{id}/lido(id=${a.id})}"
+                    method="post">
+
+                <button type="submit" class="ia-btn">
+                  <span>✓</span> Já li este aviso
+                </button>
+              </form>
+
+              <span class="ia-lido" th:if="${a.lido}">
+                ✓ Você já leu este aviso
+              </span>
+
+              <a class="ia-link"
+                 th:if="${a.aparelho}"
+                 th:href="@{/idoso/casa}">
+                Ver meus aparelhos →
+              </a>
+
+            </div>
+          </div>
+
+          <time th:text="${a.hora}">Hoje, 20:15</time>
+
+        </article>
+      </section>
+
+      <!-- Avisos informativos -->
+      <section class="ia-secao"
+               th:if="${!#lists.isEmpty(informativos)}"
+               data-secao="informativos">
+
+        <div class="ia-sec">
+          <div>
+            <h2>Informativos</h2>
+            <small>Informações e atualizações</small>
+          </div>
+          <span class="ia-sec-contador" th:text="${#lists.size(informativos)}">0</span>
+        </div>
+
+        <article class="ia-aviso"
+                 th:each="a : ${informativos}"
+                 th:attr="data-lido=${a.lido}">
+
+          <div class="ia-ico-box ia-ico-info">
+            <svg class="ia-ico" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 11v5m0-8h.01"/>
+            </svg>
+          </div>
+
+          <div class="ia-corpo">
+
+            <div class="ia-titulo-linha">
+              <h3 th:text="${a.titulo}">Título</h3>
+              <span class="ia-status" th:if="${!a.lido}">Não lido</span>
+              <span class="ia-status lido" th:if="${a.lido}">Lido</span>
+            </div>
+
+            <p th:text="${a.texto}">Texto do aviso.</p>
+
+            <div class="ia-acoes">
+
+              <form th:unless="${a.lido}"
+                    th:action="@{/idoso/avisos/{id}/lido(id=${a.id})}"
+                    method="post">
+
+                <button type="submit" class="ia-btn">
+                  <span>✓</span> Já li este aviso
+                </button>
+              </form>
+
+              <span class="ia-lido" th:if="${a.lido}">
+                ✓ Você já leu este aviso
+              </span>
+
+            </div>
+          </div>
+
+          <time th:text="${a.hora}">Hoje, 20:00</time>
+
+        </article>
+      </section>
+
+      <!-- Aparece quando a busca ou o filtro não encontra avisos -->
+      <div class="ia-sem-resultado" id="ia-sem-resultado" hidden>
+        <span>⌕</span>
+        <b>Nenhum aviso encontrado</b>
+        <p>Tente mudar o filtro ou a palavra pesquisada.</p>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script th:src="@{/js/idoso.js}"></script>
+
+<script>
+(function () {
+  const cards = Array.from(document.querySelectorAll('.ia-aviso'));
+  if (!cards.length) return;
+
+  const botoes = document.querySelectorAll('.ia-filtro');
+  const busca = document.getElementById('ia-busca');
+  const semResultado = document.getElementById('ia-sem-resultado');
+
+  let filtroAtual = 'todos';
+
+  const total = cards.length;
+  const lidos = cards.filter(card => card.dataset.lido === 'true').length;
+  const naoLidos = total - lidos;
+  const importantes = document.querySelectorAll(
+    '.ia-secao[data-secao="importantes"] .ia-aviso'
+  ).length;
+
+  document.getElementById('ia-total').textContent = total;
+  document.getElementById('ia-pendentes').textContent = naoLidos;
+  document.getElementById('ia-importantes').textContent = importantes;
+
+  document.getElementById('ia-conta-todos').textContent = total;
+  document.getElementById('ia-conta-nao-lidos').textContent = naoLidos;
+  document.getElementById('ia-conta-lidos').textContent = lidos;
+
+  function atualizar() {
+    const termo = busca.value.trim().toLocaleLowerCase('pt-BR');
+    let visiveis = 0;
+
+    cards.forEach(card => {
+      const estaLido = card.dataset.lido === 'true';
+      const texto = card.textContent.toLocaleLowerCase('pt-BR');
+
+      const correspondeFiltro =
+        filtroAtual === 'todos' ||
+        (filtroAtual === 'lidos' && estaLido) ||
+        (filtroAtual === 'nao-lidos' && !estaLido);
+
+      const correspondeBusca = !termo || texto.includes(termo);
+      const mostrar = correspondeFiltro && correspondeBusca;
+
+      card.hidden = !mostrar;
+
+      if (mostrar) visiveis++;
+    });
+
+    document.querySelectorAll('.ia-secao').forEach(secao => {
+      const temCardVisivel = Array.from(
+        secao.querySelectorAll('.ia-aviso')
+      ).some(card => !card.hidden);
+
+      secao.hidden = !temCardVisivel;
+    });
+
+    semResultado.hidden = visiveis > 0;
+  }
+
+  botoes.forEach(botao => {
+    botao.addEventListener('click', function () {
+      filtroAtual = this.dataset.filtro;
+
+      botoes.forEach(item => {
+        const ativo = item === this;
+        item.classList.toggle('ativo', ativo);
+        item.setAttribute('aria-pressed', String(ativo));
+      });
+
+      atualizar();
+    });
+  });
+
+  busca.addEventListener('input', atualizar);
+})();
+</script>
+
+</body>
+</html>

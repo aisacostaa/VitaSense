@@ -1,6 +1,6 @@
 // filtros aplicam ao mudar; contador de selecionados; confirmação ao remover
 document.querySelectorAll('#filtros select').forEach(s => s.addEventListener('change', () => {
-  const f = document.getElementById('filtros'); f.action = '/casa#equipamentos'; f.submit();
+  const f = document.getElementById('filtros'); f.action = f.getAttribute('action') + '#equipamentos'; f.submit();
 }));
 const conta = () => document.getElementById('selCount').textContent = document.querySelectorAll('.chk:checked').length;
 document.querySelectorAll('.chk').forEach(c => c.addEventListener('change', conta));

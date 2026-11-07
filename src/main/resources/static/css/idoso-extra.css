@@ -1,0 +1,1212 @@
+
+/* =========================================================
+   VITASENSE — IDOSO EXTRA
+   Identidade visual alinhada à tela inicial
+   Fundo claro + glassmorphism + coral + lavanda
+   ========================================================= */
+
+
+/* =========================================================
+   1. VARIÁVEIS E BASE DA MINHA CASA
+   ========================================================= */
+
+.id-page.casa-body {
+    --coral: #FC865B;
+    --peach: #F79D5F;
+    --rose: #CF8F8F;
+    --lavender: #9A9CB8;
+    --ice: #E4ECF4;
+    --white: #FFFFFF;
+
+    --pine: #E97955;
+    --pine-d: #D96645;
+    --forest: #30313B;
+    --cream: #F8F7F5;
+    --sec2: #777783;
+    --hair2: rgba(65,65,75,.09);
+
+    --glass: rgba(255,255,255,.72);
+    --glass-strong: rgba(255,255,255,.88);
+    --glass-border: rgba(255,255,255,.85);
+
+    --shadow-soft:
+        0 2px 5px rgba(35,35,45,.025),
+        0 12px 35px rgba(35,35,45,.045);
+
+    --shadow-card:
+        0 2px 4px rgba(35,35,45,.025),
+        0 14px 36px rgba(35,35,45,.055),
+        inset 0 1px 0 rgba(255,255,255,.95);
+
+    box-sizing: border-box;
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            ellipse at 88% 8%,
+            rgba(154,156,184,.15),
+            transparent 27%
+        ),
+        radial-gradient(
+            ellipse at 8% 65%,
+            rgba(228,236,244,.75),
+            transparent 32%
+        ),
+        radial-gradient(
+            ellipse at 65% 100%,
+            rgba(207,143,143,.09),
+            transparent 30%
+        ),
+        #F8F7F5 !important;
+
+    background-attachment: fixed !important;
+
+    color: var(--forest);
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 19px;
+    line-height: 1.5;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.id-page.casa-body::before {
+    display: none !important;
+}
+
+.id-page.casa-body *,
+.id-page.casa-body *::before,
+.id-page.casa-body *::after {
+    box-sizing: border-box;
+}
+
+.id-page.casa-body .id-shell {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   2. AVISOS FLUTUANTES
+   ========================================================= */
+
+.id-page .vs-toasts {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    right: 18px;
+
+    margin: 0 auto;
+    max-width: 640px;
+
+    z-index: 100;
+}
+
+.id-page .vs-toast {
+    padding: 19px 22px;
+
+    border: 1px solid rgba(255,255,255,.85);
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.96);
+    color: #38343D;
+
+    font-size: 17px;
+    line-height: 1.5;
+
+    box-shadow: 0 12px 32px rgba(50,40,40,.14);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.id-page .vs-toast button {
+    color: #38343D;
+    font-size: 27px;
+    cursor: pointer;
+    transition: color .2s ease, transform .2s ease;
+}
+
+.id-page .vs-toast button:hover {
+    color: #D96645;
+    transform: scale(1.08);
+}
+
+
+/* =========================================================
+   3. ESTRUTURA DA PÁGINA
+   ========================================================= */
+
+.id-casa-pagina {
+    min-width: 0;
+    padding-top: 34px;
+    padding-bottom: 55px;
+}
+
+
+/* =========================================================
+   4. CABEÇALHO
+   ========================================================= */
+
+.casa-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    margin-bottom: 30px;
+    padding: 8px 2px;
+}
+
+.casa-titulo-area {
+    min-width: 0;
+}
+
+.casa-etiqueta {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-bottom: 10px;
+
+    color: #8587A8;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+.casa-etiqueta-ponto {
+    width: 8px;
+    height: 8px;
+    flex: 0 0 8px;
+
+    border-radius: 50%;
+    background: #FC865B;
+
+    box-shadow: 0 0 0 4px rgba(252,134,91,.12);
+}
+
+.id-casa-pagina > .casa-cabecalho h1 {
+    margin: 0 0 9px;
+
+    color: #30313B;
+
+    font-size: clamp(34px, 4vw, 47px);
+    font-weight: 750;
+    letter-spacing: -.055em;
+    line-height: 1.1;
+}
+
+.id-casa-pagina .id-sub {
+    max-width: 590px;
+    margin: 9px 0 26px !important;
+
+    color: #777783;
+
+    font-size: 19px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   5. RESUMO DA CASA
+   ========================================================= */
+
+.casa-resumo {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    flex-shrink: 0;
+    padding: 15px 18px;
+
+    border: 1px solid rgba(255,255,255,.92);
+    border-radius: 19px;
+
+    background: rgba(255,255,255,.78);
+
+    box-shadow: var(--shadow-soft);
+
+    backdrop-filter: blur(18px) saturate(145%);
+    -webkit-backdrop-filter: blur(18px) saturate(145%);
+
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease;
+}
+
+.casa-resumo:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+}
+
+.casa-resumo-icone {
+    display: grid;
+    place-items: center;
+
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(252,134,91,.15),
+            rgba(154,156,184,.17),
+            rgba(228,236,244,.65)
+        );
+
+    color: #8587A8;
+}
+
+.casa-resumo-icone svg {
+    width: 25px;
+    height: 25px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.casa-resumo strong,
+.casa-resumo small {
+    display: block;
+}
+
+.casa-resumo strong {
+    color: #30313B;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.casa-resumo small {
+    margin-top: 4px;
+    color: #777783;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   6. GRADE DE CÔMODOS
+   ========================================================= */
+
+.id-casa-pagina .id-comodos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    align-items: stretch;
+    gap: 22px;
+}
+
+
+/* =========================================================
+   7. CARTÕES DOS CÔMODOS
+   ========================================================= */
+
+.id-casa-pagina .id-comodo {
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+
+    padding: 25px;
+
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 25px;
+
+    background: rgba(255,255,255,.84);
+    color: #30313B;
+
+    box-shadow: var(--shadow-card);
+
+    backdrop-filter: blur(18px) saturate(145%);
+    -webkit-backdrop-filter: blur(18px) saturate(145%);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+/* Reflexo superior */
+
+.id-casa-pagina .id-comodo::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 10%;
+
+    width: 80%;
+    height: 1px;
+
+    background: rgba(255,255,255,.98);
+
+    pointer-events: none;
+}
+
+.id-casa-pagina .id-comodo:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(255,255,255,1);
+
+    box-shadow:
+        0 5px 12px rgba(35,35,45,.035),
+        0 20px 45px rgba(35,35,45,.075),
+        inset 0 1px 0 #fff;
+}
+
+
+/* =========================================================
+   8. TÍTULOS DOS CÔMODOS
+   ========================================================= */
+
+.id-casa-pagina .id-comodo-t {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    min-height: 48px;
+
+    margin-bottom: 8px;
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid rgba(65,65,75,.09);
+}
+
+.id-casa-pagina .id-comodo-identidade {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    min-width: 0;
+}
+
+.id-casa-pagina .id-comodo-t h2 {
+    min-width: 0;
+    margin: 0;
+
+    color: #30313B;
+
+    font-size: 24px;
+    font-weight: 750;
+    letter-spacing: -.035em;
+    line-height: 1.25;
+
+    overflow-wrap: anywhere;
+}
+
+.casa-comodo-ponto {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+
+    border-radius: 50%;
+
+    background: #FC865B;
+
+    box-shadow: 0 0 0 4px rgba(252,134,91,.12);
+}
+
+.id-casa-pagina .casa-total {
+    flex-shrink: 0;
+
+    padding: 7px 12px;
+
+    border: 1px solid rgba(154,156,184,.18);
+    border-radius: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(228,236,244,.8),
+            rgba(154,156,184,.13)
+        );
+
+    color: #666984;
+
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   9. APARELHOS
+   ========================================================= */
+
+.id-casa-pagina .id-aparelho {
+    display: grid;
+    grid-template-columns: 54px minmax(0,1fr) 132px;
+
+    align-items: center;
+    gap: 13px;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 88px;
+
+    padding: 14px 0;
+
+    border-top: 1px solid rgba(65,65,75,.075);
+
+    transition: background .2s ease;
+}
+
+.id-casa-pagina .id-aparelho:first-of-type {
+    border-top: 0;
+}
+
+.id-casa-pagina .id-aparelho:hover {
+    background: rgba(154,156,184,.035);
+}
+
+.id-casa-pagina .id-aparelho form {
+    width: 132px;
+    min-width: 0;
+    margin: 0;
+}
+
+
+/* =========================================================
+   10. ÍCONES DOS APARELHOS
+   ========================================================= */
+
+.id-casa-pagina .id-ico {
+    display: grid;
+    place-items: center;
+
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 17px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(154,156,184,.13),
+            rgba(228,236,244,.65)
+        );
+
+    color: #8587A8;
+
+    box-shadow:
+        0 3px 10px rgba(35,35,45,.035),
+        inset 0 1px 0 #fff;
+
+    transition:
+        background .22s ease,
+        color .22s ease,
+        transform .22s ease;
+}
+
+.id-casa-pagina .id-ico svg {
+    width: 27px;
+    height: 27px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.id-casa-pagina .id-aparelho.on .id-ico {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(252,134,91,.20),
+            rgba(247,157,95,.12)
+        );
+
+    color: #D96645;
+
+    box-shadow:
+        0 4px 12px rgba(252,134,91,.09),
+        inset 0 1px 0 #fff;
+}
+
+.id-casa-pagina .id-aparelho:hover .id-ico {
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   11. INFORMAÇÕES DOS APARELHOS
+   ========================================================= */
+
+.id-casa-pagina .id-aparelho-txt {
+    min-width: 0;
+}
+
+.id-casa-pagina .id-aparelho-txt b {
+    display: block;
+
+    color: #30313B;
+
+    font-size: 16px;
+    font-weight: 750;
+    line-height: 1.35;
+
+    overflow-wrap: anywhere;
+}
+
+.id-casa-pagina .id-estado {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #777783;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.id-casa-pagina .id-aparelho.on .id-estado {
+    color: #D96645;
+}
+
+.id-casa-pagina .id-aparelho-txt small {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #A91E1E;
+
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   12. BOTÕES DOS APARELHOS
+   ========================================================= */
+
+.id-casa-pagina .id-btn-aparelho {
+    position: relative;
+    overflow: hidden;
+
+    box-sizing: border-box;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+
+    padding: 0 10px;
+
+    border: 1px solid #30313B;
+    border-radius: 15px;
+
+    background: #30313B;
+    color: #FFFFFF;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.2;
+
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    box-shadow:
+        0 5px 13px rgba(35,35,45,.13),
+        inset 0 1px 0 rgba(255,255,255,.10);
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .15s ease,
+        box-shadow .2s ease;
+}
+
+.id-casa-pagina .id-btn-aparelho svg {
+    width: 19px;
+    height: 19px;
+    flex: 0 0 19px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Estado ligado */
+
+.id-casa-pagina .id-btn-aparelho.ligado {
+    background: #4A4650;
+    border-color: #4A4650;
+    color: #FFFFFF;
+}
+
+/* Passar o mouse */
+
+.id-casa-pagina .id-btn-aparelho:hover:not(:disabled) {
+    background: #D96645;
+    border-color: #D96645;
+    color: #FFFFFF;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(217,102,69,.20),
+        inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+/* Pressionar */
+
+.id-casa-pagina .id-btn-aparelho:active:not(:disabled) {
+    background: #B95036;
+    border-color: #B95036;
+
+    transform: scale(.96);
+
+    box-shadow: 0 2px 6px rgba(35,35,45,.14);
+}
+
+/* Desabilitado */
+
+.id-casa-pagina .id-btn-aparelho:disabled {
+    background: #E9E8E8;
+    border-color: #DEDCDF;
+    color: #777783;
+
+    opacity: 1;
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+/* Foco por teclado */
+
+.id-casa-pagina .id-btn-aparelho:focus-visible {
+    outline: 3px solid #FC865B;
+    outline-offset: 4px;
+}
+
+
+/* =========================================================
+   13. ESTADO VAZIO
+   ========================================================= */
+
+.id-casa-pagina .id-vazio {
+    margin-top: 22px;
+    padding: 30px 24px;
+
+    border: 1px dashed rgba(154,156,184,.35);
+    border-radius: 22px;
+
+    background: rgba(255,255,255,.76);
+    color: #777783;
+
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.6;
+    text-align: center;
+
+    box-shadow: var(--shadow-soft);
+}
+
+
+/* =========================================================
+   14. ASSISTENTE DE VOZ
+   ========================================================= */
+
+.id-voz-controle {
+    margin: 20px 12px;
+}
+
+.id-voz-controle button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    width: 100%;
+    padding: 13px 10px;
+
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 14px;
+
+    background: rgba(255,255,255,.10);
+    color: inherit;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.id-voz-controle button:hover:not(:disabled) {
+    background: rgba(255,255,255,.20);
+    transform: translateY(-1px);
+}
+
+.id-voz-controle button:active:not(:disabled) {
+    transform: scale(.97);
+}
+
+.id-voz-controle button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.id-voz-controle button:focus-visible {
+    outline: 3px solid #FC865B;
+    outline-offset: 3px;
+}
+
+.id-voz-ponto {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+
+    border-radius: 50%;
+    background: #B8B8B8;
+}
+
+.id-voz-ativo .id-voz-ponto {
+    background: #55D69A;
+    box-shadow: 0 0 0 5px rgba(85,214,154,.15);
+}
+
+
+/* =========================================================
+   15. JANELA DE EMERGÊNCIA
+   ========================================================= */
+
+.id-voz-dialogo {
+    width: min(460px, calc(100% - 32px));
+    max-width: 460px;
+
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 26px;
+    padding: 0;
+
+    background: rgba(255,255,255,.96);
+    color: #30313B;
+
+    box-shadow:
+        0 25px 80px rgba(35,35,45,.18),
+        inset 0 1px 0 #fff;
+
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+.id-voz-dialogo::backdrop {
+    background: rgba(35,30,35,.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.id-voz-conteudo {
+    padding: 32px 26px;
+
+    color: #30313B;
+    text-align: center;
+}
+
+.id-voz-alerta {
+    display: grid;
+    place-items: center;
+
+    width: 68px;
+    height: 68px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    background: #FCE9E7;
+    color: #A00000;
+
+    font-size: 38px;
+    font-weight: 800;
+}
+
+.id-voz-etiqueta {
+    color: #D96645;
+
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+}
+
+.id-voz-conteudo h2 {
+    margin: 12px 0;
+
+    color: #30313B;
+
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: -.035em;
+}
+
+.id-voz-conteudo p {
+    color: #777783;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   16. SIMULAÇÃO DE CHAMADA
+   ========================================================= */
+
+.id-voz-chamada {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin: 24px 0 14px;
+    padding: 18px;
+
+    border: 1px solid rgba(85,160,120,.15);
+    border-radius: 18px;
+
+    background: #F0F6F1;
+    text-align: left;
+}
+
+.id-voz-telefone {
+    display: grid;
+    place-items: center;
+
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #D8F0E2;
+    color: #168453;
+
+    font-size: 25px;
+}
+
+.id-voz-chamada strong,
+.id-voz-chamada small {
+    display: block;
+}
+
+.id-voz-chamada strong {
+    color: #30313B;
+    font-size: 14px;
+}
+
+.id-voz-chamada small {
+    margin-top: 5px;
+    color: #586B60;
+    font-size: 13px;
+}
+
+.id-voz-pulsos {
+    display: flex;
+    gap: 4px;
+
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.id-voz-pulsos i {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+    background: #168453;
+
+    animation: idVozPulso 1s infinite alternate;
+}
+
+.id-voz-pulsos i:nth-child(2) {
+    animation-delay: .2s;
+}
+
+.id-voz-pulsos i:nth-child(3) {
+    animation-delay: .4s;
+}
+
+@keyframes idVozPulso {
+    to {
+        opacity: .25;
+        transform: translateY(-4px);
+    }
+}
+
+.id-voz-aviso {
+    color: #777783;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.id-voz-fechar {
+    width: 100%;
+
+    padding: 15px;
+    margin-top: 12px;
+
+    border: 1px solid #30313B;
+    border-radius: 15px;
+
+    background: #30313B;
+    color: #FFFFFF;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.id-voz-fechar:hover {
+    background: #D96645;
+    border-color: #D96645;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 7px 16px rgba(217,102,69,.20);
+}
+
+.id-voz-fechar:active {
+    transform: scale(.98);
+}
+
+.id-voz-fechar:focus-visible {
+    outline: 3px solid #FC865B;
+    outline-offset: 4px;
+}
+
+
+/* =========================================================
+   17. TABLETS
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .id-casa-pagina .id-comodos {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .id-casa-pagina .id-comodo {
+        height: auto;
+    }
+
+}
+
+
+/* =========================================================
+   18. CELULARES
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .id-casa-pagina {
+        padding-top: 27px;
+        padding-bottom: 35px;
+    }
+
+    .casa-cabecalho {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+
+        margin-bottom: 22px;
+    }
+
+    .casa-resumo {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .id-casa-pagina > .casa-cabecalho h1 {
+        font-size: 34px;
+    }
+
+    .id-casa-pagina .id-sub {
+        font-size: 17px;
+    }
+
+    .id-casa-pagina .id-comodo {
+        padding: 21px 18px;
+        border-radius: 23px;
+    }
+
+    .id-casa-pagina .id-comodo-t {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .id-casa-pagina .id-comodo-t h2 {
+        font-size: 22px;
+    }
+
+    .id-casa-pagina .id-aparelho {
+        grid-template-columns: 48px minmax(0,1fr);
+        gap: 11px;
+
+        min-height: 0;
+        padding: 16px 0;
+    }
+
+    .id-casa-pagina .id-ico {
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
+        border-radius: 15px;
+    }
+
+    .id-casa-pagina .id-ico svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .id-casa-pagina .id-aparelho-txt b {
+        font-size: 15px;
+    }
+
+    .id-casa-pagina .id-estado {
+        font-size: 13px;
+    }
+
+    .id-casa-pagina .id-aparelho form {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .id-casa-pagina .id-btn-aparelho,
+    .id-casa-pagina .id-btn-aparelho:disabled {
+        min-height: 49px;
+        font-size: 13px;
+    }
+
+    .id-voz-conteudo {
+        padding: 27px 19px;
+    }
+
+    .id-voz-conteudo h2 {
+        font-size: 23px;
+    }
+
+    .id-voz-chamada {
+        padding: 15px;
+    }
+
+}
+
+
+/* =========================================================
+   19. TELAS MUITO PEQUENAS
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .id-casa-pagina .id-comodo {
+        padding: 17px 14px;
+    }
+
+    .id-casa-pagina .id-comodo-t h2 {
+        font-size: 19px;
+    }
+
+    .id-casa-pagina .casa-total {
+        font-size: 11px;
+        padding: 6px 9px;
+    }
+
+    .casa-resumo {
+        padding: 12px;
+    }
+
+    .id-casa-pagina .id-aparelho {
+        gap: 9px;
+    }
+
+}
+
+
+/* =========================================================
+   20. ACESSIBILIDADE E MOVIMENTO
+   ========================================================= */
+
+.id-casa-pagina .id-btn-aparelho:focus-visible,
+.id-voz-controle button:focus-visible,
+.id-voz-fechar:focus-visible {
+    outline: 3px solid #FC865B;
+    outline-offset: 4px;
+}
+
+@media (hover: none) {
+
+    .id-casa-pagina .id-comodo:hover {
+        transform: none;
+    }
+
+    .id-casa-pagina .id-aparelho:hover .id-ico {
+        transform: none;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .id-casa-pagina *,
+    .id-casa-pagina *::before,
+    .id-casa-pagina *::after,
+    .id-voz-controle button,
+    .id-voz-fechar {
+        transition: none !important;
+    }
+
+    .id-casa-pagina .id-comodo:hover {
+        transform: none;
+    }
+
+    .id-voz-pulsos i {
+        animation: none !important;
+    }
+
+}

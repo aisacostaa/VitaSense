@@ -11,7 +11,7 @@ document.querySelectorAll('[data-confirma]').forEach(f => f.addEventListener('su
 }));
 
 // "Ativar áudio" liga o som do vídeo. Se o navegador bloquear, mantém mudo (regra de autoplay).
-document.querySelectorAll('.cm-viewer video').forEach(v => {
+document.querySelectorAll('.vs-viewer video').forEach(v => {
   if (v.dataset.audio === 'true') {
     v.muted = false;
     v.play().catch(() => { v.muted = true; v.play(); });

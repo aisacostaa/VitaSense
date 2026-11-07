@@ -14,6 +14,8 @@ public class OcorrenciaLembrete {
     public String getRecorrencia() { return lembrete.getRecorrencia(); }
     public String getHorarioTexto() { return lembrete.getHorarioTexto(); }
     public java.time.LocalTime getHorario() { return lembrete.getHorario(); }
+    public boolean isCriadoPelaPessoa() { return lembrete.isCriadoPorPessoa(); }
+    public String getCriadoPorNome() { return lembrete.getCriadoPorNome(); }
     public LocalDate getData() { return data; }
     public String getDataIso() { return data.toString(); }
     public String getDataTexto() { return data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); }

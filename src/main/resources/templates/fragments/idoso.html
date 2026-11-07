@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Menu lateral da área do idoso -->
+<aside th:fragment="menu(ativa)" class="id-side">
+
+    <img th:src="@{/img/logo.png}"
+         alt="VitaSense"
+         class="id-logo"
+         onerror="this.style.display='none'">
+
+    <nav aria-label="Menu principal">
+
+        <a th:href="@{/idoso}"
+           th:classappend="${ativa == 'inicio'} ? 'on'">
+            <svg viewBox="0 0 24 24">
+                <path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>
+            </svg>
+            <span>Início</span>
+        </a>
+
+        <a th:href="@{/idoso/casa}"
+           th:classappend="${ativa == 'casa'} ? 'on'">
+            <svg viewBox="0 0 24 24">
+                <path d="M4 21V10l8-6 8 6v11zM9 21v-6h6v6"/>
+            </svg>
+            <span>Minha casa</span>
+        </a>
+
+        <a th:href="@{/idoso/lembretes}"
+           th:classappend="${ativa == 'lembretes'} ? 'on'">
+            <svg viewBox="0 0 24 24">
+                <path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/>
+            </svg>
+            <span>Lembretes</span>
+        </a>
+
+        <a th:href="@{/idoso/avisos}"
+           th:classappend="${ativa == 'avisos'} ? 'on'">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v6m0 3h.01"/>
+            </svg>
+            <span>Avisos</span>
+        </a>
+
+        <a th:href="@{/idoso/ajuda}"
+           th:classappend="${ativa == 'ajuda'} ? 'on'">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7m0 3h.01"/>
+            </svg>
+            <span>Ajuda</span>
+        </a>
+
+    </nav>
+
+    <!-- Ativação da ajuda por voz -->
+    <div class="id-voz-controle">
+
+        <button type="button"
+                id="ativarVoz"
+                aria-pressed="false">
+
+            <span class="id-voz-ponto"></span>
+
+            <span id="textoVoz">
+                Ativar ajuda por voz
+            </span>
+
+        </button>
+
+    </div>
+
+    <!-- Janela de emergência por voz -->
+    <dialog id="dlgVozEmergencia"
+            class="id-voz-dialogo"
+            aria-labelledby="tituloVozEmergencia">
+
+        <div class="id-voz-conteudo">
+
+            <div class="id-voz-alerta">
+                !
+            </div>
+
+            <span class="id-voz-etiqueta">
+                VITASENSE • ASSISTENTE DE VOZ
+            </span>
+
+            <h2 id="tituloVozEmergencia">
+                Você precisa de ajuda?
+            </h2>
+
+            <p>
+                Identificamos que você pode estar precisando de ajuda.
+            </p>
+
+            <div class="id-voz-chamada">
+
+                <div class="id-voz-telefone">
+                    ☎
+                </div>
+
+                <div>
+                    <strong>
+                        Ligando para seu responsável...
+                    </strong>
+
+                    <small>
+                        Simulação de chamada
+                    </small>
+                </div>
+
+                <div class="id-voz-pulsos">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </div>
+
+            </div>
+
+            <p class="id-voz-aviso">
+                Esta é uma demonstração visual.
+                Nenhuma ligação real será feita.
+            </p>
+
+            <button type="button"
+                    id="fecharVoz"
+                    class="id-voz-fechar">
+
+                Não preciso de ajuda, fechar
+
+            </button>
+
+        </div>
+
+    </dialog>
+
+    <div class="id-side-fim">
+
+        <a class="id-voltar"
+           th:if="${usuarioPerfil == 'Responsável'}"
+           th:href="@{/dashboard}">
+            ← Painel do responsável
+        </a>
+
+        <form th:action="@{/logout}" method="post">
+
+            <button class="id-sair" type="submit">
+                <svg viewBox="0 0 24 24">
+                    <path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/>
+                </svg>
+                <span>Sair</span>
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Script da ajuda por voz -->
+    <script th:src="@{/js/idoso-voz.js}" defer></script>
+
+</aside>
+
+
+<!-- Barra de data e hora -->
+<header th:fragment="topo" class="id-topo">
+
+    <span th:text="${hoje}">
+        Quinta-feira, 29 de outubro de 2026
+    </span>
+
+    <b id="relogio" th:text="${hora}">
+        09:30
+    </b>
+
+</header>
+
+
+<!-- Confirmação do pedido de ajuda -->
+<dialog th:fragment="sos(contato)"
+        id="dlgSos"
+        class="id-dialogo"
+        aria-labelledby="sosTitulo">
+
+    <h2 id="sosTitulo">
+        Você precisa de ajuda?
+    </h2>
+
+    <p th:if="${contato != null}">
+        Vamos avisar
+        <b th:text="${contato.nome}">Carlos</b>
+        agora mesmo.
+    </p>
+
+    <p th:if="${contato == null}">
+        Vamos avisar o seu responsável agora mesmo.
+    </p>
+
+    <form th:action="@{/idoso/ajuda/sos}" method="post">
+
+        <button class="id-btn-grande id-perigo" type="submit">
+            Sim, preciso de ajuda
+        </button>
+
+        <button class="id-btn-grande id-neutro"
+                type="button"
+                id="fecharSos">
+            Não, voltar
+        </button>
+
+    </form>
+
+</dialog>
+
+</body>
+</html>

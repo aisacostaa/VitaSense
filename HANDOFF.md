@@ -45,3 +45,16 @@ Config (pessoa/responsável) → Tela do idoso (COMUM) → Vi → alertas autom�
 - Edição inline por query: `editar=perfil|habitos|info|conta`, `med=novo|<id>`, `contato=novo|<id>`. Formulários em `dto/ConfigForms`.
 - Fotos: `FotoPerfil` (tabela própria, máx. 2 MB, JPG/PNG/WEBP validados pelo conteúdo). `GET /configuracoes/foto/{pessoa|usuario}` sempre do contexto logado.
 - **Login:** botão "Entrar com código" → `/acesso` (arquivo `login-codigo.css`).
+
+## Área do idoso (`/idoso/**`, perfil COMUM via código) — em construção
+- Layout: `fragments/idoso.html` (menu lateral + barra de data/hora), `idoso.css` (textos grandes, barra inferior no celular), `idoso.js`.
+- [x] Início (`/idoso`): saudação, resumo da casa (`IdosoService.resumoCasa`), Vi (link), atalhos, lembretes de hoje, contato de emergência, **PRECISO DE AJUDA** (diálogo de confirmação → `IdosoService.pedirAjuda` abre alerta "Emergência" prioridade Alta, que nunca pode ser silenciado).
+- [ ] Minha casa (`/idoso/casa`) · [ ] Lembretes (confirmar de verdade + adicionar) · [ ] Avisos · [ ] Ajuda (vídeos) · [ ] Vi (voz/texto)
+- Páginas ainda não feitas caem em `IdosoController.emBreve` (`EM_BREVE`); remover a entrada quando a tela existir.
+- [x] **Minha casa do idoso** (`/idoso/casa`): cômodos com aparelhos (sensores e fechadura ficam de fora), Ligar/Desligar via `IdosoService.alternarDispositivo` (mesma regra `Dispositivo.permiteAlterar`; ação registrada em Atividade com `autor` = a pessoa). `idoso-extra.css` também deixa os avisos flutuantes maiores nas telas do idoso.
+- [x] **Lembretes do idoso** (`/idoso/lembretes`): lista de hoje, **Confirmar lembrete** (`LembreteService.confirmarPelaPessoa`) e **Adicionar novo lembrete** (`criarPelaPessoa`; "Hoje/Amanhã", "Só esta vez/Todos os dias"). `Lembrete.criadoPorNome/criadoPorPessoa` alimenta "Adicionado por".
+- **Espelhamento no responsável** (regra do projeto: tudo que o idoso faz aparece no painel): confirmação → calendário/lista + Atividade (autor = pessoa); lembrete criado → calendário/lista (marcado "Criado pela pessoa acompanhada") + Atividade; lembrete sem confirmação há 30 min → **alerta automático** (`LembreteService.verificarPendentes`, a cada 5 min) encerrado ao confirmar. Já espelhados antes: aparelhos (Atividade), SOS (alerta Emergência), entrada por código (Atividade).
+- [x] **Avisos do idoso** (`/idoso/avisos`): alertas abertos de Dispositivos/Sensores/Conexão em linguagem simples (`IdosoService.simplificar`), separados em Importantes/Informativos. **Espelho nos dois sentidos:** o responsável resolve → o aviso some para o idoso; o idoso toca "Já li" → `Alerta.vistoPelaPessoaEm` aparece nos detalhes do alerta do responsável + Atividade.
+- Pendentes da área do idoso: Ajuda (vídeos) e Vi (voz/texto).
+- [x] **Ajuda do idoso** (`/idoso/ajuda`): 5 tutoriais (`AjudaService`) com passo a passo escrito + vídeo opcional em `src/main/resources/static/video/ajuda/` (`ajuda-luzes.mp4`, `ajuda-aparelhos.mp4`, `ajuda-vi.mp4`, `ajuda-lembretes.mp4`, `ajuda-avisos.mp4`); "Preciso de ajuda agora" reutiliza o SOS (fragmento `fragments/idoso :: sos`). Espelho: abrir um tutorial vira Atividade para o responsável (`POST /idoso/ajuda/visto/{id}`, via fetch com `X-CSRF-TOKEN`).
+- Pendente da área do idoso: **Vi** (voz/texto).

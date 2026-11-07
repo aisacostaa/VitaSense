@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FEF8F0">
   <title>VitaSense • Configurações</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <link rel="stylesheet" th:href="@{/css/app.css}">
-  <link rel="stylesheet" th:href="@{/css/acesso.css}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" th:href="@{/css/vitasense.css}">
   <link rel="stylesheet" th:href="@{/css/configuracoes.css}">
 </head>
-<body class="app configuracoes-page">
-<div class="page">
-  <header th:replace="~{fragments/layout :: topo('configuracoes')}"></header>
+<body class="app">
+<header th:replace="~{fragments/nav :: nav('configuracoes')}"></header>
 
-  <main class="cf-main">
-    <p class="cf-intro">Configurações do responsável e da pessoa acompanhada</p>
-    <nav class="cf-abas">
+  <main class="vs-wrap">
+  <div class="vs-head"><p class="vs-eyebrow">Ajustes</p><h1 class="vs-h1">Configurações</h1><p class="vs-lead">Configurações do responsável e da pessoa acompanhada</p></div>
+    <nav class="vs-seg">
       <a th:href="@{/configuracoes(aba='pessoa')}" th:classappend="${aba == 'pessoa'} ? 'on'">Pessoa acompanhada</a>
       <a th:href="@{/configuracoes(aba='responsavel')}" th:classappend="${aba == 'responsavel'} ? 'on'">Responsável</a>
     </nav>
@@ -23,199 +23,199 @@
 <div th:if="${aba == 'pessoa'}">
 
   <!-- IDENTIFICAÇÃO -->
-  <section id="identificacao">
-    <div class="cf-linha"><h2>Identificação</h2>
-      <a th:if="${editar != 'perfil'}" class="cf-btn" th:href="@{/configuracoes(aba='pessoa',editar='perfil')} + '#identificacao'">Editar perfil</a>
-      <a th:if="${editar == 'perfil'}" class="cf-btn cf-btn-claro" th:href="@{/configuracoes(aba='pessoa')} + '#identificacao'">Cancelar</a></div>
-    <div class="cf-card">
-      <div class="cf-id">
-        <div class="cf-foto"><span class="cf-ini" th:text="${iniciaisPessoa}">MH</span><img th:src="@{/configuracoes/foto/pessoa}" alt="Foto" onerror="this.remove()"></div>
+  <section class="vs-sec" id="identificacao">
+    <div class="vs-sh"><h2>Identificação</h2>
+      <a th:if="${editar != 'perfil'}" class="vs-btn" th:href="@{/configuracoes(aba='pessoa',editar='perfil')} + '#identificacao'">Editar perfil</a>
+      <a th:if="${editar == 'perfil'}" class="vs-btn soft" th:href="@{/configuracoes(aba='pessoa')} + '#identificacao'">Cancelar</a></div>
+    <div class="vs-card vs-cpad">
+      <div class="vs-id">
+        <div class="vs-foto"><span class="vs-ini" th:text="${iniciaisPessoa}">MH</span><img th:src="@{/configuracoes/foto/pessoa}" alt="Foto" onerror="this.remove()"></div>
         <div><h3 th:text="${pessoa.nome}">Dona Maria</h3><small>Pessoa acompanhada</small>
-          <form class="cf-upload" th:action="@{/configuracoes/foto/pessoa(_csrf=${_csrf.token})}" method="post" enctype="multipart/form-data">
-            <label class="cf-btn cf-btn-claro cf-peq">Alterar foto<input type="file" name="arquivo" accept="image/jpeg,image/png,image/webp" hidden data-auto></label></form></div>
+          <form class="vs-upload" th:action="@{/configuracoes/foto/pessoa(_csrf=${_csrf.token})}" method="post" enctype="multipart/form-data">
+            <label class="vs-btn soft sm">Alterar foto<input type="file" name="arquivo" accept="image/jpeg,image/png,image/webp" hidden data-auto></label></form></div>
       </div>
 
-      <div th:if="${editar != 'perfil'}" class="cf-grid3">
-        <div class="cf-c2"><label>Nome completo</label><div class="cf-campo" th:text="${pessoa.nome}">Nome</div></div>
-        <div><label>Data de nascimento</label><div class="cf-campo" th:text="${#temporals.format(pessoa.nascimento,'dd/MM/yyyy')}">14/05/1948</div></div>
-        <div><label>Idade</label><div class="cf-campo"><span th:text="${idade}">78</span> anos</div></div>
-        <div class="cf-c2"><label>Telefone</label><div class="cf-campo" th:text="${pessoa.telefoneFormatado}">(00) 00000-0000</div></div>
-        <div class="cf-c2"><label>Responsável principal</label><div class="cf-campo" th:text="${responsavelTexto}">Carlos Alberto · Filho</div></div>
-        <div class="cf-c2"><label>Mora sozinho(a)</label><div class="cf-campo" th:text="${pessoa.moraSozinho} ? 'Sim' : 'Não'">Sim</div></div>
-        <div class="cf-c2"><label>Usa o celular</label><div class="cf-campo" th:text="${pessoa.usaCelular} ? 'Sim' : 'Não'">Não</div></div>
-        <div class="cf-c4"><label>Endereço</label><div class="cf-campo" th:text="${endereco}">Endereço</div></div>
+      <div th:if="${editar != 'perfil'}" class="vs-g4">
+        <div class="vs-s2"><span class="vs-k">Nome completo</span><div class="vs-v" th:text="${pessoa.nome}">Nome</div></div>
+        <div><span class="vs-k">Data de nascimento</span><div class="vs-v" th:text="${#temporals.format(pessoa.nascimento,'dd/MM/yyyy')}">14/05/1948</div></div>
+        <div><span class="vs-k">Idade</span><div class="vs-v"><span th:text="${idade}">78</span> anos</div></div>
+        <div class="vs-s2"><span class="vs-k">Telefone</span><div class="vs-v" th:text="${pessoa.telefoneFormatado}">(00) 00000-0000</div></div>
+        <div class="vs-s2"><span class="vs-k">Responsável principal</span><div class="vs-v" th:text="${responsavelTexto}">Carlos Alberto · Filho</div></div>
+        <div class="vs-s2"><span class="vs-k">Mora sozinho(a)</span><div class="vs-v" th:text="${pessoa.moraSozinho} ? 'Sim' : 'Não'">Sim</div></div>
+        <div class="vs-s2"><span class="vs-k">Usa o celular</span><div class="vs-v" th:text="${pessoa.usaCelular} ? 'Sim' : 'Não'">Não</div></div>
+        <div class="vs-s4"><span class="vs-k">Endereço</span><div class="vs-v" th:text="${endereco}">Endereço</div></div>
       </div>
 
-      <form th:if="${editar == 'perfil'}" th:action="@{/configuracoes/pessoa/perfil}" method="post" class="cf-form" novalidate>
-        <div class="cf-grid3">
-          <label class="cf-c2">Nome completo<input name="nome" maxlength="100" required th:value="${pessoa.nome}"></label>
-          <label>Data de nascimento<input type="date" name="nascimento" required th:value="${pessoa.nascimento}"></label>
-          <label>Telefone (só números)<input name="telefone" data-digits maxlength="11" inputmode="numeric" placeholder="11999998888" th:value="${pessoa.telefone}"></label>
-          <label>Mora sozinho(a)?<select name="moraSozinho"><option value="true" th:selected="${pessoa.moraSozinho}">Sim</option><option value="false" th:selected="${!pessoa.moraSozinho}">Não</option></select></label>
-          <label>Usa o celular?<select name="usaCelular"><option value="true" th:selected="${pessoa.usaCelular}">Sim</option><option value="false" th:selected="${!pessoa.usaCelular}">Não</option></select></label>
-          <label>CEP<input name="cep" data-digits maxlength="8" inputmode="numeric" required th:value="${imovel.cep}"></label>
-          <label class="cf-c2">Rua<input name="rua" required th:value="${imovel.rua}"></label>
-          <label>Número<input name="numero" data-digits maxlength="6" inputmode="numeric" required th:value="${imovel.numero}"></label>
-          <label>Complemento<input name="complemento" th:value="${imovel.complemento}"></label>
-          <label>Bairro<input name="bairro" required th:value="${imovel.bairro}"></label>
-          <label>Cidade<input name="cidade" required th:value="${imovel.cidade}"></label>
+      <form th:if="${editar == 'perfil'}" th:action="@{/configuracoes/pessoa/perfil}" method="post" class="vs-form" novalidate>
+        <div class="vs-g4">
+          <label class="vs-f vs-s2">Nome completo<input name="nome" maxlength="100" required th:value="${pessoa.nome}"></label>
+          <label class="vs-f">Data de nascimento<input type="date" name="nascimento" required th:value="${pessoa.nascimento}"></label>
+          <label class="vs-f">Telefone (só números)<input name="telefone" data-digits maxlength="11" inputmode="numeric" placeholder="11999998888" th:value="${pessoa.telefone}"></label>
+          <label class="vs-f">Mora sozinho(a)?<select name="moraSozinho"><option value="true" th:selected="${pessoa.moraSozinho}">Sim</option><option value="false" th:selected="${!pessoa.moraSozinho}">Não</option></select></label>
+          <label class="vs-f">Usa o celular?<select name="usaCelular"><option value="true" th:selected="${pessoa.usaCelular}">Sim</option><option value="false" th:selected="${!pessoa.usaCelular}">Não</option></select></label>
+          <label class="vs-f">CEP<input name="cep" data-digits maxlength="8" inputmode="numeric" required th:value="${imovel.cep}"></label>
+          <label class="vs-f vs-s2">Rua<input name="rua" required th:value="${imovel.rua}"></label>
+          <label class="vs-f">Número<input name="numero" data-digits maxlength="6" inputmode="numeric" required th:value="${imovel.numero}"></label>
+          <label class="vs-f">Complemento<input name="complemento" th:value="${imovel.complemento}"></label>
+          <label class="vs-f">Bairro<input name="bairro" required th:value="${imovel.bairro}"></label>
+          <label class="vs-f">Cidade<input name="cidade" required th:value="${imovel.cidade}"></label>
         </div>
-        <div class="cf-acoes"><button class="cf-btn">Salvar perfil</button><a class="cf-btn cf-btn-claro" th:href="@{/configuracoes(aba='pessoa')} + '#identificacao'">Cancelar</a></div>
+        <div class="vs-fact"><button class="vs-btn">Salvar perfil</button><a class="vs-btn soft" th:href="@{/configuracoes(aba='pessoa')} + '#identificacao'">Cancelar</a></div>
       </form>
     </div>
   </section>
 
   <!-- ACESSO POR CÓDIGO (vínculo entre a pessoa acompanhada e o responsável) -->
-  <section id="acesso">
-    <div class="cf-linha"><h2>Acesso por código</h2></div>
-    <div class="ac-conf-card">
-      <div class="ac-conf-topo">
+  <section class="vs-sec" id="acesso">
+    <div class="vs-sh"><h2>Acesso por código</h2></div>
+    <div class="vs-card vs-cpad">
+      <div class="vs-ctop">
         <div><h2>Acesso de <span th:text="${pessoa.nome}">Dona Maria</span></h2><small>Vincula a pessoa acompanhada a você, sem e-mail nem senha</small></div>
-        <span class="ac-selo" th:classappend="${pessoa.acessoAtivo} ? 'ativo' : 'inativo'" th:text="${pessoa.acessoAtivo} ? '● Acesso ativo' : '● Acesso desativado'">● Acesso ativo</span>
+        <span class="vs-selo" th:classappend="${pessoa.acessoAtivo} ? 'ativo' : 'inativo'" th:text="${pessoa.acessoAtivo} ? '● Acesso ativo' : '● Acesso desativado'">● Acesso ativo</span>
       </div>
-      <div class="ac-codigo" th:classappend="${pessoa.acessoAtivo} ? '' : 'apagado'" th:text="${pessoa.codigoFormatado}">1234-5678</div>
-      <small class="ac-gerado" th:if="${pessoa.codigoGeradoEm != null}">Gerado em <span th:text="${#temporals.format(pessoa.codigoGeradoEm,'dd/MM/yyyy · HH:mm')}">data</span></small>
-      <div class="ac-botoes">
-        <button type="button" class="ac-btn" th:attr="data-copiar=${pessoa.codigoFormatado}">Copiar código</button>
-        <button type="button" class="ac-btn ac-btn-borda" data-imprimir>Imprimir</button>
-        <form th:action="@{/configuracoes/acesso/regenerar}" method="post" data-confirma="Gerar um novo código? O código atual deixará de funcionar imediatamente."><button class="ac-btn ac-btn-borda">Gerar novo código</button></form>
+      <div class="vs-code" th:classappend="${pessoa.acessoAtivo} ? '' : 'apagado'" th:text="${pessoa.codigoFormatado}">1234-5678</div>
+      <small class="vs-note vs-center" th:if="${pessoa.codigoGeradoEm != null}">Gerado em <span th:text="${#temporals.format(pessoa.codigoGeradoEm,'dd/MM/yyyy · HH:mm')}">data</span></small>
+      <div class="vs-fact">
+        <button type="button" class="vs-btn" th:attr="data-copiar=${pessoa.codigoFormatado}">Copiar código</button>
+        <button type="button" class="vs-btn soft" data-imprimir>Imprimir</button>
+        <form th:action="@{/configuracoes/acesso/regenerar}" method="post" data-confirma="Gerar um novo código? O código atual deixará de funcionar imediatamente."><button class="vs-btn soft">Gerar novo código</button></form>
         <form th:action="@{/configuracoes/acesso/alternar}" method="post" th:attr="data-confirma=${pessoa.acessoAtivo} ? 'Desativar o acesso? A pessoa não conseguirá entrar até você reativar.' : 'Reativar o acesso?'">
-          <button class="ac-btn ac-btn-borda" th:text="${pessoa.acessoAtivo} ? 'Desativar acesso' : 'Reativar acesso'">Desativar acesso</button></form>
+          <button class="vs-btn soft" th:text="${pessoa.acessoAtivo} ? 'Desativar acesso' : 'Reativar acesso'">Desativar acesso</button></form>
       </div>
-      <div class="ac-como"><b>Como a pessoa entra</b>
-        <ol><li>Abra <span class="ac-url" th:text="${urlAcesso}">http://localhost:8080/acesso</span> (ou use o botão <b>Entrar com código</b> da tela de login).</li>
+      <div class="vs-notice"><b>Como a pessoa entra</b>
+        <ol><li>Abra <span class="vs-url" th:text="${urlAcesso}">http://localhost:8080/acesso</span> (ou use o botão <b>Entrar com código</b> da tela de login).</li>
           <li>Digite os 8 números e toque em <b>Entrar</b>.</li></ol>
         <small>Em outro aparelho, troque <i>localhost</i> pelo endereço IP do computador onde o sistema roda.</small></div>
     </div>
   </section>
 
   <!-- HÁBITOS -->
-  <section id="habitos">
-    <div class="cf-linha"><h2>Hábitos de sono e alimentação</h2>
-      <a th:if="${editar != 'habitos'}" class="cf-btn" th:href="@{/configuracoes(aba='pessoa',editar='habitos')} + '#habitos'">Editar</a>
-      <a th:if="${editar == 'habitos'}" class="cf-btn cf-btn-claro" th:href="@{/configuracoes(aba='pessoa')} + '#habitos'">Cancelar</a></div>
-    <div class="cf-card">
-      <div th:if="${editar != 'habitos'}" class="cf-grid2">
-        <div><label>Costuma dormir às</label><div class="cf-campo" th:text="${pessoa.horaDormir != null} ? ${#temporals.format(pessoa.horaDormir,'HH:mm')} : 'Não informado'">22:00</div></div>
-        <div><label>Costuma acordar às</label><div class="cf-campo" th:text="${pessoa.horaAcordar != null} ? ${#temporals.format(pessoa.horaAcordar,'HH:mm')} : 'Não informado'">07:00</div></div>
-        <div class="cf-c2"><label>Restrições alimentares relatadas</label><div class="cf-campo" th:text="${pessoa.restricoesAlimentares ?: 'Nenhuma restrição informada.'}">Nenhuma</div></div>
-        <div class="cf-c2"><small class="cf-nota">Horários cotidianos relatados pela pessoa. Não são uma recomendação clínica.<span th:if="${pessoa.origemHabitos != null}"> Origem: <span th:text="${pessoa.origemHabitos}">relato</span>.</span></small></div>
+  <section class="vs-sec" id="habitos">
+    <div class="vs-sh"><h2>Hábitos de sono e alimentação</h2>
+      <a th:if="${editar != 'habitos'}" class="vs-btn" th:href="@{/configuracoes(aba='pessoa',editar='habitos')} + '#habitos'">Editar</a>
+      <a th:if="${editar == 'habitos'}" class="vs-btn soft" th:href="@{/configuracoes(aba='pessoa')} + '#habitos'">Cancelar</a></div>
+    <div class="vs-card vs-cpad">
+      <div th:if="${editar != 'habitos'}" class="vs-g2">
+        <div><span class="vs-k">Costuma dormir às</span><div class="vs-v" th:text="${pessoa.horaDormir != null} ? ${#temporals.format(pessoa.horaDormir,'HH:mm')} : 'Não informado'">22:00</div></div>
+        <div><span class="vs-k">Costuma acordar às</span><div class="vs-v" th:text="${pessoa.horaAcordar != null} ? ${#temporals.format(pessoa.horaAcordar,'HH:mm')} : 'Não informado'">07:00</div></div>
+        <div class="vs-s2"><span class="vs-k">Restrições alimentares relatadas</span><div class="vs-v" th:text="${pessoa.restricoesAlimentares ?: 'Nenhuma restrição informada.'}">Nenhuma</div></div>
+        <div class="vs-s2"><small class="vs-note">Horários cotidianos relatados pela pessoa. Não são uma recomendação clínica.<span th:if="${pessoa.origemHabitos != null}"> Origem: <span th:text="${pessoa.origemHabitos}">relato</span>.</span></small></div>
       </div>
-      <form th:if="${editar == 'habitos'}" th:action="@{/configuracoes/pessoa/habitos}" method="post" class="cf-form">
-        <div class="cf-grid2">
-          <label>Costuma dormir às<input type="time" name="horaDormir" th:value="${pessoa.horaDormir}"></label>
-          <label>Costuma acordar às<input type="time" name="horaAcordar" th:value="${pessoa.horaAcordar}"></label>
-          <label class="cf-c2">Restrições alimentares<input name="restricoes" maxlength="300" th:value="${pessoa.restricoesAlimentares}"></label>
-          <label class="cf-c2">Origem da informação<input name="origem" maxlength="200" placeholder="Ex.: relato da própria pessoa" th:value="${pessoa.origemHabitos}"></label>
+      <form th:if="${editar == 'habitos'}" th:action="@{/configuracoes/pessoa/habitos}" method="post" class="vs-form">
+        <div class="vs-g2">
+          <label class="vs-f">Costuma dormir às<input type="time" name="horaDormir" th:value="${pessoa.horaDormir}"></label>
+          <label class="vs-f">Costuma acordar às<input type="time" name="horaAcordar" th:value="${pessoa.horaAcordar}"></label>
+          <label class="vs-f vs-s2">Restrições alimentares<input name="restricoes" maxlength="300" th:value="${pessoa.restricoesAlimentares}"></label>
+          <label class="vs-f vs-s2">Origem da informação<input name="origem" maxlength="200" placeholder="Ex.: relato da própria pessoa" th:value="${pessoa.origemHabitos}"></label>
         </div>
-        <div class="cf-acoes"><button class="cf-btn">Salvar hábitos</button><a class="cf-btn cf-btn-claro" th:href="@{/configuracoes(aba='pessoa')} + '#habitos'">Cancelar</a></div>
+        <div class="vs-fact"><button class="vs-btn">Salvar hábitos</button><a class="vs-btn soft" th:href="@{/configuracoes(aba='pessoa')} + '#habitos'">Cancelar</a></div>
       </form>
     </div>
   </section>
 
   <!-- MEDICAMENTOS -->
-  <section id="medicamentos">
-    <div class="cf-linha"><h2>Medicamentos</h2><a class="cf-btn cf-btn-azul" th:href="@{/configuracoes(aba='pessoa',med='novo')} + '#medicamentos'">Adicionar medicamento</a></div>
-    <div class="cf-card">
-      <form th:if="${medForm}" th:action="@{/configuracoes/pessoa/medicamento}" method="post" class="cf-form cf-form-destaque">
+  <section class="vs-sec" id="medicamentos">
+    <div class="vs-sh"><h2>Medicamentos</h2><a class="vs-btn" th:href="@{/configuracoes(aba='pessoa',med='novo')} + '#medicamentos'">Adicionar medicamento</a></div>
+    <div class="vs-card vs-cpad">
+      <form th:if="${medForm}" th:action="@{/configuracoes/pessoa/medicamento}" method="post" class="vs-form vs-sub">
         <h3 th:text="${medEdit != null} ? 'Editar medicamento' : 'Novo medicamento'">Novo medicamento</h3>
         <input type="hidden" name="id" th:value="${medEdit?.id}">
-        <div class="cf-grid2">
-          <label>Nome do medicamento<input name="nome" maxlength="100" required th:value="${medEdit?.nome}"></label>
-          <label>Horário informado<input type="time" name="horario" th:value="${medEdit?.horario}"></label>
-          <label>Dose<input name="dose" maxlength="100" placeholder="Ex.: 1 comprimido" th:value="${medEdit?.dose}"></label>
-          <label>Origem da informação<input name="origem" maxlength="200" placeholder="Ex.: receita médica" th:value="${medEdit?.origem}"></label>
-          <label class="cf-c2">Orientação informada<input name="orientacao" maxlength="300" th:value="${medEdit?.orientacao}"></label>
+        <div class="vs-g2">
+          <label class="vs-f">Nome do medicamento<input name="nome" maxlength="100" required th:value="${medEdit?.nome}"></label>
+          <label class="vs-f">Horário informado<input type="time" name="horario" th:value="${medEdit?.horario}"></label>
+          <label class="vs-f">Dose<input name="dose" maxlength="100" placeholder="Ex.: 1 comprimido" th:value="${medEdit?.dose}"></label>
+          <label class="vs-f">Origem da informação<input name="origem" maxlength="200" placeholder="Ex.: receita médica" th:value="${medEdit?.origem}"></label>
+          <label class="vs-f vs-s2">Orientação informada<input name="orientacao" maxlength="300" th:value="${medEdit?.orientacao}"></label>
         </div>
-        <small class="cf-nota">Registro informativo: não substitui a orientação de um profissional de saúde.</small>
-        <div class="cf-acoes"><button class="cf-btn">Salvar medicamento</button><a class="cf-btn cf-btn-claro" th:href="@{/configuracoes(aba='pessoa')} + '#medicamentos'">Cancelar</a></div>
+        <small class="vs-note">Registro informativo: não substitui a orientação de um profissional de saúde.</small>
+        <div class="vs-fact"><button class="vs-btn">Salvar medicamento</button><a class="vs-btn soft" th:href="@{/configuracoes(aba='pessoa')} + '#medicamentos'">Cancelar</a></div>
       </form>
-      <div class="cf-item" th:each="md : ${medicamentos}">
-        <div class="cf-grid2">
-          <div><label>Nome do medicamento</label><div class="cf-campo" th:text="${md.nome}">Nome</div></div>
-          <div><label>Horário informado</label><div class="cf-campo" th:text="${md.horario != null} ? ${#temporals.format(md.horario,'HH:mm')} : 'Não informado'">Não informado</div></div>
-          <div><label>Dose</label><div class="cf-campo" th:text="${md.dose ?: 'Não informado'}">Dose</div></div>
-          <div><label>Orientação informada</label><div class="cf-campo" th:text="${md.orientacao ?: 'Conforme orientação registrada'}">Orientação</div></div>
-          <div class="cf-c2"><label>Origem da informação</label><div class="cf-campo" th:text="${md.origem ?: 'Não informado'}">Origem</div></div>
+      <div class="vs-item" th:each="md : ${medicamentos}">
+        <div class="vs-g2">
+          <div><span class="vs-k">Nome do medicamento</span><div class="vs-v" th:text="${md.nome}">Nome</div></div>
+          <div><span class="vs-k">Horário informado</span><div class="vs-v" th:text="${md.horario != null} ? ${#temporals.format(md.horario,'HH:mm')} : 'Não informado'">Não informado</div></div>
+          <div><span class="vs-k">Dose</span><div class="vs-v" th:text="${md.dose ?: 'Não informado'}">Dose</div></div>
+          <div><span class="vs-k">Orientação informada</span><div class="vs-v" th:text="${md.orientacao ?: 'Conforme orientação registrada'}">Orientação</div></div>
+          <div class="vs-s2"><span class="vs-k">Origem da informação</span><div class="vs-v" th:text="${md.origem ?: 'Não informado'}">Origem</div></div>
         </div>
-        <div class="cf-acoes cf-dir"><a class="cf-btn cf-btn-claro" th:href="@{/configuracoes(aba='pessoa',med=${md.id})} + '#medicamentos'">Editar</a>
-          <form th:action="@{/configuracoes/pessoa/medicamento/{id}/remover(id=${md.id})}" method="post" data-confirma="Remover este medicamento?"><button class="cf-btn cf-btn-azul">Remover</button></form></div>
+        <div class="vs-fact vs-end"><a class="vs-btn soft" th:href="@{/configuracoes(aba='pessoa',med=${md.id})} + '#medicamentos'">Editar</a>
+          <form th:action="@{/configuracoes/pessoa/medicamento/{id}/remover(id=${md.id})}" method="post" data-confirma="Remover este medicamento?"><button class="vs-btn warnbtn">Remover</button></form></div>
       </div>
-      <p class="cf-vazio" th:if="${#lists.isEmpty(medicamentos) and !medForm}">Nenhum medicamento cadastrado.</p>
+      <p class="vs-empty" th:if="${#lists.isEmpty(medicamentos) and !medForm}">Nenhum medicamento cadastrado.</p>
     </div>
   </section>
 
   <!-- INFORMAÇÕES IMPORTANTES -->
-  <section id="informacoes">
-    <div class="cf-linha"><h2>Informações importantes</h2>
-      <a th:if="${editar != 'info'}" class="cf-btn" th:href="@{/configuracoes(aba='pessoa',editar='info')} + '#informacoes'">Editar</a>
-      <a th:if="${editar == 'info'}" class="cf-btn cf-btn-claro" th:href="@{/configuracoes(aba='pessoa')} + '#informacoes'">Cancelar</a></div>
-    <div class="cf-card">
-      <div class="cf-aviso">Informações relatadas. Não constituem diagnóstico médico.</div>
-      <div th:if="${editar != 'info'}" class="cf-grid2">
-        <div class="cf-c2"><label>Observações relevantes · campo livre</label><div class="cf-campo cf-alto" th:text="${pessoa.observacoes ?: 'Nenhuma observação registrada.'}">Obs</div></div>
-        <div><label>Origem da informação</label><div class="cf-campo" th:text="${pessoa.origemObservacoes ?: 'Não informado'}">Origem</div></div>
-        <div><label>Autorização para registrar</label><div class="cf-campo" th:text="${pessoa.autorizacaoTexto ?: 'Não informado'}">Autorização</div></div>
-        <div class="cf-c2"><span class="cf-check" th:classappend="${pessoa.registroAutorizado} ? 'on'" th:text="${pessoa.registroAutorizado} ? ('✔ Registro e consulta por ' + ${conta.nome} + ' autorizados') : '✖ Registro e consulta ainda não autorizados'">✔ Registro autorizado</span></div>
+  <section class="vs-sec" id="informacoes">
+    <div class="vs-sh"><h2>Informações importantes</h2>
+      <a th:if="${editar != 'info'}" class="vs-btn" th:href="@{/configuracoes(aba='pessoa',editar='info')} + '#informacoes'">Editar</a>
+      <a th:if="${editar == 'info'}" class="vs-btn soft" th:href="@{/configuracoes(aba='pessoa')} + '#informacoes'">Cancelar</a></div>
+    <div class="vs-card vs-cpad">
+      <div class="vs-notice">Informações relatadas. Não constituem diagnóstico médico.</div>
+      <div th:if="${editar != 'info'}" class="vs-g2">
+        <div class="vs-s2"><span class="vs-k">Observações relevantes · campo livre</span><div class="vs-v tall" th:text="${pessoa.observacoes ?: 'Nenhuma observação registrada.'}">Obs</div></div>
+        <div><span class="vs-k">Origem da informação</span><div class="vs-v" th:text="${pessoa.origemObservacoes ?: 'Não informado'}">Origem</div></div>
+        <div><span class="vs-k">Autorização para registrar</span><div class="vs-v" th:text="${pessoa.autorizacaoTexto ?: 'Não informado'}">Autorização</div></div>
+        <div class="vs-s2"><span class="vs-chk2" th:classappend="${pessoa.registroAutorizado} ? 'on'" th:text="${pessoa.registroAutorizado} ? ('✔ Registro e consulta por ' + ${conta.nome} + ' autorizados') : '✖ Registro e consulta ainda não autorizados'">✔ Registro autorizado</span></div>
       </div>
-      <form th:if="${editar == 'info'}" th:action="@{/configuracoes/pessoa/info}" method="post" class="cf-form">
-        <div class="cf-grid2">
-          <label class="cf-c2">Observações relevantes<textarea name="observacoes" maxlength="1000" th:text="${pessoa.observacoes}"></textarea></label>
-          <label>Origem da informação<input name="origem" maxlength="200" th:value="${pessoa.origemObservacoes}"></label>
-          <label>Autorização para registrar<input name="autorizacao" maxlength="200" placeholder="Ex.: Dona Maria · 30/10/2026" th:value="${pessoa.autorizacaoTexto}"></label>
-          <div class="cf-c2 cf-radios"><span>Registro e consulta por <b th:text="${conta.nome}">Responsável</b>:</span>
+      <form th:if="${editar == 'info'}" th:action="@{/configuracoes/pessoa/info}" method="post" class="vs-form">
+        <div class="vs-g2">
+          <label class="vs-f vs-s2">Observações relevantes<textarea name="observacoes" maxlength="1000" th:text="${pessoa.observacoes}"></textarea></label>
+          <label class="vs-f">Origem da informação<input name="origem" maxlength="200" th:value="${pessoa.origemObservacoes}"></label>
+          <label class="vs-f">Autorização para registrar<input name="autorizacao" maxlength="200" placeholder="Ex.: Dona Maria · 30/10/2026" th:value="${pessoa.autorizacaoTexto}"></label>
+          <div class="vs-s2 vs-radios"><span>Registro e consulta por <b th:text="${conta.nome}">Responsável</b>:</span>
             <label><input type="radio" name="registroAutorizado" value="true" th:checked="${pessoa.registroAutorizado}"> Autorizados</label>
             <label><input type="radio" name="registroAutorizado" value="false" th:checked="${!pessoa.registroAutorizado}"> Não autorizados</label></div>
         </div>
-        <div class="cf-acoes"><button class="cf-btn">Salvar informações</button><a class="cf-btn cf-btn-claro" th:href="@{/configuracoes(aba='pessoa')} + '#informacoes'">Cancelar</a></div>
+        <div class="vs-fact"><button class="vs-btn">Salvar informações</button><a class="vs-btn soft" th:href="@{/configuracoes(aba='pessoa')} + '#informacoes'">Cancelar</a></div>
       </form>
     </div>
   </section>
 
   <!-- CONTATOS DE EMERGÊNCIA -->
-  <section id="contatos">
-    <div class="cf-linha"><div><h2>Contatos de emergência</h2><small>Gerencie as pessoas que podem ser contatadas</small></div>
-      <a class="cf-btn" th:href="@{/configuracoes(aba='pessoa',contato='novo')} + '#contatos'">Adicionar contato</a></div>
-    <div class="cf-card">
-      <form th:if="${contatoForm}" th:action="@{/configuracoes/pessoa/contato}" method="post" class="cf-form cf-form-destaque">
+  <section class="vs-sec" id="contatos">
+    <div class="vs-sh"><div><h2>Contatos de emergência</h2><small>Gerencie as pessoas que podem ser contatadas</small></div>
+      <a class="vs-btn" th:href="@{/configuracoes(aba='pessoa',contato='novo')} + '#contatos'">Adicionar contato</a></div>
+    <div class="vs-card vs-cpad">
+      <form th:if="${contatoForm}" th:action="@{/configuracoes/pessoa/contato}" method="post" class="vs-form vs-sub">
         <h3 th:text="${contatoEdit != null} ? 'Editar contato' : 'Novo contato'">Novo contato</h3>
         <input type="hidden" name="id" th:value="${contatoEdit?.id}">
-        <div class="cf-grid3">
-          <label class="cf-c2">Nome completo<input name="nome" maxlength="100" required th:value="${contatoEdit?.nome}"></label>
-          <label>Grau de relacionamento<input name="parentesco" maxlength="50" required placeholder="Ex.: Filha" th:value="${contatoEdit?.parentesco}"></label>
-          <label>Telefone (só números)<input name="telefone" data-digits maxlength="11" inputmode="numeric" placeholder="11999998888" th:value="${contatoEdit?.telefone}"></label>
-          <label>E-mail<input type="email" name="email" maxlength="120" th:value="${contatoEdit?.email}"></label>
-          <label>Prioridade de contato<input type="number" name="prioridade" min="1" max="20" required th:value="${contatoEdit != null} ? ${contatoEdit.prioridade} : ${totalContatos + 1}"></label>
-          <label>Estado<select name="ativo"><option value="true" th:selected="${contatoEdit == null or contatoEdit.ativo}">Ativo</option><option value="false" th:selected="${contatoEdit != null and !contatoEdit.ativo}">Inativo</option></select></label>
+        <div class="vs-g4">
+          <label class="vs-f vs-s2">Nome completo<input name="nome" maxlength="100" required th:value="${contatoEdit?.nome}"></label>
+          <label class="vs-f">Grau de relacionamento<input name="parentesco" maxlength="50" required placeholder="Ex.: Filha" th:value="${contatoEdit?.parentesco}"></label>
+          <label class="vs-f">Telefone (só números)<input name="telefone" data-digits maxlength="11" inputmode="numeric" placeholder="11999998888" th:value="${contatoEdit?.telefone}"></label>
+          <label class="vs-f">E-mail<input type="email" name="email" maxlength="120" th:value="${contatoEdit?.email}"></label>
+          <label class="vs-f">Prioridade de contato<input type="number" name="prioridade" min="1" max="20" required th:value="${contatoEdit != null} ? ${contatoEdit.prioridade} : ${totalContatos + 1}"></label>
+          <label class="vs-f">Estado<select name="ativo"><option value="true" th:selected="${contatoEdit == null or contatoEdit.ativo}">Ativo</option><option value="false" th:selected="${contatoEdit != null and !contatoEdit.ativo}">Inativo</option></select></label>
         </div>
-        <small class="cf-nota">Prioridade 1 é o contato principal (sempre ativo). Ao escolher uma prioridade, os demais contatos se reorganizam.</small>
-        <div class="cf-acoes"><button class="cf-btn">Salvar contato</button><a class="cf-btn cf-btn-claro" th:href="@{/configuracoes(aba='pessoa')} + '#contatos'">Cancelar</a></div>
+        <small class="vs-note">Prioridade 1 é o contato principal (sempre ativo). Ao escolher uma prioridade, os demais contatos se reorganizam.</small>
+        <div class="vs-fact"><button class="vs-btn">Salvar contato</button><a class="vs-btn soft" th:href="@{/configuracoes(aba='pessoa')} + '#contatos'">Cancelar</a></div>
       </form>
 
-      <div class="cf-principal" th:if="${principal != null}">
-        <div class="cf-linha"><h3>Contato principal</h3><span class="cf-selo">Contato principal</span></div>
-        <div class="cf-grid3">
-          <div class="cf-c2"><label>Nome completo</label><div class="cf-campo" th:text="${principal.nome}">Nome</div></div>
-          <div><label>Grau de relacionamento</label><div class="cf-campo" th:text="${principal.parentesco}">Filho</div></div>
-          <div><label>Telefone</label><div class="cf-campo" th:text="${principal.telefoneFormatado}">(00) 00000-0000</div></div>
-          <div><label>E-mail</label><div class="cf-campo" th:text="${principal.email ?: 'Não informado'}">email</div></div>
-          <div><label>Prioridade de contato</label><div class="cf-campo" th:text="${principal.prioridadeTexto}">1ª prioridade</div></div>
+      <div class="vs-mainc" th:if="${principal != null}">
+        <div class="vs-flex"><h3>Contato principal</h3><span class="vs-tag">Contato principal</span></div>
+        <div class="vs-g4">
+          <div class="vs-s2"><span class="vs-k">Nome completo</span><div class="vs-v" th:text="${principal.nome}">Nome</div></div>
+          <div><span class="vs-k">Grau de relacionamento</span><div class="vs-v" th:text="${principal.parentesco}">Filho</div></div>
+          <div><span class="vs-k">Telefone</span><div class="vs-v" th:text="${principal.telefoneFormatado}">(00) 00000-0000</div></div>
+          <div><span class="vs-k">E-mail</span><div class="vs-v" th:text="${principal.email ?: 'Não informado'}">email</div></div>
+          <div><span class="vs-k">Prioridade de contato</span><div class="vs-v" th:text="${principal.prioridadeTexto}">1ª prioridade</div></div>
         </div>
-        <div class="cf-acoes cf-dir"><a class="cf-btn cf-btn-claro" th:href="@{/configuracoes(aba='pessoa',contato=${principal.id})} + '#contatos'">Editar</a></div>
+        <div class="vs-fact vs-end"><a class="vs-btn soft" th:href="@{/configuracoes(aba='pessoa',contato=${principal.id})} + '#contatos'">Editar</a></div>
       </div>
 
-      <h3 class="cf-sub">Outros contatos</h3>
-      <div class="cf-tabela" th:if="${!#lists.isEmpty(outros)}">
-        <table><thead><tr><th>Nome</th><th>Relacionamento</th><th>Telefone</th><th>E-mail</th><th>Prioridade</th><th>Estado</th><th>Ações</th></tr></thead>
+      <h3 class="vs-subt">Outros contatos</h3>
+      <div class="vs-tablewrap" th:if="${!#lists.isEmpty(outros)}">
+        <table class="vs-table"><thead><tr><th>Nome</th><th>Relacionamento</th><th>Telefone</th><th>E-mail</th><th>Prioridade</th><th>Estado</th><th>Ações</th></tr></thead>
           <tbody><tr th:each="c : ${outros}">
             <td><b th:text="${c.nome}">Nome</b></td><td th:text="${c.parentesco}">Filha</td><td th:text="${c.telefoneFormatado}">tel</td><td th:text="${c.email ?: '—'}">email</td>
             <td th:text="${c.prioridade} + 'ª'">2ª</td>
-            <td><span class="cf-estado" th:classappend="${c.ativo} ? 'on'" th:text="${c.ativo} ? 'Ativo' : 'Inativo'">Ativo</span></td>
-            <td class="cf-acoes-t"><a class="cf-btn cf-btn-claro cf-peq" th:href="@{/configuracoes(aba='pessoa',contato=${c.id})} + '#contatos'">Editar</a>
-              <form th:action="@{/configuracoes/pessoa/contato/{id}/remover(id=${c.id})}" method="post" data-confirma="Excluir este contato?"><button class="cf-btn cf-btn-azul cf-peq">Excluir</button></form></td>
+            <td><span class="vs-lest" th:classappend="${c.ativo} ? 'ok'" th:text="${c.ativo} ? 'Ativo' : 'Inativo'">Ativo</span></td>
+            <td class="vs-nw"><a class="vs-btn soft sm" th:href="@{/configuracoes(aba='pessoa',contato=${c.id})} + '#contatos'">Editar</a>
+              <form th:action="@{/configuracoes/pessoa/contato/{id}/remover(id=${c.id})}" method="post" data-confirma="Excluir este contato?"><button class="vs-btn warnbtn sm">Excluir</button></form></td>
           </tr></tbody></table>
       </div>
-      <p class="cf-vazio" th:if="${#lists.isEmpty(outros)}">Nenhum outro contato cadastrado. Adicione pessoas que possam ser chamadas em caso de necessidade.</p>
+      <p class="vs-empty" th:if="${#lists.isEmpty(outros)}">Nenhum outro contato cadastrado. Adicione pessoas que possam ser chamadas em caso de necessidade.</p>
     </div>
   </section>
 </div>
@@ -224,80 +224,80 @@
 <div th:if="${aba == 'responsavel'}">
 
   <!-- CONTA -->
-  <section id="conta">
-    <h2>Conta do responsável</h2><p class="cf-desc">Consulte seus dados de identificação e as opções da conta.</p>
-    <div class="cf-conta">
-      <div class="cf-conta-foto">
-        <div class="cf-foto cf-foto-g"><span class="cf-ini" th:text="${iniciaisConta}">CA</span><img th:src="@{/configuracoes/foto/usuario}" alt="Foto" onerror="this.remove()"></div>
-        <form class="cf-upload" th:action="@{/configuracoes/foto/usuario(_csrf=${_csrf.token})}" method="post" enctype="multipart/form-data">
-          <label class="cf-link">Foto de perfil · alterar<input type="file" name="arquivo" accept="image/jpeg,image/png,image/webp" hidden data-auto></label></form>
+  <section class="vs-sec" id="conta">
+    <div class="vs-sh"><h2>Conta do responsável</h2><small>Consulte seus dados de identificação e as opções da conta.</small></div>
+    <div class="vs-card vs-conta">
+      <div class="vs-cfoto">
+        <div class="vs-foto big"><span class="vs-ini" th:text="${iniciaisConta}">CA</span><img th:src="@{/configuracoes/foto/usuario}" alt="Foto" onerror="this.remove()"></div>
+        <form class="vs-upload" th:action="@{/configuracoes/foto/usuario(_csrf=${_csrf.token})}" method="post" enctype="multipart/form-data">
+          <label class="vs-flink">Foto de perfil · alterar<input type="file" name="arquivo" accept="image/jpeg,image/png,image/webp" hidden data-auto></label></form>
       </div>
-      <div class="cf-conta-dados">
+      <div class="vs-cdados">
         <div th:if="${editar != 'conta'}">
-          <label>Nome</label><div class="cf-campo cf-branco" th:text="${conta.nome}">Nome</div>
-          <div class="cf-grid2"><div><label>E-mail</label><div class="cf-campo cf-branco" th:text="${conta.email}">email</div></div>
-            <div><label>Telefone</label><div class="cf-campo cf-branco" th:text="${conta.telefoneFormatado}">tel</div></div></div>
-          <div class="cf-conta-rodape"><span>Alterar senha: consulte a seção Segurança abaixo.</span>
-            <a class="cf-link" href="#seguranca">Alterar senha</a>
-            <a class="cf-btn cf-btn-claro" th:href="@{/configuracoes(aba='responsavel',editar='conta')} + '#conta'">Editar dados da conta</a></div>
+          <span class="vs-k">Nome</span><div class="vs-v white" th:text="${conta.nome}">Nome</div>
+          <div class="vs-g2"><div><span class="vs-k">E-mail</span><div class="vs-v white" th:text="${conta.email}">email</div></div>
+            <div><span class="vs-k">Telefone</span><div class="vs-v white" th:text="${conta.telefoneFormatado}">tel</div></div></div>
+          <div class="vs-crod"><span>Alterar senha: consulte a seção Segurança abaixo.</span>
+            <a class="vs-flink" href="#seguranca">Alterar senha</a>
+            <a class="vs-btn soft" th:href="@{/configuracoes(aba='responsavel',editar='conta')} + '#conta'">Editar dados da conta</a></div>
         </div>
-        <form th:if="${editar == 'conta'}" th:action="@{/configuracoes/conta}" method="post" class="cf-form-conta" novalidate>
-          <label>Nome<input name="nome" maxlength="100" required th:value="${conta.nome}"></label>
-          <div class="cf-grid2"><label>E-mail<input type="email" name="email" required th:value="${conta.email}"></label>
-            <label>Telefone (só números)<input name="telefone" data-digits maxlength="11" inputmode="numeric" th:value="${conta.telefone}"></label></div>
+        <form th:if="${editar == 'conta'}" th:action="@{/configuracoes/conta}" method="post" class="vs-formconta" novalidate>
+          <label class="vs-f">Nome<input name="nome" maxlength="100" required th:value="${conta.nome}"></label>
+          <div class="vs-g2"><label class="vs-f">E-mail<input type="email" name="email" required th:value="${conta.email}"></label>
+            <label class="vs-f">Telefone (só números)<input name="telefone" data-digits maxlength="11" inputmode="numeric" th:value="${conta.telefone}"></label></div>
           <small>Se você trocar o e-mail, será preciso entrar de novo com o novo e-mail.</small>
-          <div class="cf-conta-rodape"><a class="cf-link" th:href="@{/configuracoes(aba='responsavel')} + '#conta'">Cancelar</a><button class="cf-btn cf-btn-claro">Salvar dados</button></div>
+          <div class="vs-crod"><a class="vs-flink" th:href="@{/configuracoes(aba='responsavel')} + '#conta'">Cancelar</a><button class="vs-btn soft">Salvar dados</button></div>
         </form>
       </div>
     </div>
   </section>
 
   <!-- NOTIFICAÇÕES -->
-  <section id="notificacoes">
-    <h2>Notificações</h2><p class="cf-desc">Defina as preferências e os canais disponíveis para cada categoria.</p>
-    <form class="cf-card" th:action="@{/configuracoes/notificacoes}" method="post">
-      <div class="cf-notif cf-notif-h"><span>Categoria de notificação</span><span>Preferência</span><span>No VitaSense</span><span>E-mail — a configurar</span></div>
-      <div class="cf-notif" th:each="pr, s : ${prefs}">
+  <section class="vs-sec" id="notificacoes">
+    <div class="vs-sh"><h2>Notificações</h2><small>Defina as preferências e os canais disponíveis para cada categoria.</small></div>
+    <form class="vs-card vs-cpad" th:action="@{/configuracoes/notificacoes}" method="post">
+      <div class="vs-notif h"><span>Categoria de notificação</span><span>Preferência</span><span>No VitaSense</span><span>E-mail — a configurar</span></div>
+      <div class="vs-notif" th:each="pr, s : ${prefs}">
         <div><b th:text="${pr.titulo}">Notificações de saúde</b><small th:text="${pr.descricao}">descrição</small></div>
-        <select th:name="'pref' + ${s.index}"><option value="ATIVADAS" th:selected="${pr.ativada}">Ativadas</option><option value="DESATIVADAS" th:selected="${!pr.ativada}">Desativadas</option></select>
-        <label class="cf-chk"><input type="checkbox" th:name="'painel' + ${s.index}" value="true" th:checked="${pr.painel}"> No painel</label>
-        <label class="cf-chk cf-off"><input type="checkbox" disabled> Não conectado</label>
+        <select class="vs-sel" th:name="'pref' + ${s.index}"><option value="ATIVADAS" th:selected="${pr.ativada}">Ativadas</option><option value="DESATIVADAS" th:selected="${!pr.ativada}">Desativadas</option></select>
+        <label class="vs-chk"><input type="checkbox" th:name="'painel' + ${s.index}" value="true" th:checked="${pr.painel}"> No painel</label>
+        <label class="vs-chk off"><input type="checkbox" disabled> Não conectado</label>
       </div>
-      <small class="cf-nota">Categorias desativadas ou fora do painel deixam de contar no sino e no menu. O e-mail é uma alternativa ainda não conectada: não há envio real.</small>
-      <div class="cf-acoes"><button class="cf-btn">Salvar preferências</button></div>
+      <small class="vs-note">Categorias desativadas ou fora do painel deixam de contar no sino e no menu. O e-mail é uma alternativa ainda não conectada: não há envio real.</small>
+      <div class="vs-fact"><button class="vs-btn">Salvar preferências</button></div>
     </form>
   </section>
 
   <!-- SEGURANÇA -->
-  <section id="seguranca">
-    <h2>Segurança</h2><p class="cf-desc">Proteja a conta, revise sessões e confira as ações que exigem confirmação.</p>
-    <div class="cf-seg">
+  <section class="vs-sec" id="seguranca">
+    <div class="vs-sh"><h2>Segurança</h2><small>Proteja a conta, revise sessões e confira as ações que exigem confirmação.</small></div>
+    <div class="vs-card vs-cpad">
       <h3>Alteração de senha</h3>
       <form th:action="@{/configuracoes/conta/senha}" method="post" id="formSenha" novalidate>
-        <div class="cf-grid3">
-          <label>Senha atual<input type="password" name="atual" autocomplete="current-password" placeholder="Digite a senha atual" required></label>
-          <label>Nova senha<input type="password" name="nova" autocomplete="new-password" placeholder="Mín. 8, com letras e números" required minlength="8"></label>
-          <label>Confirmar nova senha<input type="password" name="confirmar" autocomplete="new-password" placeholder="Repita a nova senha" required></label>
+        <div class="vs-g4">
+          <label class="vs-f">Senha atual<input type="password" name="atual" autocomplete="current-password" placeholder="Digite a senha atual" required></label>
+          <label class="vs-f">Nova senha<input type="password" name="nova" autocomplete="new-password" placeholder="Mín. 8, com letras e números" required minlength="8"></label>
+          <label class="vs-f">Confirmar nova senha<input type="password" name="confirmar" autocomplete="new-password" placeholder="Repita a nova senha" required></label>
         </div>
-        <div class="cf-linha"><small>Ao alterar a senha, as outras sessões são encerradas por segurança.</small><button class="cf-btn">Alterar senha</button></div>
+        <div class="vs-flex"><small>Ao alterar a senha, as outras sessões são encerradas por segurança.</small><button class="vs-btn">Alterar senha</button></div>
       </form>
       <hr>
-      <div class="cf-grid2 cf-seg-base">
+      <div class="vs-g2 vs-g2">
         <div><h3>Encerramento de sessões</h3>
-          <div class="cf-sessao" th:each="se : ${sessoes}"><div><b th:text="${se.nome}">Navegador no computador</b><small th:text="${se.detalhe}">Sessão atual</small></div><span th:text="${se.atual} ? 'Este dispositivo' : 'Aberta'">Este dispositivo</span></div>
-          <p class="cf-vazio" th:if="${#lists.isEmpty(sessoes)}">Nenhuma sessão registrada ainda.</p>
-          <form th:action="@{/configuracoes/sessoes/encerrar}" method="post" data-confirma="Encerrar todas as outras sessões? Esta sessão será mantida."><button class="cf-btn cf-btn-azul">Encerrar outras sessões</button></form>
+          <div class="vs-sess" th:each="se : ${sessoes}"><div><b th:text="${se.nome}">Navegador no computador</b><small th:text="${se.detalhe}">Sessão atual</small></div><span th:text="${se.atual} ? 'Este dispositivo' : 'Aberta'">Este dispositivo</span></div>
+          <p class="vs-empty" th:if="${#lists.isEmpty(sessoes)}">Nenhuma sessão registrada ainda.</p>
+          <form th:action="@{/configuracoes/sessoes/encerrar}" method="post" data-confirma="Encerrar todas as outras sessões? Esta sessão será mantida."><button class="vs-btn soft">Encerrar outras sessões</button></form>
           <small>A sessão atual é sempre mantida.</small></div>
         <div><h3>Gerenciamento de acessos</h3>
-          <p class="cf-desc2">O acesso da pessoa acompanhada ao sistema é feito por código, sem e-mail nem senha.</p>
-          <a class="cf-link cf-link-esc" th:href="@{/configuracoes(aba='pessoa')} + '#acesso'">Gerenciar acesso por código</a>
-          <div class="cf-confirma"><b>Confirmação exigida</b><p>Para revogar acessos, encerrar outras sessões ou alterar a senha, o sistema pede uma confirmação antes de executar.</p></div></div>
+          <p class="vs-note">O acesso da pessoa acompanhada ao sistema é feito por código, sem e-mail nem senha.</p>
+          <a class="vs-flink esc" th:href="@{/configuracoes(aba='pessoa')} + '#acesso'">Gerenciar acesso por código</a>
+          <div class="vs-notice"><b>Confirmação exigida</b><p>Para revogar acessos, encerrar outras sessões ou alterar a senha, o sistema pede uma confirmação antes de executar.</p></div></div>
       </div>
     </div>
   </section>
 </div>
   </main>
-</div>
+<script th:src="@{/js/vs-nav.js}"></script>
 <script th:src="@{/js/acesso.js}"></script>
 <script th:src="@{/js/configuracoes.js}"></script>
 </body>

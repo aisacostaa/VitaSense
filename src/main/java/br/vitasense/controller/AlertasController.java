@@ -17,7 +17,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/alertas")
 public class AlertasController extends BaseController {
-    private static final List<String> CATEGORIAS = List.of("Saúde", "Câmeras", "Sensores", "Dispositivos", "Conexão", "Lembretes");
+    private static final List<String> CATEGORIAS = List.of("Emergência", "Saúde", "Câmeras", "Sensores", "Dispositivos", "Conexão", "Lembretes");
     private final ImovelRepository imoveis; private final UsuarioRepository usuarios; private final AlertaRepository repo; private final AlertaService svc;
 
     public AlertasController(ImovelRepository i, UsuarioRepository u, AlertaRepository r, AlertaService s) { imoveis = i; usuarios = u; repo = r; svc = s; }

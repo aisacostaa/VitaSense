@@ -1,41 +1,1129 @@
-/* VitaSense — tela Câmeras (isolada em .cameras-page) */
-.cameras-page{--cm-navy:#0b1957;--cm-blue:#5784e6;--cm-soft:#d2e7ff;--cm-pale:#f1f8ff;--cm-bd:#8197ce;--cm-muted:#667085;background:#fafaff;color:#151b2d;min-height:100vh}
-.cameras-page .page{width:min(100% - 48px,1180px);max-width:1180px;margin-inline:auto;padding-bottom:56px}
-.cm-main h1,.cm-main h2,.cm-main h3,.cm-main p{margin:0}.cm-main small{color:var(--cm-muted);font-size:12px}
-.cm-titulo{border-bottom:1px solid rgba(11,25,87,.55);padding:26px 0 10px;margin-bottom:16px}.cm-titulo h1{color:var(--cm-navy);font-size:clamp(24px,2.2vw,31px);font-weight:750;letter-spacing:-.04em}
-.cm-msg{margin:12px 0;padding:12px 16px;border-radius:10px;font-size:14px}.cm-msg.ok{background:#eaf8ef;color:#246b45}.cm-msg.erro{background:#fff0f0;color:#a52b2b}
-.cm-intro,.cm-linha{display:flex;justify-content:space-between;align-items:center;gap:16px}.cm-intro{margin:14px 0 6px}.cm-lead{font-size:17px;margin-bottom:6px!important}
-.cm-sec{color:var(--cm-navy);font-size:19px;font-weight:700;margin:26px 0 12px!important}.cm-linha .cm-sec{margin-bottom:12px!important}
-.cm-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:38px;padding:9px 16px;border:0;border-radius:9px;background:var(--cm-navy);color:#fff;font:inherit;font-size:13px;font-weight:650;cursor:pointer;transition:background .18s,transform .18s}
-.cm-btn:hover{background:#172b78;transform:translateY(-1px)}.cm-btn-claro{background:var(--cm-soft);color:var(--cm-navy)}.cm-btn-claro:hover{background:#c0dcfb}
-.cm-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-form{margin:0}
-.cm-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start}
-.cm-card{background:var(--cm-pale);border:1px solid var(--cm-bd);border-radius:16px;padding:16px;box-shadow:0 8px 24px rgba(11,25,87,.055)}
-.cm-viewer{position:relative;height:clamp(240px,34vw,400px);border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#17275d,#7f95c4);border:1px solid #0b1957}
-.cm-viewer img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.cm-b{position:absolute;z-index:2;padding:6px 12px;border-radius:8px;background:rgba(210,231,255,.92);color:var(--cm-navy);font-size:12px;font-weight:600}
-.cm-b-nome{top:12px;left:12px;font-size:15px}.cm-b-tx{top:12px;right:12px}.cm-b-hora{left:12px;bottom:12px}.cm-b-estado{right:12px;bottom:12px}
-.cm-off img{filter:grayscale(1) brightness(.4)}
-.cm-overlay{position:absolute;inset:0;z-index:1;display:grid;place-items:center;padding:20px;text-align:center;color:#fff;font-weight:600;background:rgba(8,16,60,.55)}
-.cm-aviso{padding:12px 6px 0;font-size:13px;color:#344054}
-.cm-audio{margin-top:18px;padding:18px 20px}.cm-audio-t{display:flex;justify-content:space-between;align-items:center;gap:10px}.cm-audio h3{font-size:17px;color:var(--cm-navy)}
-.cm-estado{margin:12px 0;font-size:13px}.cm-audio-btns{display:flex;gap:10px;flex-wrap:wrap}.cm-ajuda{display:block;margin-top:12px}.cm-ajuda-alerta{color:#b54708!important}
-.cm-amb-t{display:flex;justify-content:space-between;align-items:baseline}
-.cm-amb{display:block;margin-bottom:12px;padding:14px 16px;border-radius:14px;background:var(--cm-navy);color:#fff;text-decoration:none;border:2px solid transparent;transition:transform .18s}
-.cm-amb:hover{transform:translateY(-2px)}.cm-amb.sel{border-color:#9bb8ff}
-.cm-amb-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.cm-amb-h b{font-size:16px}
-.cm-sel-tag{padding:3px 9px;border-radius:6px;background:var(--cm-soft);color:var(--cm-navy);font-size:10px;font-weight:700}
-.cm-amb-c{display:flex;gap:12px;align-items:center}.cm-amb-c b{display:block;font-size:13px}.cm-amb-c small{color:rgba(255,255,255,.8)}
-.cm-thumb{width:60px;height:42px;flex:none;border-radius:6px;overflow:hidden;background:linear-gradient(135deg,#3b4f8f,#8fa3cf);position:relative}.cm-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.cm-eventos{background:var(--cm-soft);border:1px solid var(--cm-bd);border-radius:14px;overflow:hidden}
-.cm-evento{display:grid;grid-template-columns:70px 130px 1fr auto;gap:12px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--cm-bd);color:var(--cm-navy);font-size:14px}.cm-evento:last-child{border-bottom:0}
-.cm-ev-cam{display:flex;align-items:center;gap:8px}.cm-ev-cam svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.cm-ev-t{color:#151b2d;font-weight:500}.cm-ev-s{font-size:12px}
-.cm-priv{padding:22px 26px}.cm-priv-g{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding-bottom:18px;border-bottom:1px solid #8197ce}
-.cm-priv-g small{display:block}.cm-priv-g b{display:block;margin:4px 0;color:var(--cm-navy);font-size:15px}.cm-priv-g p{font-size:12px;color:#344054}
-.cm-priv-info{margin-top:16px;font-size:13px;color:var(--cm-navy)}.cm-priv-info p{margin-top:6px;color:#344054}
-.cm-priv-btns{display:flex;gap:14px;justify-content:center;margin-top:20px;flex-wrap:wrap}
-.cm-vazio{padding:22px;text-align:center;color:var(--cm-muted)}
-@media(max-width:960px){.cm-grid{grid-template-columns:1fr}.cm-priv-g{grid-template-columns:1fr}.cm-evento{grid-template-columns:60px 1fr;row-gap:4px}.cm-ev-t,.cm-ev-s{grid-column:2}}
-@media(max-width:640px){.cameras-page .page{width:calc(100% - 28px)}.cm-intro{flex-direction:column;align-items:flex-start}}
-.cm-viewer video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* =========================================================
+   VITASENSE — CÂMERAS
+   Identidade visual VitaSense
+   Glassmorphism • Coral • Pêssego • Lavanda • Azul-gelo
+
+   O avatar e a foto de perfil são herdados do vitasense.css.
+   Não criar estilos de avatar exclusivos nesta página.
+========================================================= */
+
+
+/* =========================================================
+   1. PALETA E FUNDO
+========================================================= */
+
+.app {
+    --bg: #F8F7F5;
+    --card: rgba(255, 255, 255, .82);
+
+    --ink: #38343D;
+    --sec: #625D68;
+
+    --hair: rgba(75, 65, 78, .10);
+
+    --pine: #FC865B;
+    --pine-d: #E97955;
+    --pine-soft: rgba(252, 134, 91, .12);
+
+    --lime: #E4ECF4;
+
+    --warn: #C65A45;
+    --warn-soft: rgba(198, 90, 69, .11);
+
+    --shadow:
+        0 1px 2px rgba(55, 45, 55, .025),
+        0 12px 32px -16px rgba(55, 45, 55, .13);
+
+    background:
+        radial-gradient(
+            ellipse at 5% 5%,
+            rgba(252, 134, 91, .055),
+            transparent 34%
+        ),
+        radial-gradient(
+            ellipse at 95% 35%,
+            rgba(166, 187, 208, .09),
+            transparent 35%
+        ),
+        #F8F7F5;
+
+    color: var(--ink);
+}
+
+
+/* =========================================================
+   2. NAVBAR
+   Mantém o fundo integrado ao fundo geral da página.
+   O avatar é controlado pelo vitasense.css.
+========================================================= */
+
+.app .vs-nav {
+    background: rgba(248, 247, 245, .82);
+
+    border-bottom: 1px solid rgba(75, 65, 78, .08);
+
+    box-shadow:
+        0 4px 22px rgba(55, 47, 60, .025);
+
+    backdrop-filter: saturate(180%) blur(22px);
+    -webkit-backdrop-filter: saturate(180%) blur(22px);
+}
+
+.app .vs-brand {
+    color: var(--ink);
+}
+
+.app .vs-brand i {
+    background: linear-gradient(
+        135deg,
+        #FC865B,
+        #F79D5F
+    );
+
+    color: #fff;
+}
+
+.app .vs-links a {
+    color: var(--sec);
+
+    transition:
+        background .2s ease,
+        color .2s ease;
+}
+
+.app .vs-links a:hover {
+    color: var(--ink);
+    background: rgba(252, 134, 91, .07);
+}
+
+.app .vs-links a.on {
+    background: linear-gradient(
+        110deg,
+        #FC865B,
+        #EBA09D 58%,
+        #B5C7D8
+    );
+
+    color: #fff;
+    font-weight: 600;
+
+    box-shadow:
+        0 4px 12px rgba(207, 143, 143, .16);
+}
+
+.app .vs-user {
+    color: var(--ink);
+}
+
+.app .vs-ibtn {
+    color: var(--sec);
+}
+
+.app .vs-ibtn:hover {
+    background: var(--pine-soft);
+    color: var(--pine-d);
+}
+
+.app .vs-badge {
+    background: var(--warn);
+    color: #fff;
+}
+
+
+/* =========================================================
+   3. CABEÇALHO
+========================================================= */
+
+.app .vs-head {
+    padding: 48px 0 30px;
+}
+
+.app .vs-eyebrow {
+    color: var(--sec);
+    letter-spacing: .06em;
+}
+
+.app .vs-h1 {
+    color: var(--ink);
+    font-weight: 700;
+}
+
+.app .vs-lead {
+    color: var(--sec);
+}
+
+.app .vs-sh {
+    margin: 0 4px 14px;
+}
+
+.app .vs-sh h2 {
+    color: var(--ink);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.025em;
+}
+
+.app .vs-sh a {
+    color: var(--pine-d);
+    font-weight: 600;
+}
+
+.app .vs-sh a:hover {
+    color: #C96F54;
+}
+
+.app .vs-sh small {
+    color: var(--sec);
+}
+
+
+/* =========================================================
+   4. CARDS
+========================================================= */
+
+.app .vs-card {
+    background: var(--card);
+
+    border: 1px solid rgba(255, 255, 255, .88);
+    border-radius: 28px;
+
+    box-shadow:
+        var(--shadow),
+        inset 0 1px 0 rgba(255, 255, 255, .75);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+
+/* =========================================================
+   5. BOTÕES
+========================================================= */
+
+.app .vs-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: 0;
+    border-radius: 99px;
+
+    padding: 11px 20px;
+
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+
+    cursor: pointer;
+    text-decoration: none;
+
+    background: #34323A;
+    color: #fff;
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.app .vs-btn:hover {
+    background: #4A4650;
+
+    color: #fff;
+
+    box-shadow:
+        0 6px 16px rgba(52, 50, 58, .13);
+}
+
+.app .vs-btn:active {
+    transform: scale(.97);
+}
+
+.app .vs-btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.app .vs-btn.soft {
+    background: rgba(252, 134, 91, .12);
+    color: #A95F4B;
+
+    border: 1px solid rgba(252, 134, 91, .18);
+}
+
+.app .vs-btn.soft:hover {
+    background: rgba(252, 134, 91, .19);
+    color: #A95F4B;
+}
+
+.app .vs-btn.white {
+    background: #fff;
+    color: var(--ink);
+
+    border: 1px solid var(--hair);
+}
+
+.app .vs-btn.white:hover {
+    background: #fff;
+    color: var(--pine-d);
+}
+
+.app .vs-btn.glass {
+    background: rgba(255, 255, 255, .2);
+    color: #fff;
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+
+/* =========================================================
+   6. TAGS E MENSAGENS
+========================================================= */
+
+.app .vs-tag {
+    color: #A95F4B;
+    background: rgba(252, 134, 91, .12);
+}
+
+.app .vs-tag i {
+    background: currentColor;
+}
+
+.app .vs-pill-w {
+    background: var(--warn-soft);
+    color: var(--warn);
+}
+
+.app .vs-msg {
+    border: 1px solid transparent;
+}
+
+.app .vs-msg.ok {
+    background: rgba(40, 118, 77, .10);
+    color: #28764D;
+    border-color: rgba(40, 118, 77, .12);
+}
+
+.app .vs-msg.erro {
+    background: var(--warn-soft);
+    color: #A8441A;
+    border-color: rgba(198, 90, 69, .12);
+}
+
+
+/* =========================================================
+   7. ESTRUTURA DA CÂMERA
+========================================================= */
+
+.vs-camgrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 22px;
+    align-items: start;
+    width: 100%;
+}
+
+.vs-camgrid > div,
+.vs-camgrid > aside {
+    min-width: 0;
+    width: 100%;
+}
+
+
+/* =========================================================
+   8. VISUALIZADOR
+========================================================= */
+
+.vs-viewer {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 16 / 10;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, .7);
+    border-radius: 25px;
+
+    color: #fff;
+
+    background:
+        radial-gradient(
+            ellipse at 20% 15%,
+            rgba(252, 134, 91, .18),
+            transparent 42%
+        ),
+        radial-gradient(
+            ellipse at 85% 85%,
+            rgba(166, 187, 208, .2),
+            transparent 42%
+        ),
+        linear-gradient(145deg, #34323A, #252832);
+
+    box-shadow: var(--shadow);
+}
+
+.vs-viewer img,
+.vs-viewer video {
+    position: absolute;
+    inset: 0;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.vs-viewer.off img,
+.vs-viewer.off video {
+    filter: grayscale(1) brightness(.4);
+}
+
+.vs-viewer::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    pointer-events: none;
+
+    background: linear-gradient(
+        180deg,
+        rgba(35, 32, 39, .42),
+        transparent 30%,
+        transparent 68%,
+        rgba(35, 32, 39, .52)
+    );
+}
+
+
+/* =========================================================
+   9. IDENTIFICAÇÃO DA CÂMERA
+========================================================= */
+
+.vs-vb {
+    position: absolute;
+    z-index: 2;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    max-width: calc(100% - 28px);
+
+    padding: 7px 12px;
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 99px;
+
+    color: #fff;
+    background: rgba(42, 39, 47, .42);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, .08);
+
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.3;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.vs-vb.tl {
+    top: 15px;
+    left: 15px;
+}
+
+.vs-vb.tr {
+    top: 15px;
+    right: 15px;
+}
+
+.vs-vb.bl {
+    bottom: 15px;
+    left: 15px;
+}
+
+.vs-vb.br {
+    right: 15px;
+    bottom: 15px;
+}
+
+.vs-vb.nome {
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.vs-vb svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+}
+
+
+/* =========================================================
+   10. CÂMERA INDISPONÍVEL
+========================================================= */
+
+.vs-vover {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+
+    display: grid;
+    place-items: center;
+
+    padding: 25px;
+
+    color: #fff;
+    background: rgba(35, 32, 39, .65);
+
+    text-align: center;
+
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 1.6;
+
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.vs-vover .vs-btn {
+    margin-top: 14px;
+}
+
+
+/* =========================================================
+   11. LEGENDA DA TRANSMISSÃO
+========================================================= */
+
+.vs-vnote {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 13px 6px 2px;
+
+    color: var(--sec);
+    font-size: 13px;
+    line-height: 1.65;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   12. CONTROLE DE ÁUDIO
+========================================================= */
+
+.vs-audio {
+    width: 100%;
+    box-sizing: border-box;
+
+    margin-top: 20px;
+    padding: 25px 28px;
+
+    border: 1px solid rgba(255, 255, 255, .9);
+    border-radius: 24px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, .88),
+        rgba(255, 255, 255, .68)
+    );
+
+    box-shadow: var(--shadow);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.vs-audio h3 {
+    margin: 0;
+
+    color: var(--ink);
+    font-size: 17px;
+    font-weight: 750;
+    letter-spacing: -.02em;
+}
+
+.vs-astate {
+    margin: 10px 0 16px;
+
+    color: var(--sec);
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.vs-abtns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.vs-abtns form {
+    display: contents;
+}
+
+.vs-abtns .vs-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.vs-help {
+    display: block;
+    margin-top: 14px;
+
+    color: var(--sec);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.vs-help.alerta {
+    color: #B85A43;
+}
+
+
+/* =========================================================
+   13. AMBIENTES
+========================================================= */
+
+.vs-camgrid > aside {
+    width: 100%;
+    min-width: 0;
+}
+
+.vs-amb {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vs-ambi {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    min-width: 0;
+    padding: 12px;
+
+    border: 1px solid rgba(255, 255, 255, .75);
+    border-radius: 20px;
+
+    color: inherit;
+    background: rgba(255, 255, 255, .78);
+
+    box-shadow: var(--shadow);
+
+    text-decoration: none;
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.vs-ambi:hover {
+    transform: translateY(-2px);
+
+    border-color: rgba(252, 134, 91, .28);
+
+    box-shadow:
+        0 8px 20px rgba(65, 55, 65, .09);
+}
+
+.vs-ambi.sel {
+    border-color: rgba(255, 255, 255, .45);
+
+    color: #fff;
+
+    background: linear-gradient(
+        115deg,
+        #FC865B 0%,
+        #F79D5F 42%,
+        #CF8F8F 72%,
+        #9A9CB8 100%
+    );
+}
+
+.vs-thumb {
+    position: relative;
+
+    width: 64px;
+    height: 48px;
+
+    flex: 0 0 auto;
+
+    overflow: hidden;
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #F4B18F,
+        #A6BBD0
+    );
+}
+
+.vs-thumb img {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.vs-ambi b {
+    display: block;
+    overflow: hidden;
+
+    color: inherit;
+    font-size: 14px;
+    font-weight: 750;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.vs-ambi small {
+    display: block;
+    margin-top: 3px;
+
+    color: var(--sec);
+    font-size: 12px;
+}
+
+.vs-ambi.sel small {
+    color: rgba(255, 255, 255, .88);
+}
+
+.vs-ambi .vs-selt {
+    flex: 0 0 auto;
+
+    margin-left: auto;
+    padding: 4px 9px;
+
+    border-radius: 99px;
+
+    color: #745448;
+    background: rgba(255, 255, 255, .82);
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   14. EVENTOS RECENTES
+========================================================= */
+
+.app .vs-card.vs-list {
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, .88);
+    border-radius: 24px;
+
+    background: rgba(255, 255, 255, .78);
+
+    box-shadow: var(--shadow);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.vs-list {
+    padding: 6px 0;
+}
+
+.vs-evt {
+    display: grid;
+
+    grid-template-columns: 60px 150px minmax(0, 1fr) auto;
+
+    align-items: center;
+    gap: 12px;
+
+    padding: 16px 24px;
+
+    border-top: 1px solid var(--hair);
+
+    font-size: 14px;
+
+    transition: background .2s ease;
+}
+
+.vs-evt:hover {
+    background: rgba(252, 134, 91, .035);
+}
+
+.vs-evt:first-child {
+    border-top: 0;
+}
+
+.vs-evt b {
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+}
+
+.vs-evt .c {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    min-width: 0;
+
+    color: var(--sec);
+}
+
+.vs-evt .c svg {
+    width: 17px;
+    height: 17px;
+
+    flex: 0 0 auto;
+
+    color: #D97960;
+}
+
+.vs-evt .t {
+    min-width: 0;
+    color: var(--ink);
+}
+
+.vs-evt .s {
+    color: var(--sec);
+    font-size: 12px;
+    text-align: right;
+}
+
+
+/* =========================================================
+   15. PRIVACIDADE E PERMISSÕES
+========================================================= */
+
+.app .vs-card.vs-priv {
+    border: 1px solid rgba(255, 255, 255, .88);
+    border-radius: 24px;
+
+    background: rgba(255, 255, 255, .78);
+
+    box-shadow: var(--shadow);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.vs-priv {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 28px 30px;
+}
+
+.vs-pg {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+
+    padding-bottom: 22px;
+
+    border-bottom: 1px solid var(--hair);
+}
+
+.vs-pg > div {
+    min-width: 0;
+}
+
+.vs-pg small {
+    color: var(--sec);
+    font-size: 12px;
+}
+
+.vs-pg b {
+    display: block;
+
+    margin: 3px 0;
+
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.vs-pg p {
+    margin: 0;
+
+    color: var(--sec);
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.vs-pinfo {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    margin-top: 20px;
+    padding: 16px 18px;
+
+    border: 1px solid rgba(207, 143, 143, .17);
+    border-radius: 18px;
+
+    background: linear-gradient(
+        120deg,
+        rgba(252, 134, 91, .09),
+        rgba(207, 143, 143, .10),
+        rgba(154, 156, 184, .11)
+    );
+
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.vs-pinfo svg {
+    width: 20px;
+    height: 20px;
+
+    flex: 0 0 auto;
+
+    color: #D97960;
+}
+
+.vs-pinfo b {
+    display: block;
+    color: #A65F50;
+}
+
+.vs-pinfo p {
+    margin: 2px 0 0;
+    color: var(--sec);
+}
+
+.vs-pbtns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-top: 22px;
+}
+
+.vs-pbtns form {
+    display: contents;
+}
+
+
+/* =========================================================
+   16. ACESSIBILIDADE
+========================================================= */
+
+.app :focus-visible {
+    outline: 3px solid rgba(252, 134, 91, .38);
+    outline-offset: 3px;
+}
+
+.app .vs-btn:focus-visible,
+.app .vs-links a:focus-visible {
+    outline-color: rgba(154, 156, 184, .65);
+}
+
+
+/* =========================================================
+   17. RESPONSIVIDADE — TABLETS
+========================================================= */
+
+@media (max-width: 960px) {
+
+    .vs-camgrid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
+    }
+
+    .vs-camgrid > div,
+    .vs-camgrid > aside {
+        width: 100%;
+        max-width: none;
+    }
+
+    .vs-viewer {
+        aspect-ratio: 16 / 10;
+    }
+
+    .vs-amb {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .vs-pg {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .vs-evt {
+        grid-template-columns: 56px minmax(0, 1fr);
+        row-gap: 6px;
+    }
+
+    .vs-evt .c,
+    .vs-evt .t,
+    .vs-evt .s {
+        grid-column: 2;
+    }
+
+    .vs-evt .s {
+        text-align: left;
+    }
+}
+
+
+/* =========================================================
+   18. RESPONSIVIDADE — CELULARES
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .vs-viewer {
+        aspect-ratio: 16 / 10;
+        border-radius: 19px;
+    }
+
+    .vs-vb {
+        max-width: calc(100% - 22px);
+        padding: 6px 9px;
+        font-size: 10px;
+    }
+
+    .vs-vb.tl {
+        top: 11px;
+        left: 11px;
+    }
+
+    .vs-vb.tr {
+        top: 11px;
+        right: 11px;
+    }
+
+    .vs-vb.bl {
+        bottom: 11px;
+        left: 11px;
+    }
+
+    .vs-vb.br {
+        right: 11px;
+        bottom: 11px;
+    }
+
+    .vs-vb.nome {
+        font-size: 11px;
+    }
+
+    .vs-audio {
+        padding: 21px 19px;
+    }
+
+    .vs-abtns {
+        flex-direction: column;
+    }
+
+    .vs-abtns .vs-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .vs-amb {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .vs-pg {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .vs-priv {
+        padding: 21px 19px;
+    }
+
+    .vs-pbtns {
+        flex-direction: column;
+    }
+
+    .vs-pbtns .vs-btn {
+        width: 100%;
+    }
+
+    .vs-evt {
+        grid-template-columns: 48px minmax(0, 1fr);
+        gap: 6px 10px;
+        padding: 15px 17px;
+        font-size: 13px;
+    }
+
+    .vs-evt .c,
+    .vs-evt .t,
+    .vs-evt .s {
+        grid-column: 2;
+    }
+
+    .vs-evt .s {
+        text-align: left;
+    }
+}
+
+
+/* =========================================================
+   19. TELAS MUITO PEQUENAS
+========================================================= */
+
+@media (max-width: 390px) {
+
+    .vs-viewer {
+        aspect-ratio: 16 / 10;
+    }
+
+    .vs-vb.bl {
+        max-width: 58%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vs-vb.br {
+        max-width: 38%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vs-ambi .vs-selt {
+        display: none;
+    }
+}
+
+
+/* =========================================================
+   20. MOVIMENTO REDUZIDO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .vs-ambi,
+    .vs-evt,
+    .vs-btn,
+    .vs-links a {
+        transition: none !important;
+    }
+
+    .vs-ambi:hover,
+    .vs-btn:hover {
+        transform: none;
+    }
+}

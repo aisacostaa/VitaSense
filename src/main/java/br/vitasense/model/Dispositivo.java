@@ -41,6 +41,14 @@ public class Dispositivo {
     public boolean permiteAlterar(boolean ligar) { return conectado && !(ligar && isFalha()); }
     /** Por que o dispositivo não pode ser ligado (null = pode). */
     public String motivoBloqueio() { return !conectado ? "dispositivo sem conexão" : isFalha() ? "dispositivo com falha (" + falhaDescricao + ")" : null; }
+    /** Luz e tomada são femininas ("Ligada"); os demais, masculinos ("Ligado"). */
+    public boolean isFeminino() { return "LUZ".equals(tipo) || "TOMADA".equals(tipo); }
+    /** Estado para a área do idoso: curto e sem termos técnicos. */
+    public String getEstadoSimples() {
+        if (!conectado) return "Sem conexão";
+        if (isFalha()) return "Com problema";
+        return ligado ? (isFeminino() ? "Ligada" : "Ligado") : (isFeminino() ? "Desligada" : "Desligado");
+    }
     public String getEstado() { return !conectado ? "Desconhecido" : isFalha() ? falhaDescricao : ligado ? "Ligado" : "Desligado"; }
     public String getEstadoDetalhe() {
         return !conectado ? "Último estado: " + (ligado ? "ligado" : "desligado") : isFalha() ? "Requer verificação" : "Funcionamento normal";

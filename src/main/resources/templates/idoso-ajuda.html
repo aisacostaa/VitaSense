@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#FEF8F0">
+
+    <meta name="csrf" th:content="${_csrf.token}">
+
+    <title>VitaSense • Ajuda</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" th:href="@{/css/vitasense.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso-extra.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso-ajuda.css}">
+</head>
+
+<body class="id-page app">
+
+<div class="id-shell">
+
+    <aside th:replace="~{fragments/idoso :: menu('ajuda')}"></aside>
+
+    <div class="id-conteudo">
+
+        <header th:replace="~{fragments/idoso :: topo}"></header>
+
+        <main class="id-principal ih-pagina">
+
+            <!-- Cabeçalho -->
+            <div class="ih-cabecalho">
+                <div>
+                    <span class="ih-etiqueta">CENTRAL DE AJUDA</span>
+                    <h1>Como podemos te ajudar?</h1>
+                    <p class="id-sub">
+                        Aprenda a usar os recursos do VitaSense com orientações simples.
+                    </p>
+                </div>
+
+                <div class="ih-cabecalho-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.1 1-1.8 1.3-1.8 2.7"/>
+                        <path d="M12 17h.01"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Introdução -->
+            <div class="ih-intro" th:if="${!#lists.isEmpty(tutoriais)}">
+                <div class="ih-intro-icone">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21z"/>
+                        <path d="M4 5.5v13A2.5 2.5 0 0 1 6.5 16H20"/>
+                        <path d="m10 8 5 3-5 3z"/>
+                    </svg>
+                </div>
+
+                <div>
+                    <strong>Aprenda no seu ritmo</strong>
+                    <p>
+                        Escolha um assunto abaixo e consulte as instruções
+                        para aprender a utilizar o VitaSense.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tutoriais escritos -->
+            <section class="ih-grade" th:if="${!#lists.isEmpty(tutoriais)}">
+
+                <article class="ih-card" th:each="t : ${tutoriais}">
+
+                    <div class="ih-card-icone">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v17H7.5A2.5 2.5 0 0 0 5 21.5z"/>
+                            <path d="M5 5v14"/>
+                            <path d="M9 7h7M9 11h7M9 15h5"/>
+                        </svg>
+                    </div>
+
+                    <div class="ih-card-conteudo">
+
+                        <span class="ih-tag">GUIA PASSO A PASSO</span>
+
+                        <h2 th:text="${t.titulo}">
+                            Como utilizar o VitaSense
+                        </h2>
+
+                        <p th:text="${t.descricao}">
+                            Confira as orientações para utilizar esta funcionalidade.
+                        </p>
+
+                        <button
+                            type="button"
+                            class="ih-ver"
+                            th:attr="data-abrir='dlg-' + ${t.id},
+                                     data-tutorial=${t.id}">
+                            Ver instruções
+                        </button>
+
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- Quando não houver tutoriais -->
+            <div class="ih-sem-tutoriais" th:if="${#lists.isEmpty(tutoriais)}">
+                <span>Não há orientações disponíveis no momento.</span>
+            </div>
+
+            <!-- Contato com o responsável -->
+            <section class="ih-contato">
+
+                <div class="ih-contato-icone">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+                    </svg>
+                </div>
+
+                <div class="ih-contato-texto">
+                    <span class="ih-contato-etiqueta">PRECISA DE AJUDA?</span>
+                    <h2>Fale com seu responsável</h2>
+                    <p>
+                        Se precisar de ajuda, entre em contato com a pessoa
+                        responsável por você.
+                    </p>
+                </div>
+
+                <button type="button" class="id-btn-creme ih-sos" id="abrirSos">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+                    </svg>
+                    Preciso de ajuda agora
+                </button>
+
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<!-- Janelas com instruções dos tutoriais -->
+<th:block th:each="t : ${tutoriais}">
+
+    <dialog
+        th:id="'dlg-' + ${t.id}"
+        class="id-dialogo ih-dialogo"
+        th:attr="aria-label=${t.titulo}">
+
+        <div class="ih-dialogo-cabecalho">
+            <span class="ih-etiqueta">CENTRAL DE AJUDA VITASENSE</span>
+
+            <h2 th:text="${t.titulo}">
+                Tutorial
+            </h2>
+        </div>
+
+        <div class="ih-instrucoes">
+
+            <p class="ih-sem">
+                Siga as orientações abaixo para realizar esta atividade:
+            </p>
+
+            <ol>
+                <li th:each="p : ${t.passos}" th:text="${p}">
+                    Instrução do tutorial
+                </li>
+            </ol>
+
+        </div>
+
+        <button type="button" class="id-btn-grande id-neutro" data-fechar>
+            Entendi, fechar
+        </button>
+
+    </dialog>
+
+</th:block>
+
+<th:block th:replace="~{fragments/idoso :: sos(${contato})}"></th:block>
+
+<script th:src="@{/js/idoso.js}"></script>
+<script th:src="@{/js/idoso-ajuda.js}"></script>
+
+</body>
+</html>

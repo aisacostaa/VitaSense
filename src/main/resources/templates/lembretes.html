@@ -1,109 +1,111 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FEF8F0">
   <title>VitaSense • Lembretes</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" th:href="@{/css/vitasense.css}">
   <link rel="stylesheet" th:href="@{/css/lembretes.css}">
 </head>
-<body class="app lembretes-page">
-<div class="page">
-  <header th:replace="~{fragments/layout :: topo('lembretes')}"></header>
+<body class="app">
+<header th:replace="~{fragments/nav :: nav('lembretes')}"></header>
 
-  <main class="lb-main">
-    <div class="lb-titulo"><h1>Lembretes</h1></div>
-    <div class="lb-msg ok" th:if="${ok}" th:text="${ok}"></div>
-    <div class="lb-msg erro" th:if="${erro}" th:text="${erro}"></div>
-    <div class="lb-msg erro" th:if="${erros}"><ul><li th:each="e : ${erros}" th:text="${e}"></li></ul></div>
-
-    <section class="lb-intro">
-      <div><p class="lb-lead">Organize os compromissos e atividades de <span th:text="${pessoa.nome}">Dona Maria</span></p><small th:text="${agora}">30/10/2026 · 11h30</small></div>
-      <a class="lb-btn lb-btn-azul" th:href="@{/lembretes#cadastro}">+ Criar lembrete</a>
-    </section>
-
-    <div class="lb-linha"><h2 class="lb-sec">Resumo dos lembretes</h2><small>Referência: <span th:text="${refTexto}">30/10/2026 às 11h30</span></small></div>
-    <div class="lb-resumo">
-      <div><h3>Lembretes de hoje</h3><strong th:text="${total}">4</strong><small><span th:text="${selData}">30/10</span> · Total do dia selecionado</small></div>
-      <div><h3>Próximos lembretes</h3><strong th:text="${proximos}">4</strong><small>Após o horário atual, até <span th:text="${proxFim}">02/11</span></small></div>
-      <div><h3>Lembretes concluídos</h3><strong th:text="${confirmados}">1</strong><small><span th:text="${selData}">30/10</span> · Lembrete confirmado</small></div>
-      <div><h3>Lembretes pendentes</h3><strong th:text="${pendentes}">1</strong><small><span th:text="${selData}">30/10</span> · Exibido, sem resposta</small></div>
+<main class="vs-wrap">
+  <div class="vs-head vs-lhead">
+    <div>
+      <p class="vs-eyebrow" th:text="${agora}">30/10/2026 · 11h30</p>
+      <h1 class="vs-h1">Lembretes</h1>
+      <p class="vs-lead">Organize os compromissos e atividades de <span th:text="${pessoa.nome}">Dona Maria</span></p>
     </div>
-    <p class="lb-nota">Dia selecionado: <span th:text="${confirmados}">1</span> confirmado(s) + <span th:text="${pendentes}">1</span> não confirmado(s) + <span th:text="${agendados}">2</span> agendado(s). Concluído significa confirmação do lembrete, não da atividade.</p>
+    <a class="vs-btn" th:href="@{/lembretes#cadastro}">+ Criar lembrete</a>
+  </div>
+  <div class="vs-msg ok" th:if="${ok}" th:text="${ok}"></div>
+  <div class="vs-msg erro" th:if="${erro}" th:text="${erro}"></div>
+  <div class="vs-msg erro" th:if="${erros}"><ul><li th:each="e : ${erros}" th:text="${e}"></li></ul></div>
 
-    <!-- CALENDÁRIO -->
-    <div class="lb-linha"><h2 class="lb-sec">Calendário</h2>
-      <small class="lb-seta"><a th:href="@{/lembretes(dia=${diaAnt})}" aria-label="Dia anterior">‹</a> Seleção: <span th:text="${selTexto}">sexta-feira, 30 de outubro</span> <a th:href="@{/lembretes(dia=${diaProx})}" aria-label="Próximo dia">›</a></small></div>
-    <section class="lb-cal">
-      <div class="lb-cal-t"><h3 th:text="${mesTitulo}">Outubro de 2026</h3>
-        <div><a class="lb-btn lb-btn-azul" th:href="@{/lembretes(mes=${mesAnt},dia=${selIso})}">Anterior</a> <a class="lb-btn lb-btn-azul" th:href="@{/lembretes(mes=${mesProx},dia=${selIso})}">Próximo</a></div></div>
-      <div class="lb-semana"><span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div>
-      <div class="lb-dias">
-        <a class="lb-dia" th:each="c : ${celulas}" th:href="@{/lembretes(dia=${c.iso},mes=${mesAtual})}"
-           th:classappend="${c.sel} ? 'sel' : (${c.hoje} ? 'hoje' : '')">
-          <b th:text="${c.rotulo}">1</b><em th:if="${c.sel}">Selecionado</em><small th:text="${c.texto}">• 1 lembrete</small>
-        </a>
-      </div>
-      <p class="lb-leg">• Número = quantidade de lembretes no dia · Fundo escuro = dia em consulta · Dias de outro mês aparecem com o nome do mês.</p>
-      <div class="lb-agenda" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
-        <div><b>Dia selecionado · <span th:text="${selData}">30/10</span> · <span th:text="${total}">0</span> lembrete(s)</b>
-          <p th:each="o : ${doDia}" th:text="${o.horarioTexto} + ' — ' + ${o.titulo} + ' · ' + ${o.estado}">08h00 — Título · Agendado</p>
-          <p th:if="${#lists.isEmpty(doDia)}">Nenhum lembrete neste dia.</p></div>
-        <div th:each="d : ${proxDias}"><b th:text="'Próximo: ' + ${d.titulo}">31/10 · 1 lembrete agendado</b><p th:each="i : ${d.itens}" th:text="${i}">15h00 — Organizar fotografias</p></div>
-      </div>
-    </section>
+  <!-- RESUMO -->
+  <div class="vs-sh"><h2>Resumo</h2><small>Referência: <span th:text="${refTexto}">30/10/2026 às 11h30</span></small></div>
+  <section class="vs-card vs-stats" aria-label="Resumo dos lembretes">
+    <div class="vs-stat"><div class="l">Hoje</div><b th:text="${total}">4</b><span><span th:text="${selData}">30/10</span> · total do dia</span></div>
+    <div class="vs-stat"><div class="l">Próximos</div><b th:text="${proximos}">4</b><span>Até <span th:text="${proxFim}">02/11</span></span></div>
+    <div class="vs-stat"><div class="l">Concluídos</div><b th:text="${confirmados}">1</b><span>Lembrete confirmado</span></div>
+    <div class="vs-stat w"><div class="l">Pendentes</div><b th:text="${pendentes}">1</b><span>Exibido, sem resposta</span></div>
+  </section>
+  <small class="vs-note vs-sec">Dia selecionado: <span th:text="${confirmados}">1</span> confirmado(s) + <span th:text="${pendentes}">1</span> não confirmado(s) + <span th:text="${agendados}">2</span> agendado(s). Concluído significa confirmação do lembrete, não da atividade.</small>
 
-    <!-- LISTA -->
-    <div class="lb-linha"><h2 class="lb-sec">Lista de lembretes</h2><small><span th:text="${selData}">30/10</span> · <span th:text="${total}">4</span> registros · Ordem de horário</small></div>
-    <div class="lb-lista">
-      <table>
-        <thead><tr><th>Horário</th><th>Nome do lembrete</th><th>Categoria</th><th>Data</th><th>Recorrência</th><th>Estado</th><th>Ações</th></tr></thead>
-        <tbody>
-          <tr th:each="o : ${doDia}">
-            <td><b th:text="${o.horarioTexto}">08h00</b></td>
-            <td th:text="${o.titulo}">Título</td><td th:text="${o.categoria}">Categoria</td><td th:text="${o.dataTexto}">30/10/2026</td><td th:text="${o.recorrencia}">Não se repete</td>
-            <td><span class="lb-estado" th:classappend="${o.confirmado} ? 'ok' : (${o.naoConfirmado} ? 'nc' : 'ag')" th:text="${o.estado}">Confirmado</span><small class="lb-sub" th:text="${o.detalhe}">Resposta às 08h05</small>
-              <form th:if="${o.naoConfirmado}" th:action="@{/lembretes/{id}/confirmar(id=${o.id})}" method="post"><input type="hidden" name="dia" th:value="${o.dataIso}"><button class="lb-mini">Registrar confirmação</button></form></td>
-            <td class="lb-acoes"><a th:href="@{/lembretes(editar=${o.id},dia=${selIso})} + '#cadastro'">Editar</a>
-              <form th:action="@{/lembretes/{id}/excluir(id=${o.id})}" method="post" data-confirma="Excluir este lembrete (e todas as repetições)?"><input type="hidden" name="dia" th:value="${selIso}"><button>Excluir</button></form></td>
-          </tr>
-          <tr th:if="${#lists.isEmpty(doDia)}"><td colspan="7" class="lb-vazio">Nenhum lembrete para este dia.</td></tr>
-        </tbody>
-      </table>
+  <!-- CALENDÁRIO -->
+  <div class="vs-sh"><h2>Calendário</h2>
+    <span class="vs-sel-nav"><a th:href="@{/lembretes(dia=${diaAnt})}" aria-label="Dia anterior">‹</a><span th:text="${selTexto}">sexta-feira, 30 de outubro</span><a th:href="@{/lembretes(dia=${diaProx})}" aria-label="Próximo dia">›</a></span></div>
+  <section class="vs-card vs-cal vs-sec">
+    <div class="vs-cal-t"><h3 th:text="${mesTitulo}">Outubro de 2026</h3>
+      <div><a class="vs-btn soft sm" th:href="@{/lembretes(mes=${mesAnt},dia=${selIso})}">‹ Anterior</a><a class="vs-btn soft sm" th:href="@{/lembretes(mes=${mesProx},dia=${selIso})}">Próximo ›</a></div></div>
+    <div class="vs-week"><span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div>
+    <div class="vs-days">
+      <a class="vs-dia" th:each="c : ${celulas}" th:href="@{/lembretes(dia=${c.iso},mes=${mesAtual})}" th:classappend="${c.sel} ? 'sel' : (${c.hoje} ? 'hoje' : '')">
+        <b th:text="${c.rotulo}">1</b><em th:if="${c.sel}">Selecionado</em><small th:text="${c.texto}">• 1 lembrete</small>
+      </a>
     </div>
-    <p class="lb-nota">Confirmado se refere somente ao lembrete; não comprova atividade realizada, medicamento ingerido ou condição clínica.</p>
+    <p class="vs-leg">Número = quantidade de lembretes no dia · fundo verde = dia em consulta · dias de outro mês aparecem com o nome do mês.</p>
+    <div class="vs-agenda">
+      <div><b>Dia selecionado · <span th:text="${selData}">30/10</span> · <span th:text="${total}">0</span> lembrete(s)</b>
+        <p th:each="o : ${doDia}" th:text="${o.horarioTexto} + ' — ' + ${o.titulo} + ' · ' + ${o.estado}">08h00 — Título · Agendado</p>
+        <p th:if="${#lists.isEmpty(doDia)}">Nenhum lembrete neste dia.</p></div>
+      <div th:each="d : ${proxDias}"><b th:text="'Próximo: ' + ${d.titulo}">31/10 · 1 lembrete agendado</b><p th:each="i : ${d.itens}" th:text="${i}">15h00 — Organizar fotografias</p></div>
+    </div>
+  </section>
 
-    <!-- CADASTRO -->
-    <div class="lb-linha" id="cadastro"><h2 class="lb-sec" th:text="${edit != null} ? 'Editar lembrete' : 'Cadastrar lembrete'">Cadastrar lembrete</h2><small th:if="${edit == null}">Novo registro</small></div>
-    <form class="lb-form" th:action="@{/lembretes/salvar}" method="post" id="formLembrete" novalidate>
-      <h3 th:text="'Novo lembrete para ' + ${pessoa.nome}">Novo lembrete</h3>
-      <input type="hidden" name="id" th:value="${edit?.id}">
-      <div class="lb-r2">
-        <label>Título<input name="titulo" maxlength="80" placeholder="Ex.: Ler um livro" required th:value="${edit?.titulo}"></label>
-        <label>Categoria<select name="categoria" required>
-          <option th:each="c : ${categorias}" th:value="${c}" th:text="${c}" th:selected="${edit != null and edit.categoria == c}"></option></select></label>
+  <!-- LISTA -->
+  <div class="vs-sh"><h2>Lista de lembretes</h2><small><span th:text="${selData}">30/10</span> · <span th:text="${total}">4</span> registros · ordem de horário</small></div>
+  <div class="vs-card vs-tablewrap">
+    <table class="vs-table">
+      <thead><tr><th>Horário</th><th>Lembrete</th><th>Categoria</th><th>Data</th><th>Recorrência</th><th>Estado</th><th>Ações</th></tr></thead>
+      <tbody>
+        <tr th:each="o : ${doDia}">
+          <td><b th:text="${o.horarioTexto}">08h00</b></td>
+          <td><span th:text="${o.titulo}">Título</span><small class="sub" th:if="${o.criadoPelaPessoa}">Criado pela pessoa acompanhada</small></td><td th:text="${o.categoria}">Categoria</td><td th:text="${o.dataTexto}">30/10/2026</td><td th:text="${o.recorrencia}">Não se repete</td>
+          <td><span class="vs-lest" th:classappend="${o.confirmado} ? 'ok' : (${o.naoConfirmado} ? 'nc' : '')" th:text="${o.estado}">Confirmado</span><small class="sub" th:text="${o.detalhe}">Resposta às 08h05</small>
+            <form th:if="${o.naoConfirmado}" th:action="@{/lembretes/{id}/confirmar(id=${o.id})}" method="post"><input type="hidden" name="dia" th:value="${o.dataIso}"><button class="vs-mini">Registrar confirmação</button></form></td>
+          <td class="vs-lacoes"><a th:href="@{/lembretes(editar=${o.id},dia=${selIso})} + '#cadastro'">Editar</a>
+            <form th:action="@{/lembretes/{id}/excluir(id=${o.id})}" method="post" data-confirma="Excluir este lembrete (e todas as repetições)?"><input type="hidden" name="dia" th:value="${selIso}"><button>Excluir</button></form></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(doDia)}"><td colspan="7" class="vs-empty">Nenhum lembrete para este dia.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <small class="vs-note vs-sec">Confirmado se refere somente ao lembrete; não comprova atividade realizada, medicamento ingerido ou condição clínica.</small>
+
+  <!-- CADASTRO -->
+  <div class="vs-sh" id="cadastro"><h2 th:text="${edit != null} ? 'Editar lembrete' : 'Novo lembrete'">Novo lembrete</h2></div>
+  <form class="vs-card vs-lform" th:action="@{/lembretes/salvar}" method="post" id="formLembrete" novalidate>
+    <h3 th:text="'Lembrete para ' + ${pessoa.nome}">Novo lembrete</h3>
+    <input type="hidden" name="id" th:value="${edit?.id}">
+    <div class="vs-r2">
+      <label class="vs-f">Título<input name="titulo" maxlength="80" placeholder="Ex.: Ler um livro" required th:value="${edit?.titulo}"></label>
+      <label class="vs-f">Categoria<select name="categoria" required>
+        <option th:each="c : ${categorias}" th:value="${c}" th:text="${c}" th:selected="${edit != null and edit.categoria == c}"></option></select></label>
+    </div>
+    <label class="vs-f">Descrição<textarea name="descricao" maxlength="300" placeholder="Ex.: Um momento de leitura em casa." th:text="${edit?.descricao}"></textarea></label>
+    <div class="vs-r3">
+      <label class="vs-f">Data<input type="date" name="data" required th:value="${edit != null} ? ${edit.data} : ${formData}"></label>
+      <label class="vs-f">Horário<input type="time" name="horario" required th:value="${edit?.horario}"></label>
+      <label class="vs-f">Recorrência<select name="recorrencia" id="recorrencia">
+        <option th:each="r : ${recorrencias}" th:value="${r}" th:text="${r}" th:selected="${edit != null and edit.recorrencia == r}"></option></select></label>
+    </div>
+    <div class="vs-f"><span>Dias da semana</span>
+      <div class="vs-dtxt" id="diasTxt">Não se aplica — evento único ou diário</div>
+      <div class="vs-chips" id="dias" hidden>
+        <label th:each="d : ${diasSemanaCod}"><input type="checkbox" name="dias" th:value="${d}" th:checked="${edit != null and edit.diasLista.contains(d)}"> <span th:text="${d}">SEG</span></label>
       </div>
-      <label>Descrição<textarea name="descricao" maxlength="300" placeholder="Ex.: Um momento de leitura em casa." th:text="${edit?.descricao}"></textarea></label>
-      <div class="lb-r3">
-        <label>Data<input type="date" name="data" required th:value="${edit != null} ? ${edit.data} : ${formData}"></label>
-        <label>Horário<input type="time" name="horario" required th:value="${edit?.horario}"></label>
-        <label>Recorrência<select name="recorrencia" id="recorrencia">
-          <option th:each="r : ${recorrencias}" th:value="${r}" th:text="${r}" th:selected="${edit != null and edit.recorrencia == r}"></option></select></label>
-      </div>
-      <div class="lb-dias-sem">
-        <span>Dias da semana</span>
-        <div class="lb-dias-txt" id="diasTxt">Não se aplica — evento único ou diário</div>
-        <div class="lb-dias-box" id="dias" hidden>
-          <label th:each="d : ${diasSemanaCod}" class="lb-chk"><input type="checkbox" name="dias" th:value="${d}" th:checked="${edit != null and edit.diasLista.contains(d)}"> <span th:text="${d}">SEG</span></label>
-        </div>
-        <small>Em “Semanalmente”, marque os dias; sem marcar, usa o dia da semana da data escolhida.</small>
-      </div>
-      <label>Mensagem que aparecerá para o idoso<textarea name="mensagem" maxlength="300" placeholder="Ex.: Dona Maria, é hora da sua leitura." th:text="${edit?.mensagem}"></textarea></label>
-      <label class="lb-chk lb-notif"><input type="checkbox" name="notificar" value="true" th:checked="${edit == null or edit.notificar}"> <span><b>Ativar notificação</b><br><small>Opção ilustrativa para apresentar o lembrete no horário agendado. Não envia notificações reais.</small></span></label>
-      <div class="lb-form-f"><button class="lb-btn lb-btn-azul">Salvar lembrete</button><a class="lb-btn lb-btn-borda" th:href="@{/lembretes}">Cancelar</a></div>
-    </form>
-  </main>
-</div>
+      <small class="vs-hint">Em “Semanalmente”, marque os dias; sem marcar, usa o dia da semana da data escolhida.</small>
+    </div>
+    <label class="vs-f">Mensagem que aparecerá para o idoso<textarea name="mensagem" maxlength="300" placeholder="Ex.: Dona Maria, é hora da sua leitura." th:text="${edit?.mensagem}"></textarea></label>
+    <label class="vs-check"><input type="checkbox" name="notificar" value="true" th:checked="${edit == null or edit.notificar}"> <span>Ativar notificação<br><small>Opção ilustrativa para apresentar o lembrete no horário agendado. Não envia notificações reais.</small></span></label>
+    <div class="vs-lfoot"><button class="vs-btn">Salvar lembrete</button><a class="vs-btn soft" th:href="@{/lembretes}">Cancelar</a></div>
+  </form>
+</main>
+<script th:src="@{/js/vs-nav.js}"></script>
 <script th:src="@{/js/lembretes.js}"></script>
 </body>
 </html>

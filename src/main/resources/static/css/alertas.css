@@ -1,41 +1,314 @@
-/* VitaSense — tela Alertas e ocorrências (isolada em .alertas-page) */
-.alertas-page{--al-navy:#0b1957;--al-blue:#5784e6;--al-soft:#d2e7ff;--al-pale:#f1f8ff;--al-bd:#8197ce;--al-muted:#667085;background:#fafaff;color:#151b2d;min-height:100vh}
-.alertas-page .page{width:min(100% - 48px,1180px);max-width:1180px;margin-inline:auto;padding-bottom:56px}
-.al-main h1,.al-main h2,.al-main h3,.al-main p,.al-main dl,.al-main dd{margin:0}.al-main small{color:var(--al-muted);font-size:12px}
-.al-titulo{border-bottom:1px solid rgba(11,25,87,.55);padding:26px 0 10px;margin-bottom:16px}.al-titulo h1{color:var(--al-navy);font-size:clamp(24px,2.2vw,31px);font-weight:750;letter-spacing:-.04em}
-.al-msg{margin:12px 0;padding:12px 16px;border-radius:10px;font-size:14px}.al-msg.ok{background:#eaf8ef;color:#246b45}.al-msg.erro{background:#fff0f0;color:#a52b2b}
-.al-intro,.al-linha{display:flex;justify-content:space-between;align-items:center;gap:16px}.al-intro{margin:14px 0 4px}.al-lead{font-size:17px;margin-bottom:4px!important}.al-intro-d{text-align:right}.al-intro-d small{display:block;margin-top:6px}
-.al-sec{color:var(--al-navy);font-size:19px;font-weight:700;margin:26px 0 12px!important}.al-linha .al-sec{margin-bottom:12px!important}
-form{margin:0}
-.al-btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 16px;border:1px solid transparent;border-radius:9px;background:var(--al-navy);color:#fff;font:inherit;font-size:13px;font-weight:650;text-decoration:none;cursor:pointer;transition:background .18s,transform .18s}
-.al-btn:hover{background:#172b78;transform:translateY(-1px)}.al-btn-borda{background:#fff;color:var(--al-navy);border-color:var(--al-navy)}.al-btn-borda:hover{background:#edf4ff}
-.al-btn-claro{background:var(--al-soft);color:var(--al-navy)}.al-btn-claro:hover{background:#c0dcfb}
 
-.al-resumo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-.al-resumo>div{background:var(--al-pale);border:1px solid var(--al-navy);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
-.al-resumo h3{font-size:14px;color:var(--al-navy)}.al-resumo strong{font-size:38px;line-height:1.1;color:var(--al-navy);margin:6px 0}
-.al-chips{display:flex;gap:10px;flex-wrap:wrap}
-.al-chips a{display:inline-flex;gap:8px;align-items:center;padding:9px 16px;border-radius:9px;background:#fff;border:1px solid var(--al-navy);color:var(--al-navy);font-size:13px;font-weight:600;text-decoration:none}
-.al-chips a.on{background:var(--al-navy);color:#fff}.al-chips b{font-weight:600}
+/* =========================================================
+   VITASENSE — ALERTAS
+   Estilo exclusivo desta tela
+========================================================= */
 
-.al-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:start}
-.al-item{background:var(--al-pale);border:1px solid var(--al-navy);border-radius:14px;padding:16px 18px;margin-bottom:14px;color:var(--al-navy)}
-.al-item.sel{background:var(--al-soft);border-width:2px}
-.al-item-t{display:flex;justify-content:space-between}.al-item-t small{color:var(--al-navy);font-weight:600}.al-item h3{font-size:17px;margin:10px 0 6px}.al-item p{font-size:13px;color:#344054}
-.al-warn{font-size:15px}.al-meta{display:flex;gap:18px;font-size:12px;margin:12px 0;flex-wrap:wrap}
-.al-item-f{display:flex;justify-content:space-between;align-items:center}.al-item-f>div{display:flex;gap:12px;align-items:center}
-.al-badge{display:inline-block;padding:4px 12px;border-radius:6px;background:var(--al-navy);color:#fff;font-size:11px;font-weight:600}
-.al-badge.st-NOVO,.al-badge.st-PENDENTE{background:var(--al-blue)}
-.al-nota{display:block;margin-top:4px}
-.al-det{background:var(--al-soft);border:2px solid var(--al-navy);border-radius:16px;padding:22px 24px;color:var(--al-navy)}
-.al-det-t{display:flex;justify-content:space-between;align-items:center}.al-det-t small{color:var(--al-navy);font-weight:600;letter-spacing:.04em}
-.al-det h3{font-size:22px;margin:18px 0 8px}.al-det-n{font-size:13px;font-weight:600;margin-bottom:14px!important}.al-det-d{font-size:14px;line-height:1.55;color:#1f2a44}
-.al-det hr{border:0;border-top:1px solid var(--al-navy);margin:16px 0}
-.al-det dt{font-size:12px;color:#344054;margin-top:12px}.al-det dd{font-size:14px;color:var(--al-navy);margin-top:2px}
-.al-orient{margin-top:18px;background:var(--al-navy);color:#fff;border-radius:12px;padding:16px 18px}.al-orient b{display:block;margin-bottom:6px}.al-orient p{font-size:13px;line-height:1.5;margin-bottom:10px!important}
-.al-acoes{display:flex;flex-direction:column;gap:10px;margin-top:18px;align-items:flex-start}.al-acoes form{width:100%}.al-acoes .al-btn{width:100%}
-.al-vazio{padding:22px;text-align:center;color:var(--al-muted)}
-.al-hist{background:var(--al-pale);border:1px solid var(--al-navy);border-radius:14px;overflow:hidden}.al-hist-h{background:var(--al-navy);height:46px}
-.al-hist-l{display:grid;grid-template-columns:150px 1.1fr 100px 2fr;gap:14px;align-items:center;padding:16px 22px;border-top:1px solid var(--al-bd);font-size:13px;color:var(--al-navy)}.al-hist-l:first-of-type{border-top:0}
-@media(max-width:960px){.al-resumo{grid-template-columns:1fr 1fr}.al-grid{grid-template-columns:1fr}.al-hist-l{grid-template-columns:1fr;gap:6px}}
-@media(max-width:640px){.alertas-page .page{width:calc(100% - 28px)}.al-intro{flex-direction:column;align-items:flex-start}.al-intro-d{text-align:left}.al-resumo{grid-template-columns:1fr}}
+.vs-aintro {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.vs-aintro .r {
+    text-align: right;
+}
+
+.vs-aintro .r small {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--sec);
+}
+
+.vs-seg b {
+    font-weight: 600;
+    color: var(--sec);
+    margin-left: 4px;
+}
+
+.vs-seg a.on b {
+    color: var(--pine);
+}
+
+/* LISTA DE ALERTAS */
+
+.vs-agrid {
+    display: grid;
+    grid-template-columns: minmax(0,1.2fr) minmax(0,1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.vs-aitem {
+    display: block;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    border-radius: 24px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+    border: 2px solid transparent;
+    transition: border-color .2s ease;
+}
+
+.vs-aitem.sel {
+    border-color: var(--pine);
+}
+
+.vs-at {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--sec);
+}
+
+.vs-at .cat {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--pine);
+}
+
+.vs-aitem h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    margin: 10px 0 4px;
+}
+
+.vs-aitem h3 svg {
+    width: 17px;
+    height: 17px;
+    color: var(--warn);
+    flex: none;
+}
+
+.vs-aitem p {
+    font-size: 14px;
+    color: var(--sec);
+}
+
+/* INFORMAÇÕES DO ALERTA */
+
+.vs-am {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+    font-size: 12px;
+    color: var(--sec);
+}
+
+.vs-am b {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.vs-af {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.vs-af > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--sec);
+}
+
+/* STATUS */
+
+.vs-st {
+    display: inline-block;
+    padding: 4px 11px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--pine-soft);
+    color: var(--pine);
+}
+
+.vs-st.st-NOVO,
+.vs-st.st-PENDENTE {
+    background: var(--warn-soft);
+    color: var(--warn);
+}
+
+.vs-st.st-RESOLVIDO {
+    background: var(--pine);
+    color: #fff;
+}
+
+/* DETALHES DO ALERTA */
+
+.vs-det {
+    position: sticky;
+    top: 76px;
+    padding: 28px;
+}
+
+.vs-det-t {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vs-det-t small {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    color: var(--sec);
+}
+
+.vs-det h3 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    margin: 16px 0 6px;
+}
+
+.vs-det-n {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pine);
+    margin-bottom: 12px;
+}
+
+.vs-det-d {
+    font-size: 14px;
+    color: var(--sec);
+    line-height: 1.55;
+}
+
+.vs-det dl {
+    margin: 18px 0 0;
+    border-top: 1px solid var(--hair);
+}
+
+.vs-det dt {
+    font-size: 12px;
+    color: var(--sec);
+    margin-top: 14px;
+}
+
+.vs-det dd {
+    font-size: 14px;
+    margin: 2px 0 0;
+    font-weight: 500;
+}
+
+/* O QUE FAZER AGORA */
+
+.vs-orient {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 20px;
+
+    color: #38343D;
+
+    background: linear-gradient(
+        125deg,
+        rgba(252,134,91,.13),
+        rgba(247,157,95,.12) 48%,
+        rgba(166,187,208,.20)
+    );
+
+    border: 1px solid rgba(217,137,105,.20);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.85),
+        0 8px 22px rgba(75,65,78,.045);
+}
+
+.vs-orient b {
+    display: block;
+    margin-bottom: 7px;
+    color: #B9684D;
+    font-size: 15px;
+    font-weight: 750;
+}
+
+.vs-orient p {
+    color: #625D68;
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 1;
+    margin-bottom: 8px;
+}
+
+/* AÇÕES DO ALERTA */
+
+.vs-dact {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.vs-dact form {
+    display: contents;
+}
+
+.vs-dact .vs-btn {
+    width: 100%;
+}
+
+.vs-dact small {
+    font-size: 12px;
+    color: var(--sec);
+}
+
+/* HISTÓRICO */
+
+.vs-hl {
+    display: grid;
+    grid-template-columns: 150px 1.2fr auto 2fr;
+    gap: 14px;
+    align-items: center;
+    padding: 16px 24px;
+    border-top: 1px solid var(--hair);
+    font-size: 13px;
+}
+
+.vs-hl:first-child {
+    border: 0;
+}
+
+.vs-hl b {
+    font-size: 14px;
+}
+
+.vs-hl span {
+    color: var(--sec);
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 960px) {
+    .vs-agrid {
+        grid-template-columns: 1fr;
+    }
+
+    .vs-det {
+        position: static;
+    }
+
+    .vs-hl {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .vs-aintro .r {
+        text-align: left;
+    }
+}

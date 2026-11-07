@@ -1,17 +1,359 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VitaSense • Início</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <link rel="stylesheet" th:href="@{/css/acesso.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#F8F7F5">
+
+    <title>VitaSense • Início</title>
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+
+    <link rel="stylesheet" th:href="@{/css/vitasense.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso-extra.css}">
 </head>
-<body class="ac-page">
-<main class="ac-card ac-larga">
-  <img th:src="@{/img/logo.png}" alt="VitaSense" class="ac-logo" onerror="this.style.display='none'">
-  <h1 th:text="'Olá, ' + ${#strings.arraySplit(pessoa.nome, ' ')[0]} + '!'">Olá, Maria!</h1>
-  <p class="ac-sub">Você entrou com o seu código. Em breve, aqui você verá os seus lembretes, a câmera e a Vi, sua assistente.</p>
-  <form th:action="@{/logout}" method="post"><button class="ac-btn ac-btn-borda" type="submit">Sair</button></form>
-</main>
+
+<body class="id-page app">
+
+<div class="id-shell">
+
+    <!-- MENU LATERAL -->
+    <aside th:replace="~{fragments/idoso :: menu('inicio')}"></aside>
+
+    <div class="id-conteudo">
+
+        <!-- CABEÇALHO -->
+        <header th:replace="~{fragments/idoso :: topo}"></header>
+
+        <div class="id-corpo">
+
+            <!-- CONTEÚDO PRINCIPAL -->
+            <main class="id-principal">
+
+                <!-- SAUDAÇÃO -->
+                <section class="id-boas-vindas">
+                    <div>
+                        <span class="id-eyebrow">SEU ESPAÇO, SEU DIA</span>
+
+                        <h1 th:text="'Olá, ' + ${nome} + '!'">
+                            Olá, Maria!
+                        </h1>
+
+                        <p class="id-sub">
+                            Que bom ter você por aqui.
+                            Sua casa está pronta para você.
+                        </p>
+                    </div>
+
+                    <div class="id-saudacao-detalhe" aria-hidden="true">
+                        <span class="id-saudacao-orbe"></span>
+                        <span class="id-saudacao-orbe"></span>
+                        <span class="id-saudacao-orbe"></span>
+                    </div>
+                </section>
+
+                <!-- CONFIRMAÇÃO DE PEDIDO DE AJUDA -->
+                <div class="id-pedido"
+                     th:if="${pedido != null}"
+                     role="status"
+                     aria-live="polite">
+
+                    <b>
+                        Seu pedido de ajuda foi enviado às
+                        <span th:text="${#temporals.format(pedido.ocorrencia,'HH:mm')}">
+                            09:32
+                        </span>.
+                    </b>
+
+                    <span th:if="${contato != null}">
+                        Seu responsável
+                        <span th:text="${contato.nome}">Carlos</span>
+                        foi avisado. Se puder, ligue para ele agora.
+                    </span>
+
+                    <a class="id-ligar"
+                       th:if="${contato != null and contato.telefone != null}"
+                       th:href="'tel:' + ${contato.telefone}">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+                        </svg>
+
+                        Ligar para
+                        <span th:text="${contato.nome}">Carlos</span>
+                    </a>
+                </div>
+
+                <!-- DESTAQUES -->
+                <section class="id-destaques" aria-label="Destaques">
+
+                    <!-- SITUAÇÃO DA CASA -->
+                    <a class="id-card id-casa"
+                       th:href="@{/idoso/avisos}"
+                       th:classappend="${casa.tudoOk} ? '' : 'atencao'"
+                       aria-label="Consultar situação da minha casa">
+
+                        <div class="id-casa-icone">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9"/>
+
+                                <path th:if="${casa.tudoOk}"
+                                      d="m8 12.5 2.8 2.8L16 9.5"/>
+
+                                <path th:unless="${casa.tudoOk}"
+                                      d="M12 7v6m0 3h.01"/>
+                            </svg>
+                        </div>
+
+                        <div class="id-casa-texto">
+                            <span class="id-card-etiqueta">MONITORAMENTO</span>
+                            <b>Minha casa</b>
+
+                            <span th:text="${casa.mensagem}">
+                                Tudo funcionando normalmente
+                            </span>
+                        </div>
+
+                        <span class="id-card-seta" aria-hidden="true">↗</span>
+                    </a>
+
+                    <!-- ASSISTENTE VIRTUAL -->
+                    <section class="id-card id-vi">
+
+                        <div class="id-vi-cabecalho">
+                            <div class="id-vi-icone">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/>
+                                </svg>
+                            </div>
+
+                            <span class="id-vi-status">
+                                <span></span>
+                                Disponível para você
+                            </span>
+                        </div>
+
+                        <div class="id-vi-t">
+                            <b>Converse com a Vi</b>
+                        </div>
+
+                        <p>
+                            Sua assistente virtual está aqui para conversar,
+                            ouvir e ajudar no que precisar.
+                        </p>
+
+                        <a class="id-btn-creme" th:href="@{/idoso/vi}">
+                            Conversar agora
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M5 12h14m-6-6 6 6-6 6"/>
+                            </svg>
+                        </a>
+
+                    </section>
+
+                </section>
+
+                <!-- AÇÕES RÁPIDAS -->
+                <section class="id-secao-acoes">
+
+                    <div class="id-secao-titulo">
+                        <div>
+                            <span class="id-eyebrow">ACESSO RÁPIDO</span>
+                            <h2>O que você deseja fazer?</h2>
+                        </div>
+                    </div>
+
+                    <div class="id-atalhos id-acoes">
+
+                        <a th:href="@{/idoso/casa}">
+                            <span class="id-atalho-icone id-atalho-coral">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="4"/>
+                                    <path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M19 5l-2 2M7 17l-2 2"/>
+                                </svg>
+                            </span>
+
+                            <span class="id-atalho-texto">
+                                <b>Iluminação</b>
+                                <small>Controlar luzes</small>
+                            </span>
+
+                            <span class="id-atalho-seta">›</span>
+                        </a>
+
+                        <a th:href="@{/idoso/lembretes}">
+                            <span class="id-atalho-icone id-atalho-lavanda">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/>
+                                </svg>
+                            </span>
+
+                            <span class="id-atalho-texto">
+                                <b>Lembretes</b>
+                                <small>Ver meus compromissos</small>
+                            </span>
+
+                            <span class="id-atalho-seta">›</span>
+                        </a>
+
+                        <a th:href="@{/idoso/avisos}">
+                            <span class="id-atalho-icone id-atalho-azul">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 3 2.8 19a1.3 1.3 0 0 0 1.1 2h16.2a1.3 1.3 0 0 0 1.1-2L12 3Z"/>
+                                    <path d="M12 9v5m0 3h.01"/>
+                                </svg>
+                            </span>
+
+                            <span class="id-atalho-texto">
+                                <b>Avisos da casa</b>
+                                <small>Ver notificações</small>
+                            </span>
+
+                            <span class="id-atalho-seta">›</span>
+                        </a>
+
+                    </div>
+                </section>
+
+                <!-- EMERGÊNCIA -->
+                <section class="id-emergencia">
+                    <div class="id-emergencia-texto">
+                        <b>Precisa de ajuda?</b>
+                        <span>Estamos aqui para você.</span>
+                    </div>
+
+                    <button type="button"
+                            class="id-sos"
+                            id="abrirSos"
+                            aria-haspopup="dialog"
+                            aria-controls="dlgSos">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+                        </svg>
+
+                        PRECISO DE AJUDA
+                    </button>
+                </section>
+
+            </main>
+
+            <!-- PAINEL DIREITO -->
+            <aside class="id-lateral">
+
+                <div class="id-lateral-topo">
+                    <div>
+                        <span class="id-eyebrow">SUA ROTINA</span>
+                        <h2>Hoje</h2>
+                    </div>
+
+                    <span class="id-hoje-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="3" y="5" width="18" height="16" rx="3"/>
+                            <path d="M16 3v4M8 3v4M3 10h18"/>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- LEMBRETES -->
+                <section class="id-lateral-secao">
+
+                    <div class="id-lateral-subtitulo">
+                        <h3>Lembretes</h3>
+                        <span>Seus compromissos</span>
+                    </div>
+
+                    <ul class="id-lembretes">
+
+                        <li th:each="o : ${lembretesHoje}"
+                            th:classappend="${o.confirmado} ? 'feito'">
+
+                            <span class="id-lembrete-linha"></span>
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9"/>
+                                <path d="M12 7v5l3 2"/>
+                            </svg>
+
+                            <div>
+                                <b th:text="${o.horarioTexto}">08h00</b>
+
+                                <span th:text="${o.titulo}">
+                                    Tomar medicamento
+                                </span>
+
+                                <small th:if="${o.confirmado}">
+                                    ✔ Confirmado
+                                </small>
+                            </div>
+
+                        </li>
+
+                    </ul>
+
+                    <p class="id-vazio"
+                       th:if="${#lists.isEmpty(lembretesHoje)}">
+                        Nenhum lembrete para hoje.
+                    </p>
+
+                    <a class="id-link" th:href="@{/idoso/lembretes}">
+                        Ver todos os lembretes
+                        <span aria-hidden="true">→</span>
+                    </a>
+
+                </section>
+
+                <!-- CONTATO DE EMERGÊNCIA -->
+                <section class="id-contato" th:if="${contato != null}">
+
+                    <div class="id-contato-cabecalho">
+                        <span class="id-contato-icone">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+                            </svg>
+                        </span>
+
+                        <b>Contato de emergência</b>
+                    </div>
+
+                    <span class="id-contato-nome"
+                          th:text="${contato.nome}">
+                        Carlos Alberto
+                    </span>
+
+                    <small th:text="${contato.parentesco}">
+                        Filho
+                    </small>
+
+                    <a th:if="${contato.telefone != null}"
+                       th:href="'tel:' + ${contato.telefone}">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+                        </svg>
+
+                        <span th:text="${contato.telefoneFormatado}">
+                            (11) 98765-4321
+                        </span>
+                    </a>
+
+                </section>
+
+            </aside>
+
+        </div>
+    </div>
+</div>
+
+<!-- DIÁLOGO SOS ORIGINAL -->
+<th:block th:replace="~{fragments/idoso :: sos(${contato})}"></th:block>
+
+<script th:src="@{/js/idoso.js}"></script>
+
 </body>
 </html>

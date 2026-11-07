@@ -1,0 +1,1689 @@
+/* =========================================
+   VITASENSE — VI
+   Interface acolhedora, sofisticada e leve
+   Paleta coral, rosa antigo e lavanda
+========================================= */
+
+/* -----------------------------------------
+   IDENTIDADE VISUAL
+----------------------------------------- */
+
+.vi-body {
+    --vi-fundo: #F8F7F5;
+    --vi-branco: #FFFFFF;
+    --vi-coral: #FC865B;
+    --vi-pessego: #F79D5F;
+    --vi-rosa: #CF8F8F;
+    --vi-lavanda: #9A9CB8;
+    --vi-azul-gelo: #E4ECF4;
+
+    --vi-texto: #45434A;
+    --vi-secundario: #85818A;
+    --vi-borda: rgba(154, 156, 184, .19);
+
+    --vi-gradiente:
+        linear-gradient(
+            120deg,
+            #FC865B 0%,
+            #CF8F8F 52%,
+            #9A9CB8 100%
+        );
+
+    background:
+        radial-gradient(
+            circle at 8% 10%,
+            rgba(252, 134, 91, .10),
+            transparent 27%
+        ),
+        radial-gradient(
+            circle at 92% 18%,
+            rgba(154, 156, 184, .13),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 55% 100%,
+            rgba(228, 236, 244, .55),
+            transparent 35%
+        ),
+        var(--vi-fundo);
+
+    color: var(--vi-texto);
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* -----------------------------------------
+   PÁGINA
+----------------------------------------- */
+
+.vi-pagina {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1120px;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 30px clamp(16px, 3vw, 36px) 38px;
+}
+
+
+/* -----------------------------------------
+   CABEÇALHO
+----------------------------------------- */
+
+.vi-cabecalho {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    margin: 0 auto 26px;
+    padding: 10px 16px 14px;
+
+    text-align: center;
+    overflow: visible;
+}
+
+.vi-introducao {
+    position: relative;
+    z-index: 2;
+
+    order: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    max-width: 650px;
+
+    text-align: center;
+}
+
+.vi-etiqueta {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    margin: 0 0 10px;
+
+    color: #A17E85;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.vi-etiqueta-ponto,
+.vi-conexao-ponto {
+    width: 7px;
+    height: 7px;
+    flex: 0 0 7px;
+
+    border-radius: 50%;
+    background: var(--vi-coral);
+
+    box-shadow: 0 0 9px rgba(252, 134, 91, .40);
+}
+
+.vi-cabecalho h1 {
+    margin: 0 0 8px;
+
+    color: #514B53;
+
+    font-size: clamp(29px, 3.5vw, 39px);
+    font-weight: 800;
+    letter-spacing: -1.6px;
+    line-height: 1.15;
+}
+
+.vi-cabecalho h1 span {
+    background: var(--vi-gradiente);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.vi-cabecalho .id-sub {
+    max-width: 520px;
+    margin: 0 !important;
+
+    color: var(--vi-secundario);
+    font-size: 14px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+
+/* -----------------------------------------
+   CONEXÃO
+----------------------------------------- */
+
+.vi-conexao {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-top: 14px;
+    padding: 9px 15px;
+
+    border: 1px solid rgba(154, 156, 184, .20);
+    border-radius: 30px;
+
+    background: rgba(255, 255, 255, .72);
+    color: #817B8F;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    box-shadow:
+        0 4px 14px rgba(100, 90, 110, .045),
+        inset 0 1px 0 rgba(255, 255, 255, .95);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.vi-conexao-ponto {
+    width: 6px;
+    height: 6px;
+    flex-basis: 6px;
+
+    background: #83B99B;
+    box-shadow: 0 0 8px rgba(131, 185, 155, .55);
+}
+
+
+/* -----------------------------------------
+   LOGO DA VI
+----------------------------------------- */
+
+.vi-avatar-area {
+    position: relative;
+    z-index: 2;
+
+    order: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 145px;
+    min-width: 145px;
+    min-height: 132px;
+
+    margin-bottom: 2px;
+}
+
+.vi-logo-halo {
+    position: absolute;
+    z-index: -1;
+
+    width: 105px;
+    height: 105px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(252, 134, 91, .23),
+            rgba(207, 143, 143, .17) 42%,
+            rgba(154, 156, 184, .13) 68%,
+            transparent 75%
+        );
+
+    filter: blur(13px);
+    animation: vi-halo 4s ease-in-out infinite;
+}
+
+.vi-avatar {
+    position: relative;
+    z-index: 2;
+
+    display: grid;
+    place-items: center;
+
+    width: 94px;
+    height: 94px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, .95);
+    border-radius: 29px;
+
+    background: rgba(255, 255, 255, .76);
+
+    box-shadow:
+        0 12px 30px rgba(154, 156, 184, .18),
+        0 4px 12px rgba(252, 134, 91, .10),
+        inset 0 1px 0 rgba(255, 255, 255, .95);
+
+    animation: vi-flutuar 4.5s ease-in-out infinite;
+}
+
+.vi-logo-img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+
+    padding: 7px;
+    box-sizing: border-box;
+}
+
+.vi-avatar-legenda {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+
+    margin-top: 9px;
+}
+
+.vi-avatar-legenda strong {
+    color: #9B7881;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.vi-avatar-legenda small {
+    color: #96919A;
+    font-size: 9px;
+}
+
+@keyframes vi-flutuar {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes vi-halo {
+    0%, 100% {
+        opacity: .72;
+        transform: scale(.94);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.10);
+    }
+}
+
+
+/* -----------------------------------------
+   CARTÃO PRINCIPAL DA CONVERSA
+----------------------------------------- */
+
+.vi-cartao {
+    box-sizing: border-box;
+
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    margin: 0 auto;
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, .94);
+    border-radius: 25px;
+
+    background: rgba(255, 255, 255, .79);
+
+    box-shadow:
+        0 18px 48px rgba(95, 83, 105, .075),
+        0 4px 14px rgba(154, 156, 184, .07),
+        inset 0 1px 0 rgba(255, 255, 255, .95);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+
+/* -----------------------------------------
+   BARRA DE IDENTIFICAÇÃO
+----------------------------------------- */
+
+.vi-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 15px 22px;
+
+    border-bottom: 1px solid rgba(154, 156, 184, .13);
+
+    background:
+        linear-gradient(
+            110deg,
+            rgba(255, 255, 255, .93),
+            rgba(250, 247, 249, .88)
+        );
+}
+
+.vi-status-identidade {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.vi-status-avatar {
+    position: relative;
+
+    display: grid;
+    place-items: center;
+
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+
+    overflow: visible;
+
+    border: 1px solid rgba(255, 255, 255, .95);
+    border-radius: 15px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(252, 134, 91, .15),
+        rgba(154, 156, 184, .20)
+    );
+
+    box-shadow: 0 4px 12px rgba(154, 156, 184, .12);
+}
+
+.vi-status-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    box-sizing: border-box;
+    object-fit: contain;
+}
+
+.vi-status-avatar i {
+    position: absolute;
+    right: -3px;
+    bottom: -3px;
+
+    width: 10px;
+    height: 10px;
+
+    border: 2px solid #fff;
+    border-radius: 50%;
+
+    background: #83B99B;
+    box-shadow: 0 0 7px rgba(131, 185, 155, .35);
+}
+
+.vi-status-identidade strong,
+.vi-status-identidade span {
+    display: block;
+}
+
+.vi-status-identidade strong {
+    color: #514B53;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.vi-status-identidade span {
+    margin-top: 3px;
+    color: #96909A;
+    font-size: 11px;
+}
+
+.vi-status-direita {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 12px;
+
+    border: 1px solid rgba(131, 185, 155, .22);
+    border-radius: 30px;
+
+    background: rgba(131, 185, 155, .09);
+    color: #71977F;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.vi-status-sinal {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+    background: #83B99B;
+
+    box-shadow: 0 0 7px rgba(131, 185, 155, .4);
+}
+
+
+/* -----------------------------------------
+   HISTÓRICO DE MENSAGENS
+----------------------------------------- */
+
+.vi-conversa {
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 19px;
+
+    width: 100%;
+    min-width: 0;
+
+    min-height: 350px;
+    max-height: 480px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    padding: 27px clamp(17px, 3vw, 30px);
+
+    background:
+        radial-gradient(
+            circle at 7% 10%,
+            rgba(252, 134, 91, .045),
+            transparent 26%
+        ),
+        radial-gradient(
+            circle at 95% 85%,
+            rgba(154, 156, 184, .055),
+            transparent 28%
+        ),
+        rgba(255, 255, 255, .58);
+
+    scroll-behavior: smooth;
+}
+
+.vi-conversa::-webkit-scrollbar {
+    width: 6px;
+}
+
+.vi-conversa::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(154, 156, 184, .34);
+}
+
+.vi-conversa::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+/* -----------------------------------------
+   MENSAGENS
+----------------------------------------- */
+
+.vi-mensagem {
+    display: flex;
+    flex-direction: column;
+
+    width: fit-content;
+    max-width: min(75%, 620px);
+    min-width: 0;
+
+    animation: vi-mensagem-entrada .3s ease both;
+}
+
+.vi-mensagem-assistente {
+    align-self: flex-start;
+    align-items: flex-start;
+
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.vi-mensagem-usuario {
+    align-self: flex-end;
+    align-items: flex-end;
+
+    margin-left: auto;
+    margin-right: 0;
+}
+
+@keyframes vi-mensagem-entrada {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.vi-identificacao-mensagem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin: 0 0 7px 3px;
+
+    color: #928A96;
+    font-size: 12px;
+}
+
+.vi-mini-avatar {
+    display: grid;
+    place-items: center;
+
+    width: 25px;
+    height: 25px;
+    flex: 0 0 25px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, .95);
+    border-radius: 9px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(252, 134, 91, .14),
+        rgba(154, 156, 184, .20)
+    );
+}
+
+.vi-mini-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 2px;
+    box-sizing: border-box;
+    object-fit: contain;
+}
+
+.vi-bolha {
+    box-sizing: border-box;
+
+    display: block;
+
+    width: fit-content;
+    max-width: 100%;
+
+    padding: 14px 17px;
+
+    border-radius: 17px;
+
+    font-size: 14px;
+    line-height: 1.65;
+
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    text-align: left !important;
+}
+
+.vi-mensagem-assistente .vi-bolha {
+    border: 1px solid rgba(207, 143, 143, .15);
+    border-bottom-left-radius: 5px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, .97),
+            rgba(250, 247, 248, .94)
+        );
+
+    color: #514B53;
+
+    box-shadow:
+        0 5px 15px rgba(95, 83, 105, .045),
+        inset 0 1px 0 rgba(255, 255, 255, .95);
+}
+
+.vi-mensagem-usuario .vi-bolha {
+    border: 1px solid rgba(207, 143, 143, .20);
+    border-bottom-right-radius: 5px;
+
+    background:
+        linear-gradient(
+            125deg,
+            #E99A7F 0%,
+            #D58F94 52%,
+            #A09FBC 100%
+        );
+
+    color: #fff;
+
+    box-shadow:
+        0 6px 16px rgba(207, 143, 143, .17),
+        inset 0 1px 0 rgba(255, 255, 255, .18);
+}
+
+.vi-horario {
+    margin-top: 6px;
+    padding: 0 4px;
+
+    color: #AAA4AD;
+    font-size: 10px;
+}
+
+
+/* -----------------------------------------
+   MENSAGEM INICIAL
+----------------------------------------- */
+
+.vi-mensagem-inicial {
+    width: fit-content !important;
+    max-width: min(420px, 85%) !important;
+    min-width: 0 !important;
+
+    align-self: flex-start !important;
+    align-items: flex-start !important;
+
+    margin: 0 auto 0 0 !important;
+    padding: 0 !important;
+    gap: 0 !important;
+}
+
+.vi-mensagem-inicial .vi-identificacao-mensagem {
+    margin: 0 0 5px 2px !important;
+}
+
+.vi-mensagem-inicial .vi-bolha {
+    display: block !important;
+
+    width: fit-content !important;
+    max-width: 100% !important;
+
+    padding: 12px 15px !important;
+
+    border-radius: 14px !important;
+    border-bottom-left-radius: 4px !important;
+
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+
+    text-align: left !important;
+}
+
+.vi-mensagem-inicial .vi-bolha p {
+    margin: 0;
+}
+
+.vi-mensagem-inicial .vi-bolha p + p {
+    margin-top: 6px;
+}
+
+.vi-mensagem-inicial .vi-horario {
+    margin-top: 4px !important;
+}
+
+
+/* -----------------------------------------
+   INDICADOR DE DIGITAÇÃO
+----------------------------------------- */
+
+.vi-digitacao {
+    align-items: center;
+    gap: 11px;
+
+    padding: 4px 28px 18px;
+
+    background: rgba(255, 255, 255, .58);
+}
+
+.vi-digitacao:not([hidden]) {
+    display: flex;
+}
+
+.vi-digitacao-avatar {
+    display: grid;
+    place-items: center;
+
+    width: 33px;
+    height: 33px;
+    flex: 0 0 33px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, .95);
+    border-radius: 11px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(252, 134, 91, .14),
+        rgba(154, 156, 184, .20)
+    );
+}
+
+.vi-digitacao-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+    object-fit: contain;
+}
+
+.vi-digitacao-conteudo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.vi-digitacao-conteudo small {
+    color: #928A96;
+    font-size: 11px;
+}
+
+.vi-ondas {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 15px;
+}
+
+.vi-ondas span {
+    width: 4px;
+    height: 6px;
+
+    border-radius: 5px;
+
+    background: var(--vi-rosa);
+
+    animation: vi-onda 1s ease-in-out infinite;
+}
+
+.vi-ondas span:nth-child(2) {
+    animation-delay: .12s;
+}
+
+.vi-ondas span:nth-child(3) {
+    animation-delay: .24s;
+}
+
+.vi-ondas span:nth-child(4) {
+    animation-delay: .36s;
+}
+
+.vi-ondas span:nth-child(5) {
+    animation-delay: .48s;
+}
+
+@keyframes vi-onda {
+    0%, 100% {
+        height: 5px;
+        opacity: .55;
+    }
+
+    50% {
+        height: 15px;
+        opacity: 1;
+    }
+}
+
+
+/* -----------------------------------------
+   FORMULÁRIO DE MENSAGEM
+----------------------------------------- */
+
+.vi-formulario {
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    min-width: 0;
+
+    padding: 17px 21px;
+
+    border-top: 1px solid rgba(154, 156, 184, .13);
+
+    background: rgba(255, 255, 255, .85);
+}
+
+.vi-campo {
+    flex: 1;
+    min-width: 0;
+}
+
+.vi-formulario textarea {
+    box-sizing: border-box;
+
+    display: block;
+
+    width: 100%;
+    min-height: 52px;
+    max-height: 130px;
+
+    resize: vertical;
+
+    padding: 14px 16px;
+
+    border: 1px solid rgba(154, 156, 184, .24);
+    border-radius: 15px;
+
+    outline: none;
+
+    background: rgba(248, 247, 245, .88);
+    color: #514B53;
+
+    font: inherit;
+    font-size: 14px;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.vi-formulario textarea::placeholder {
+    color: #AAA4AD;
+}
+
+.vi-formulario textarea:focus {
+    border-color: rgba(207, 143, 143, .65);
+
+    background: #fff;
+
+    box-shadow:
+        0 0 0 3px rgba(207, 143, 143, .10),
+        0 4px 12px rgba(154, 156, 184, .07);
+}
+
+.vi-formulario button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-width: 108px;
+    min-height: 52px;
+
+    padding: 0 18px;
+
+    border: 1px solid rgba(207, 143, 143, .35);
+    border-radius: 15px;
+
+    background: var(--vi-gradiente);
+    color: #fff;
+
+    font: inherit;
+    font-size: 13px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 14px rgba(207, 143, 143, .20),
+        inset 0 1px 0 rgba(255, 255, 255, .20);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        filter .2s ease;
+}
+
+.vi-formulario button:hover {
+    transform: translateY(-2px);
+
+    filter: saturate(1.08);
+
+    box-shadow:
+        0 8px 18px rgba(207, 143, 143, .25),
+        inset 0 1px 0 rgba(255, 255, 255, .22);
+}
+
+.vi-formulario button:active {
+    transform: scale(.97);
+}
+
+.vi-formulario button:disabled {
+    opacity: .6;
+    cursor: wait;
+    transform: none;
+}
+
+.vi-formulario button svg {
+    width: 19px;
+    height: 19px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* -----------------------------------------
+   CONTROLES DE VOZ
+----------------------------------------- */
+
+.vi-area-voz {
+    padding: 17px 20px 14px;
+
+    border-top: 1px solid rgba(154, 156, 184, .12);
+
+    background:
+        linear-gradient(
+            115deg,
+            rgba(250, 247, 247, .94),
+            rgba(246, 246, 250, .90)
+        );
+}
+
+.vi-voz-titulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    margin-bottom: 13px;
+
+    color: #928A96;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.vi-voz-icone {
+    color: #B18D9C;
+    font-size: 16px;
+}
+
+.vi-controles-voz {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.vi-botao-voz {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 44px;
+    padding: 9px 16px;
+
+    border: 1px solid rgba(154, 156, 184, .22);
+    border-radius: 13px;
+
+    background: rgba(255, 255, 255, .86);
+    color: #817B8F;
+
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 3px 9px rgba(100, 90, 110, .035),
+        inset 0 1px 0 rgba(255, 255, 255, .95);
+
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.vi-botao-voz:hover {
+    transform: translateY(-1px);
+
+    border-color: rgba(207, 143, 143, .48);
+
+    background: #fff;
+    color: #9C7480;
+
+    box-shadow: 0 5px 12px rgba(154, 156, 184, .10);
+}
+
+.vi-botao-voz:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.vi-botao-voz svg {
+    width: 17px;
+    height: 17px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* Microfone */
+
+.vi-botao-microfone {
+    border-color: rgba(207, 143, 143, .34);
+
+    background:
+        linear-gradient(
+            120deg,
+            #E99A7F,
+            #D58F94 55%,
+            #A09FBC
+        );
+
+    color: #fff;
+
+    box-shadow:
+        0 5px 14px rgba(207, 143, 143, .20),
+        inset 0 1px 0 rgba(255, 255, 255, .20);
+}
+
+.vi-botao-microfone:hover {
+    border-color: rgba(154, 156, 184, .50);
+
+    background:
+        linear-gradient(
+            120deg,
+            #E58F76,
+            #CD858F 55%,
+            #9293B2
+        );
+
+    color: #fff;
+}
+
+.vi-botao-microfone.vi-ouvindo {
+    border-color: #B97F91;
+
+    background:
+        linear-gradient(
+            120deg,
+            #D98078,
+            #B97F91 55%,
+            #898BAF
+        );
+
+    color: #fff;
+
+    animation: vi-pulso 1.2s infinite;
+}
+
+
+/* Botão parar */
+
+.vi-botao-parar:hover {
+    border-color: rgba(207, 143, 143, .42);
+    background: rgba(207, 143, 143, .08);
+    color: #A46F79;
+}
+
+
+/* Status de voz */
+
+.vi-status-voz {
+    min-height: 20px;
+
+    padding: 11px 8px 0;
+
+    color: #96909A;
+    font-size: 11px;
+    text-align: center;
+}
+
+@keyframes vi-pulso {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(207, 143, 143, .24);
+    }
+
+    50% {
+        box-shadow: 0 0 0 7px rgba(207, 143, 143, 0);
+    }
+}
+
+
+/* -----------------------------------------
+   AVISO
+----------------------------------------- */
+
+.vi-aviso {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+
+    margin: 0;
+    padding: 14px 21px 17px;
+
+    border-top: 1px solid rgba(154, 156, 184, .12);
+
+    background: rgba(255, 255, 255, .77);
+
+    color: #928C96;
+    font-size: 11px;
+    line-height: 1.65;
+}
+
+.vi-aviso-icone {
+    flex-shrink: 0;
+
+    color: #A09FBC;
+    font-size: 14px;
+}
+
+
+/* -----------------------------------------
+   ERROS
+----------------------------------------- */
+
+.vi-erro {
+    border: 1px solid #8d0000 !important;
+    background: #8d0000 !important;
+    color: #fff !important;
+}
+
+
+/* -----------------------------------------
+   RODAPÉ
+----------------------------------------- */
+
+.vi-rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    padding: 17px 5px 0;
+
+    color: rgba(111, 105, 117, .65);
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+
+/* -----------------------------------------
+   ACESSIBILIDADE
+----------------------------------------- */
+
+.sr-only {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    padding: 0;
+    margin: -1px;
+
+    overflow: hidden;
+
+    clip: rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+    border: 0;
+}
+
+.vi-body button:focus-visible,
+.vi-body textarea:focus-visible {
+    outline: 3px solid rgba(154, 156, 184, .48);
+    outline-offset: 3px;
+}
+
+
+/* -----------------------------------------
+   RESPONSIVIDADE — TABLETS
+----------------------------------------- */
+
+@media (max-width: 900px) {
+
+    .vi-pagina {
+        padding: 24px 20px 30px;
+    }
+
+    .vi-cabecalho {
+        margin-bottom: 21px;
+    }
+
+    .vi-conversa {
+        padding: 23px 20px;
+    }
+
+}
+
+
+/* -----------------------------------------
+   RESPONSIVIDADE — CELULARES
+----------------------------------------- */
+
+@media (max-width: 650px) {
+
+    .vi-pagina {
+        padding: 19px 14px 26px;
+    }
+
+    .vi-cabecalho {
+        padding: 6px 8px 12px;
+        margin-bottom: 16px;
+    }
+
+    .vi-avatar-area {
+        width: 125px;
+        min-width: 125px;
+        min-height: 120px;
+    }
+
+    .vi-avatar {
+        width: 86px;
+        height: 86px;
+        border-radius: 25px;
+    }
+
+    .vi-logo-halo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .vi-cabecalho h1 {
+        font-size: 29px;
+    }
+
+    .vi-cabecalho .id-sub {
+        font-size: 13px;
+    }
+
+    .vi-conexao {
+        margin-top: 11px;
+    }
+
+    .vi-cartao {
+        border-radius: 20px;
+    }
+
+    .vi-conversa {
+        min-height: 330px;
+        padding: 20px 14px;
+    }
+
+    .vi-mensagem {
+        max-width: 90%;
+    }
+
+    .vi-mensagem-inicial {
+        max-width: 88% !important;
+    }
+
+    .vi-formulario {
+        padding: 13px;
+        gap: 8px;
+    }
+
+    .vi-formulario button {
+        min-width: 58px;
+        padding: 0 13px;
+    }
+
+    .vi-controles-voz {
+        gap: 8px;
+    }
+
+    .vi-botao-voz {
+        padding: 9px 12px;
+        font-size: 11px;
+    }
+
+    .vi-digitacao {
+        padding-left: 17px;
+    }
+
+}
+
+
+/* -----------------------------------------
+   RESPONSIVIDADE — TELAS PEQUENAS
+----------------------------------------- */
+
+@media (max-width: 460px) {
+
+    .vi-pagina {
+        padding: 16px 10px 22px;
+    }
+
+    .vi-cabecalho {
+        padding: 5px 6px 11px;
+        gap: 3px;
+    }
+
+    .vi-cabecalho h1 {
+        font-size: 27px;
+    }
+
+    .vi-etiqueta {
+        font-size: 9px;
+        letter-spacing: 1.4px;
+    }
+
+    .vi-avatar-area {
+        width: 115px;
+        min-width: 115px;
+        min-height: 110px;
+    }
+
+    .vi-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .vi-status {
+        padding: 11px 12px;
+    }
+
+    .vi-status-avatar {
+        width: 37px;
+        height: 37px;
+        flex-basis: 37px;
+    }
+
+    .vi-status-identidade strong {
+        font-size: 14px;
+    }
+
+    .vi-status-direita {
+        padding: 7px 9px;
+        font-size: 10px;
+    }
+
+    .vi-conversa {
+        min-height: 310px;
+        padding: 16px 11px;
+    }
+
+    .vi-mensagem {
+        max-width: 92%;
+    }
+
+    .vi-bolha {
+        padding: 11px 13px;
+        font-size: 13px;
+    }
+
+    .vi-formulario button {
+        min-width: 49px;
+        width: 49px;
+        padding: 0;
+    }
+
+    .vi-formulario button span {
+        display: none;
+    }
+
+    .vi-botao-voz {
+        min-height: 40px;
+        padding: 8px 9px;
+        font-size: 10px;
+    }
+
+    .vi-botao-voz svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    .vi-area-voz {
+        padding: 15px 11px 12px;
+    }
+
+    .vi-rodape {
+        font-size: 8px;
+        letter-spacing: .6px;
+    }
+
+}
+
+
+/* -----------------------------------------
+   ANIMAÇÕES REDUZIDAS
+----------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .vi-avatar,
+    .vi-logo-halo,
+    .vi-ondas span,
+    .vi-botao-microfone.vi-ouvindo,
+    .vi-mensagem {
+        animation: none !important;
+    }
+
+    .vi-body * {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+
+}
+/* =========================================
+   VITASENSE — VI
+   DEGRADÊ QUENTE + BOTÕES GRAFITE
+========================================= */
+
+/* FUNDO GERAL */
+.vi-body {
+    background:
+        linear-gradient(
+            125deg,
+            #F7A078 0%,
+            #F4B47F 38%,
+            #E6B0A0 68%,
+            #B1AEC9 100%
+        ) !important;
+
+    background-attachment: fixed !important;
+    color: #343238;
+}
+
+/* LUZ AMBIENTE */
+.vi-body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at 10% 12%,
+            rgba(255,255,255,.30),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 88% 85%,
+            rgba(255,255,255,.20),
+            transparent 30%
+        );
+}
+
+/* CONTEÚDO */
+.vi-body .id-shell {
+    position: relative;
+    z-index: 1;
+}
+
+/* TÍTULOS */
+.vi-cabecalho h1 {
+    color: #343238;
+}
+
+.vi-cabecalho h1 span {
+    background: linear-gradient(
+        110deg,
+        #8C4934,
+        #72546C
+    );
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.vi-cabecalho .id-sub {
+    color: #514943;
+}
+
+/* ETIQUETAS */
+.vi-etiqueta {
+    color: #63483D;
+}
+
+.vi-conexao {
+    background: rgba(255,255,255,.72);
+    color: #45404A;
+    border-color: rgba(255,255,255,.75);
+}
+
+/* LOGO */
+.vi-avatar {
+    background: rgba(255,255,255,.88);
+    border-color: rgba(255,255,255,.95);
+
+    box-shadow:
+        0 14px 30px rgba(79, 54, 45, .16),
+        inset 0 1px 0 rgba(255,255,255,.95);
+}
+
+.vi-logo-halo {
+    background: radial-gradient(
+        circle,
+        rgba(255,255,255,.55),
+        rgba(252,134,91,.22) 48%,
+        rgba(154,156,184,.13) 70%,
+        transparent 76%
+    );
+}
+
+/* CARTÃO DE CONVERSA */
+.vi-cartao {
+    background: rgba(255,255,255,.90);
+
+    border-color: rgba(255,255,255,.96);
+
+    box-shadow:
+        0 22px 55px rgba(70, 48, 43, .16),
+        0 5px 18px rgba(255,255,255,.20),
+        inset 0 1px 0 rgba(255,255,255,.98);
+}
+
+/* BARRA SUPERIOR */
+.vi-status {
+    background: rgba(255,255,255,.93);
+}
+
+.vi-status-identidade strong {
+    color: #343238;
+}
+
+.vi-status-identidade span {
+    color: #625D68;
+}
+
+/* MENSAGENS */
+.vi-mensagem-assistente .vi-bolha {
+    background: #FFFFFF;
+    color: #343238;
+    border-color: rgba(80,70,80,.12);
+}
+
+.vi-mensagem-usuario .vi-bolha {
+    background: #38363C;
+    color: #FFFFFF;
+    border-color: #38363C;
+}
+
+/* CAMPO DE TEXTO */
+.vi-formulario {
+    background: rgba(255,255,255,.94);
+}
+
+.vi-formulario textarea {
+    background: #FAF9F8;
+    color: #343238;
+    border-color: rgba(70,65,75,.20);
+}
+
+.vi-formulario textarea::placeholder {
+    color: #716B74;
+}
+
+/* TODOS OS BOTÕES */
+.vi-formulario button,
+.vi-botao-voz {
+    background: #29282D;
+    color: #FFFFFF;
+    border: 1px solid #29282D;
+
+    box-shadow:
+        0 5px 13px rgba(30,28,33,.17),
+        inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+.vi-formulario button:hover,
+.vi-botao-voz:hover {
+    background: #45424A;
+    color: #FFFFFF;
+    border-color: #45424A;
+}
+
+/* MICROFONE EM DESTAQUE */
+.vi-botao-microfone {
+    background: #29282D;
+    color: #FFFFFF;
+    border-color: #29282D;
+}
+
+.vi-botao-microfone:hover {
+    background: #45424A;
+    color: #FFFFFF;
+}
+
+.vi-botao-microfone.vi-ouvindo {
+    background: #A64D36;
+    border-color: #A64D36;
+    color: #FFFFFF;
+}
+
+/* BOTÃO PARAR */
+.vi-botao-parar:hover {
+    background: #45424A;
+    color: #FFFFFF;
+}
+
+/* ÁREA DE VOZ */
+.vi-area-voz {
+    background: rgba(250,249,248,.94);
+}
+
+.vi-voz-titulo,
+.vi-status-voz {
+    color: #514C55;
+}
+
+/* AVISO */
+.vi-aviso {
+    background: rgba(255,255,255,.92);
+    color: #514C55;
+}
+
+.vi-aviso-icone {
+    color: #72546C;
+}
+
+/* RODAPÉ */
+.vi-rodape {
+    color: #423A40;
+}

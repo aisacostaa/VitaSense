@@ -1,133 +1,135 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FEF8F0">
   <title>VitaSense • Automações</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" th:href="@{/css/vitasense.css}">
   <link rel="stylesheet" th:href="@{/css/automacoes.css}">
 </head>
-<body class="app automacoes-page">
-<div class="page">
-  <header th:replace="~{fragments/layout :: topo('automacoes')}"></header>
+<body class="app">
+<header th:replace="~{fragments/nav :: nav('automacoes')}"></header>
 
-  <main class="au-main">
-    <div class="au-titulo"><h1>Automações</h1></div>
-    <div class="au-msg ok" th:if="${ok}" th:text="${ok}"></div>
-    <div class="au-msg erro" th:if="${erro}" th:text="${erro}"></div>
-    <div class="au-msg erro" th:if="${erros}"><ul><li th:each="e : ${erros}" th:text="${e}"></li></ul></div>
+<main class="vs-wrap">
+  <div class="vs-head vs-ahead">
+    <div>
+      <p class="vs-eyebrow"><span th:text="${imovel.nome}">Residência</span> · <span th:text="${agora}">data</span></p>
+      <h1 class="vs-h1">Automações</h1>
+      <p class="vs-lead">Configure rotinas inteligentes para a residência</p>
+    </div>
+    <a class="vs-btn" th:href="@{/automacoes#criar}">+ Criar automação</a>
+  </div>
+  <div class="vs-msg ok" th:if="${ok}" th:text="${ok}"></div>
+  <div class="vs-msg erro" th:if="${erro}" th:text="${erro}"></div>
+  <div class="vs-msg erro" th:if="${erros}"><ul><li th:each="e : ${erros}" th:text="${e}"></li></ul></div>
 
-    <section class="au-intro">
-      <div><p class="au-lead">Configure rotinas inteligentes para a residência</p><small th:text="${imovel.nome}">Residência</small></div>
-      <div class="au-dir"><a class="au-btn" th:href="@{/automacoes#criar}">+ Criar automação</a><small th:text="${agora}">data</small></div>
+  <!-- ROTINAS -->
+  <div class="vs-sh"><h2>Rotinas</h2><small><span th:text="${#lists.size(lista)}">5</span> rotinas · <span th:text="${ativas}">4</span> ativas · <span th:text="${inativas}">1</span> inativa(s)</small></div>
+  <div class="vs-rts vs-sec">
+    <article class="vs-card vs-rt" th:each="a : ${lista}">
+      <div class="vs-rt-t"><h3 th:text="${a.nome}">Rotina</h3><span class="vs-on" th:classappend="${a.ativa} ? '' : 'off'" th:text="${a.ativa} ? 'Ativa' : 'Inativa'">Ativa</span></div>
+      <p th:text="${a.descricao}">Descrição</p>
+      <b class="g" th:text="${a.gatilhoTexto}">Todos os dias, às 07:00</b>
+      <span class="al" th:text="${a.acaoTexto} + ' · ' + ${a.alvo}">Ligar luz · Luz da sala</span>
+      <small th:if="${a.condicoes != null and !a.condicoes.isBlank()}" th:text="${a.condicoes}">Condições</small>
+      <div class="vs-rt-f">
+        <a class="vs-btn sm" th:href="@{/automacoes(editar=${a.id})} + '#criar'">Editar</a>
+        <details><summary>Ver detalhes</summary>
+          <div><p><b>Última execução:</b> <span th:text="${a.ultimaTexto}">Nunca</span></p>
+            <div class="vs-rt-b">
+              <form th:action="@{/automacoes/{id}/executar(id=${a.id})}" method="post"><button class="vs-mini">▶ Executar agora</button></form>
+              <form th:action="@{/automacoes/{id}/alternar(id=${a.id})}" method="post"><button class="vs-mini" th:text="${a.ativa} ? 'Desativar' : 'Ativar'">Desativar</button></form>
+              <form th:action="@{/automacoes/{id}/excluir(id=${a.id})}" method="post" data-confirma="Excluir esta rotina?"><button class="vs-mini x">Excluir</button></form>
+            </div></div>
+        </details>
+      </div>
+    </article>
+    <p class="vs-empty" th:if="${#lists.isEmpty(lista)}">Nenhuma rotina criada ainda.</p>
+  </div>
+
+  <!-- CRIAR -->
+  <div class="vs-sh" id="criar"><h2 th:text="${edit != null} ? 'Editar automação' : 'Criar automação'">Criar automação</h2><small>Defina o gatilho, escolha a ação e revise antes de salvar.</small></div>
+  <form id="formAuto" th:action="@{/automacoes/salvar}" method="post" novalidate>
+    <input type="hidden" name="id" th:value="${edit?.id}">
+
+    <section class="vs-card vs-step">
+      <h3><span>1</span> Quando acontece?<small>Escolha um único gatilho para iniciar esta rotina.</small></h3>
+      <div class="vs-two2">
+        <div class="vs-ops">
+          <label th:each="g : ${gatilhos}" class="vs-op">
+            <input type="radio" name="gatilho" th:value="${g.key}" th:checked="${edit != null ? edit.gatilho == g.key : g.key == 'HORARIO'}">
+            <span th:text="${g.value}">Gatilho</span></label>
+        </div>
+        <div class="vs-pn">
+          <h4>Gatilho: <span id="gatTitulo">horário específico</span></h4>
+          <div data-gat="HORARIO"><label class="vs-f">Horário de execução<input type="time" name="horario" th:value="${edit?.horario}"></label>
+            <small class="vs-hint">Horário local da residência · uma execução por dia selecionado. Os dias da semana são definidos na etapa 3.</small></div>
+          <div data-gat="PRESENCA" hidden><label class="vs-f">Sensor de presença<select name="sensorId"><option value="">Qualquer sensor</option>
+              <option th:each="s : ${sensores}" th:value="${s.id}" th:text="${s.nome} + ' · ' + ${s.comodo}" th:selected="${edit != null and edit.sensor != null and edit.sensor.id == s.id}"></option></select></label>
+            <div class="vs-r2"><label class="vs-f">Janela: início<input type="time" name="horario" th:value="${edit?.horario}"></label><label class="vs-f">Janela: fim<input type="time" name="horarioFim" th:value="${edit?.horarioFim}"></label></div></div>
+          <div data-gat="AUSENCIA" hidden><label class="vs-f">Sensor<select name="sensorId">
+              <option th:each="s : ${sensores}" th:value="${s.id}" th:text="${s.nome} + ' · ' + ${s.comodo}" th:selected="${edit != null and edit.sensor != null and edit.sensor.id == s.id}"></option></select></label>
+            <label class="vs-f">Minutos sem movimento<input type="number" name="minutos" min="1" max="1440" placeholder="Ex.: 30" th:value="${edit?.minutos}"></label>
+            <div class="vs-notice"><b>Sobre ausência de movimento</b><p>É apenas uma condição de automação. Não permite concluir bem-estar, doença ou emergência e não substitui acompanhamento.</p></div></div>
+          <div data-gat="MANUAL" hidden><p>A rotina só roda quando você usar “Executar agora” em Ver detalhes.</p></div>
+          <div data-gat="SENSOR" hidden><label class="vs-f">Sensor<select name="sensorId">
+              <option th:each="s : ${sensores}" th:value="${s.id}" th:text="${s.nome} + ' · ' + ${s.comodo}" th:selected="${edit != null and edit.sensor != null and edit.sensor.id == s.id}"></option></select></label>
+            <small class="vs-hint">Dispara quando o sensor registrar um evento (simulado por “Executar agora”).</small></div>
+        </div>
+      </div>
     </section>
 
-    <!-- ROTINAS -->
-    <div class="au-linha"><h2 class="au-sec">Rotinas existentes</h2><small><span th:text="${#lists.size(lista)}">5</span> rotinas · <span th:text="${ativas}">4</span> ativas · <span th:text="${inativas}">1</span> inativa(s)</small></div>
-    <div class="au-cards">
-      <article class="au-card" th:each="a : ${lista}">
-        <div class="au-card-t"><h3 th:text="${a.nome}">Rotina</h3><span class="au-badge" th:classappend="${a.ativa} ? 'on' : 'off'" th:text="${a.ativa} ? 'Ativa' : 'Inativa'">Ativa</span></div>
-        <p th:text="${a.descricao}">Descrição</p>
-        <b class="au-gat" th:text="${a.gatilhoTexto}">Todos os dias, às 07:00</b>
-        <span class="au-alvo" th:text="${a.acaoTexto} + ' · ' + ${a.alvo}">Ligar luz · Luz da sala</span>
-        <small th:if="${a.condicoes != null and !a.condicoes.isBlank()}" th:text="${a.condicoes}">Condições</small>
-        <div class="au-card-f">
-          <a class="au-btn" th:href="@{/automacoes(editar=${a.id})} + '#criar'">Editar</a>
-          <details class="au-det"><summary>Ver detalhes</summary>
-            <div><p><b>Última execução:</b> <span th:text="${a.ultimaTexto}">Nunca</span></p>
-              <div class="au-det-b">
-                <form th:action="@{/automacoes/{id}/executar(id=${a.id})}" method="post"><button class="au-mini">▶ Executar agora</button></form>
-                <form th:action="@{/automacoes/{id}/alternar(id=${a.id})}" method="post"><button class="au-mini" th:text="${a.ativa} ? 'Desativar' : 'Ativar'">Desativar</button></form>
-                <form th:action="@{/automacoes/{id}/excluir(id=${a.id})}" method="post" data-confirma="Excluir esta rotina?"><button class="au-mini au-mini-x">Excluir</button></form>
-              </div></div>
-          </details>
+    <section class="vs-card vs-step">
+      <h3><span>2</span> O que deve acontecer?<small>Escolha a ação da rotina.</small></h3>
+      <div class="vs-two2">
+        <div class="vs-ops">
+          <label th:each="g : ${acoesAuto}" class="vs-op">
+            <input type="radio" name="acao" th:value="${g.key}" th:checked="${edit != null ? edit.acao == g.key : g.key == 'LIGAR_LUZ'}">
+            <span th:text="${g.value}">Ação</span></label>
+          <label class="vs-op off"><input type="radio" disabled><span>Executar outra rotina <small>(em breve)</small></span></label>
         </div>
-      </article>
-      <p class="au-vazio" th:if="${#lists.isEmpty(lista)}">Nenhuma rotina criada ainda.</p>
-    </div>
-
-    <!-- CRIAR -->
-    <h2 class="au-sec" id="criar" th:text="${edit != null} ? 'Editar automação' : 'Criar automação'">Criar automação</h2>
-    <p class="au-sub">Defina o gatilho, escolha a ação e revise antes de salvar.</p>
-    <form id="formAuto" th:action="@{/automacoes/salvar}" method="post" novalidate>
-      <input type="hidden" name="id" th:value="${edit?.id}">
-
-      <section class="au-passo">
-        <h3><span>1</span> Quando acontece?<small>Escolha um único gatilho para iniciar esta rotina.</small></h3>
-        <div class="au-duas">
-          <div class="au-radios">
-            <label th:each="g : ${gatilhos}" class="au-op">
-              <input type="radio" name="gatilho" th:value="${g.key}" th:checked="${edit != null ? edit.gatilho == g.key : g.key == 'HORARIO'}">
-              <span th:text="${g.value}">Gatilho</span></label>
-          </div>
-          <div class="au-painel">
-            <h4>Gatilho selecionado: <span id="gatTitulo">horário específico</span></h4>
-            <div data-gat="HORARIO"><label>Horário de execução<input type="time" name="horario" th:value="${edit?.horario}"></label>
-              <small>Horário local da residência · Uma execução por dia selecionado. Os dias da semana são definidos na etapa 3.</small></div>
-            <div data-gat="PRESENCA" hidden><label>Sensor de presença<select name="sensorId"><option value="">Qualquer sensor</option>
-                <option th:each="s : ${sensores}" th:value="${s.id}" th:text="${s.nome} + ' · ' + ${s.comodo}" th:selected="${edit != null and edit.sensor != null and edit.sensor.id == s.id}"></option></select></label>
-              <div class="au-r2"><label>Janela: início<input type="time" name="horario" th:value="${edit?.horario}"></label><label>Janela: fim<input type="time" name="horarioFim" th:value="${edit?.horarioFim}"></label></div></div>
-            <div data-gat="AUSENCIA" hidden><label>Sensor<select name="sensorId">
-                <option th:each="s : ${sensores}" th:value="${s.id}" th:text="${s.nome} + ' · ' + ${s.comodo}" th:selected="${edit != null and edit.sensor != null and edit.sensor.id == s.id}"></option></select></label>
-              <label>Minutos sem movimento<input type="number" name="minutos" min="1" max="1440" placeholder="Ex.: 30" th:value="${edit?.minutos}"></label>
-              <div class="au-aviso"><b>Sobre ausência de movimento</b><p>É apenas uma condição de automação. Não permite concluir bem-estar, doença ou emergência e não substitui acompanhamento.</p></div></div>
-            <div data-gat="MANUAL" hidden><p>A rotina só roda quando você usar “Executar agora” em Ver detalhes.</p></div>
-            <div data-gat="SENSOR" hidden><label>Sensor<select name="sensorId">
-                <option th:each="s : ${sensores}" th:value="${s.id}" th:text="${s.nome} + ' · ' + ${s.comodo}" th:selected="${edit != null and edit.sensor != null and edit.sensor.id == s.id}"></option></select></label>
-              <small>Dispara quando o sensor registrar um evento (simulado por “Executar agora”).</small></div>
-          </div>
+        <div class="vs-pn">
+          <h4 id="acaoTitulo">Ligar luz</h4>
+          <div id="boxDisp"><label class="vs-f">Equipamento e cômodo
+            <select name="dispositivoId" id="selDisp">
+              <option th:each="d : ${dispositivos}" th:value="${d.id}" th:text="${d.nome} + ' · ' + ${d.comodo}" th:attr="data-tipo=${d.tipo},data-comodo=${d.comodo},data-nome=${d.nome}"
+                      th:selected="${edit != null and edit.dispositivo != null and edit.dispositivo.id == d.id}"></option></select></label>
+            <small class="vs-hint" id="dispAjuda">Somente este equipamento será afetado.</small></div>
+          <p id="boxNotif" hidden>A rotina registrará uma notificação no painel (sem envio externo).</p>
+          <div class="vs-notice"><b>Segurança</b><p>Aquecedor: execução só com equipamento conectado. Exaustor: bloqueado enquanto houver falha no motor. Equipamentos sem conexão não são acionados e o responsável é avisado no histórico.</p></div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="au-passo">
-        <h3><span>2</span> O que deve acontecer?<small>Escolha a ação da rotina.</small></h3>
-        <div class="au-duas">
-          <div class="au-radios">
-            <label th:each="g : ${acoesAuto}" class="au-op">
-              <input type="radio" name="acao" th:value="${g.key}" th:checked="${edit != null ? edit.acao == g.key : g.key == 'LIGAR_LUZ'}">
-              <span th:text="${g.value}">Ação</span></label>
-            <label class="au-op au-op-off"><input type="radio" disabled><span>Executar outra rotina <small>(em breve)</small></span></label>
-          </div>
-          <div class="au-painel">
-            <h4 id="acaoTitulo">Ligar luz</h4>
-            <div id="boxDisp"><label>Equipamento e cômodo
-              <select name="dispositivoId" id="selDisp">
-                <option th:each="d : ${dispositivos}" th:value="${d.id}" th:text="${d.nome} + ' · ' + ${d.comodo}" th:attr="data-tipo=${d.tipo},data-comodo=${d.comodo},data-nome=${d.nome}"
-                        th:selected="${edit != null and edit.dispositivo != null and edit.dispositivo.id == d.id}"></option></select></label>
-              <small id="dispAjuda">Somente este equipamento será afetado.</small></div>
-            <p id="boxNotif" hidden>A rotina registrará uma notificação no painel (sem envio externo).</p>
-            <div class="au-aviso"><b>Segurança</b><p>Aquecedor: execução só com equipamento conectado. Exaustor: bloqueado enquanto houver falha no motor. Equipamentos sem conexão não são acionados e o responsável é avisado no histórico.</p></div>
-          </div>
-        </div>
-      </section>
+    <section class="vs-card vs-step">
+      <h3><span>3</span> Configuração<small>Identifique a rotina, defina os dias e confira tudo antes de salvar.</small></h3>
+      <div class="vs-r2"><label class="vs-f" style="margin-top:0">Nome da rotina<input name="nome" maxlength="60" placeholder="Ex.: Iluminação da sala ao entardecer" required th:value="${edit?.nome}"></label>
+        <label class="vs-f" style="margin-top:0">Cômodo<input id="campoComodo" readonly placeholder="Definido pelo equipamento"></label></div>
+      <label class="vs-f">Descrição (opcional)<input name="descricao" maxlength="200" placeholder="Ex.: Acende a sala ao anoitecer" th:value="${edit?.descricao}"></label>
+      <div class="vs-f"><span>Dias da semana</span>
+        <div class="vs-chips"><label th:each="d : ${dias}"><input type="checkbox" name="dias" th:value="${d}" th:checked="${edit == null or edit.diasLista.isEmpty() or edit.diasLista.contains(d)}"><span th:text="${d}">SEG</span></label></div>
+        <small class="vs-hint">Sem marcar nenhum dia, a rotina vale para todos.</small></div>
+      <label class="vs-f">Condições adicionais<textarea name="condicoes" maxlength="300" placeholder="Ex.: Executar somente com o equipamento conectado." th:text="${edit?.condicoes}"></textarea></label>
 
-      <section class="au-passo">
-        <h3><span>3</span> Configuração<small>Identifique a rotina, defina os dias e confira tudo antes de salvar.</small></h3>
-        <div class="au-r2"><label>Nome da rotina<input name="nome" maxlength="60" placeholder="Ex.: Iluminação da sala ao entardecer" required th:value="${edit?.nome}"></label>
-          <label>Cômodo<input id="campoComodo" readonly placeholder="Definido pelo equipamento"></label></div>
-        <label>Descrição (opcional)<input name="descricao" maxlength="200" placeholder="Ex.: Acende a sala ao anoitecer" th:value="${edit?.descricao}"></label>
-        <div class="au-dias"><span>Dias da semana</span>
-          <div><label th:each="d : ${dias}" class="au-chip"><input type="checkbox" name="dias" th:value="${d}" th:checked="${edit == null or edit.diasLista.isEmpty() or edit.diasLista.contains(d)}"><span th:text="${d}">SEG</span></label></div>
-          <small>Sem marcar nenhum dia, a rotina vale para todos.</small></div>
-        <label>Condições adicionais<textarea name="condicoes" maxlength="300" placeholder="Ex.: Executar somente com o equipamento conectado." th:text="${edit?.condicoes}"></textarea></label>
+      <div class="vs-rev"><div class="vs-rev-t"><b>Revisar automação</b><small>Rascunho · não salvo</small></div><p id="revTexto">—</p></div>
+      <label class="vs-ok"><input type="checkbox" id="revisei"> Revisei quando a rotina executa, suas ações, os dispositivos e as condições de segurança.</label>
+      <div class="vs-sfoot"><small>Confirme a revisão para habilitar “Salvar automação”.</small>
+        <div><a class="vs-btn soft" th:href="@{/automacoes}">Cancelar</a><button class="vs-btn" id="btnSalvar" disabled>Salvar automação</button></div></div>
+    </section>
+  </form>
 
-        <div class="au-rev"><div class="au-rev-t"><b>Revisar automação</b><small>Rascunho · Não salvo</small></div><p id="revTexto">—</p></div>
-        <label class="au-ok"><input type="checkbox" id="revisei"> Revisei quando a rotina executa, suas ações, os dispositivos e as condições de segurança.</label>
-        <div class="au-form-f"><small>Confirme a revisão para habilitar “Salvar automação”.</small>
-          <div><a class="au-btn au-btn-borda" th:href="@{/automacoes}">Cancelar</a> <button class="au-btn" id="btnSalvar" disabled>Salvar automação</button></div></div>
-      </section>
-    </form>
-
-    <!-- HISTÓRICO -->
-    <div class="au-linha" id="historico"><h2 class="au-sec">Histórico</h2><small>Últimas execuções · Mais recentes primeiro</small></div>
-    <div class="au-hist">
-      <div class="au-hist-h"><span>Data / horário</span><span>Rotina</span><span>Resultado da execução</span></div>
-      <div class="au-hist-l" th:each="h : ${historico}"><span th:text="${h.momentoTexto}">data</span><span th:text="${h.rotinaNome}">rotina</span>
-        <div><b th:text="${h.titulo}" th:classappend="${h.sucesso} ? '' : 'falha'">Executada</b><p th:text="${h.detalhe}">detalhe</p></div></div>
-      <p class="au-vazio" th:if="${#lists.isEmpty(historico)}">Nenhuma execução registrada.</p>
-    </div>
-  </main>
-</div>
+  <!-- HISTÓRICO -->
+  <div class="vs-sh" id="historico"><h2>Histórico</h2><small>Últimas execuções · mais recentes primeiro</small></div>
+  <div class="vs-card vs-list">
+    <div class="vs-ah h"><span>Data / horário</span><span>Rotina</span><span>Resultado</span></div>
+    <div class="vs-ah" th:each="h : ${historico}"><span th:text="${h.momentoTexto}">data</span><span th:text="${h.rotinaNome}">rotina</span>
+      <div><b th:text="${h.titulo}" th:classappend="${h.sucesso} ? '' : 'falha'">Executada</b><p th:text="${h.detalhe}">detalhe</p></div></div>
+    <p class="vs-empty" th:if="${#lists.isEmpty(historico)}">Nenhuma execução registrada.</p>
+  </div>
+</main>
+<script th:src="@{/js/vs-nav.js}"></script>
 <script th:src="@{/js/automacoes.js}"></script>
 </body>
 </html>

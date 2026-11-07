@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#F8F7F5">
+    <meta name="csrf" th:content="${_csrf.token}">
+
+    <title>VitaSense • Conversar com a Vi</title>
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+
+    <link rel="stylesheet" th:href="@{/css/vitasense.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso-extra.css}">
+    <link rel="stylesheet" th:href="@{/css/vi.css}">
+</head>
+
+<body class="id-page app vi-body">
+
+<div class="id-shell">
+
+    <aside th:replace="~{fragments/idoso :: menu('vi')}"></aside>
+
+    <div class="id-conteudo">
+
+        <header th:replace="~{fragments/idoso :: topo}"></header>
+
+        <main class="id-principal vi-pagina">
+
+            <!-- Apresentação da Vi -->
+            <section class="vi-cabecalho">
+
+                <div class="vi-avatar-area">
+
+                    <div class="vi-logo-halo"></div>
+
+                    <div class="vi-avatar">
+                        <img
+                            th:src="@{/img/vi-logo.png}"
+                            src="/img/vi-logo.png"
+                            alt="Logo da Vi"
+                            class="vi-logo-img">
+                    </div>
+
+                    <div class="vi-avatar-legenda">
+                        <strong>VI AI</strong>
+                        <small>Sua assistente virtual</small>
+                    </div>
+
+                </div>
+
+                <div class="vi-introducao">
+
+                    <span class="vi-etiqueta">
+                        <span class="vi-etiqueta-ponto"></span>
+                        INTELIGÊNCIA VITASENSE
+                    </span>
+
+                    <h1>Converse com a <span>Vi.</span></h1>
+
+                    <p class="id-sub">
+                        Sua companhia inteligente para conversar,
+                        receber orientações e encontrar ajuda.
+                    </p>
+
+                    <div class="vi-conexao">
+                        <span class="vi-conexao-ponto"></span>
+                        Assistente virtual disponível
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Área principal da conversa -->
+            <section class="vi-cartao">
+
+                <!-- Identificação da assistente -->
+                <div class="vi-status">
+
+                    <div class="vi-status-identidade">
+
+                        <div class="vi-status-avatar">
+                            <img
+                                th:src="@{/img/vi-logo.png}"
+                                src="/img/vi-logo.png"
+                                alt=""
+                                aria-hidden="true">
+                            <i></i>
+                        </div>
+
+                        <div>
+                            <strong>Vi</strong>
+                            <span>Assistente inteligente</span>
+                        </div>
+
+                    </div>
+
+                    <div class="vi-status-direita">
+                        <span class="vi-status-sinal"></span>
+                        <span>Online</span>
+                    </div>
+
+                </div>
+
+                <!-- Histórico de mensagens -->
+                <div class="vi-conversa" id="viConversa" aria-live="polite">
+
+                    <!-- Mensagem inicial -->
+                    <div class="vi-mensagem vi-mensagem-assistente vi-mensagem-inicial">
+
+                        <div class="vi-identificacao-mensagem">
+                            <span class="vi-mini-avatar">
+                                <img
+                                    th:src="@{/img/vi-logo.png}"
+                                    src="/img/vi-logo.png"
+                                    alt="">
+                            </span>
+                            <strong>Vi</strong>
+                        </div>
+
+                        <div class="vi-bolha">
+                            <p>Olá! Eu sou a Vi, assistente virtual do VitaSense. 😊</p>
+                            <p>Estou aqui para conversar com você. Como posso ajudar hoje?</p>
+                        </div>
+
+                        <span class="vi-horario">Agora</span>
+
+                    </div>
+
+                </div>
+
+                <!-- Indicador de digitação -->
+                <div class="vi-digitacao" id="viDigitacao" hidden>
+
+                    <div class="vi-digitacao-avatar">
+                        <img
+                            th:src="@{/img/vi-logo.png}"
+                            src="/img/vi-logo.png"
+                            alt="">
+                    </div>
+
+                    <div class="vi-digitacao-conteudo">
+
+                        <div class="vi-ondas">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                        <small>A Vi está preparando uma resposta...</small>
+
+                    </div>
+
+                </div>
+
+                <!-- Campo de mensagem -->
+                <form class="vi-formulario" id="viFormulario">
+
+                    <label class="vi-campo">
+                        <span class="sr-only">Digite sua mensagem</span>
+
+                        <textarea
+                            id="viMensagem"
+                            rows="1"
+                            maxlength="2000"
+                            placeholder="Escreva sua mensagem para a Vi..."
+                            required></textarea>
+                    </label>
+
+                    <button type="submit" id="viEnviar" aria-label="Enviar mensagem">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m22 2-7 20-4-9-9-4Z"></path>
+                            <path d="M22 2 11 13"></path>
+                        </svg>
+
+                        <span>Enviar</span>
+
+                    </button>
+
+                </form>
+
+                <!-- Controles de voz -->
+                <div class="vi-area-voz">
+
+                    <div class="vi-voz-titulo">
+                        <span class="vi-voz-icone">♫</span>
+                        <span>Converse por voz</span>
+                    </div>
+
+                    <div class="vi-controles-voz">
+
+                        <button
+                            type="button"
+                            class="vi-botao-voz vi-botao-microfone"
+                            id="viMicrofone"
+                            aria-label="Falar com a Vi">
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <rect x="9" y="2" width="6" height="13" rx="3"></rect>
+                                <path d="M5 10v2a7 7 0 0 0 14 0v-2"></path>
+                                <path d="M12 19v3"></path>
+                                <path d="M8 22h8"></path>
+                            </svg>
+
+                            <span>Falar com a Vi</span>
+
+                        </button>
+
+                        <button type="button" class="vi-botao-voz" id="viRepetir">
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                                <path d="M19 5a10 10 0 0 1 0 14"></path>
+                            </svg>
+
+                            <span>Ouvir novamente</span>
+
+                        </button>
+
+                        <button
+                            type="button"
+                            class="vi-botao-voz vi-botao-parar"
+                            id="viParar">
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+                            </svg>
+
+                            <span>Parar fala</span>
+
+                        </button>
+
+                    </div>
+
+                    <div
+                        class="vi-status-voz"
+                        id="viStatusVoz"
+                        aria-live="polite">
+
+                        Você também pode conversar por voz com a Vi.
+
+                    </div>
+
+                </div>
+
+                <!-- Aviso -->
+                <div class="vi-aviso">
+
+                    <span class="vi-aviso-icone">ⓘ</span>
+
+                    <span>
+                        A Vi é uma assistente virtual. Em situações de emergência,
+                        procure ajuda humana imediatamente.
+                    </span>
+
+                </div>
+
+            </section>
+
+            <!-- Rodapé -->
+            <div class="vi-rodape">
+                <span>VITASENSE</span>
+                <span>TECNOLOGIA E CUIDADO EM CONEXÃO</span>
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+<th:block th:replace="~{fragments/idoso :: sos(${contato})}"></th:block>
+
+<script th:src="@{/js/idoso.js}"></script>
+<script th:src="@{/js/vi.js}"></script>
+
+</body>
+</html>

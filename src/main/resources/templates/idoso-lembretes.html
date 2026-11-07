@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#FEF8F0">
+
+    <title>VitaSense • Meus lembretes</title>
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+
+    <link rel="stylesheet" th:href="@{/css/vitasense.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso-extra.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso-lembretes.css}">
+</head>
+
+<body class="id-page app">
+
+<div class="id-shell">
+
+    <aside th:replace="~{fragments/idoso :: menu('lembretes')}"></aside>
+
+    <div class="id-conteudo">
+
+        <header th:replace="~{fragments/idoso :: topo}"></header>
+
+        <main class="id-principal il-pagina">
+
+            <!-- CABEÇALHO -->
+            <section class="il-cabecalho">
+
+                <div class="il-cabecalho-texto">
+
+                    <span class="il-etiqueta">
+                        <span class="il-etiqueta-ponto"></span>
+                        ORGANIZAÇÃO DA ROTINA
+                    </span>
+
+                    <h1>Meus lembretes</h1>
+
+                    <p class="id-sub"
+                       th:text="${ehHoje}
+                       ? 'Veja o que você precisa lembrar hoje.'
+                       : 'Lembretes programados para ' + dataSelecionada">
+                        Veja o que você precisa lembrar hoje.
+                    </p>
+
+                </div>
+
+                <div class="il-cabecalho-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="4" y="5" width="16" height="16" rx="3"/>
+                        <path d="M8 3v4m8-4v4M4 10h16"/>
+                        <path d="m9 15 2 2 4-4"/>
+                    </svg>
+                </div>
+
+            </section>
+
+
+            <!-- RESUMO -->
+            <section class="il-resumo-area" aria-label="Resumo dos lembretes">
+
+                <div class="il-resumo-card il-resumo-concluidos">
+
+                    <span class="il-resumo-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="m5 12 4 4L19 6"/>
+                            <circle cx="12" cy="12" r="9"/>
+                        </svg>
+                    </span>
+
+                    <div class="il-resumo-info">
+                        <b class="il-resumo-numero" th:text="${concluidos}">1</b>
+                        <span class="il-resumo-label"
+                              th:text="${concluidos == 1} ? 'Concluído' : 'Concluídos'">
+                            Concluídos
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="il-resumo-card il-resumo-pendentes">
+
+                    <span class="il-resumo-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="M12 7v5l3 2"/>
+                        </svg>
+                    </span>
+
+                    <div class="il-resumo-info">
+                        <b class="il-resumo-numero" th:text="${pendentes}">2</b>
+                        <span class="il-resumo-label"
+                              th:text="${pendentes == 1} ? 'Pendente' : 'Pendentes'">
+                            Pendentes
+                        </span>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- LISTA DE LEMBRETES -->
+            <section class="il-programacao">
+
+                <div class="il-lista-cabecalho">
+
+                    <div>
+                        <span class="il-lista-etiqueta">SUA ROTINA</span>
+
+                        <h2>Sua programação</h2>
+
+                        <p>
+                            Acompanhe seus compromissos e marque o que já realizou.
+                        </p>
+                    </div>
+
+                    <span class="il-lista-contagem"
+                          th:text="${#lists.size(lista)} + (${#lists.size(lista)} == 1 ? ' lembrete' : ' lembretes')">
+                        3 lembretes
+                    </span>
+
+                </div>
+
+
+                <!-- CARTÕES -->
+                <div class="il-lista">
+
+                    <article
+                        class="il-item"
+                        th:each="o : ${lista}"
+                        th:classappend="${o.confirmado} ? 'feito'">
+
+                        <!-- HORÁRIO -->
+                        <div class="il-hora">
+
+                            <span class="il-hora-icone" aria-hidden="true">
+                                <svg viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="9"/>
+                                    <path d="M12 7v5l3 2"/>
+                                </svg>
+                            </span>
+
+                            <div class="il-hora-texto">
+                                <small>HORÁRIO</small>
+                                <b th:text="${o.horarioTexto}">08h00</b>
+                            </div>
+
+                        </div>
+
+
+                        <!-- INFORMAÇÕES -->
+                        <div class="il-corpo">
+
+                            <h3 th:text="${o.titulo}">
+                                Tomar medicamento
+                            </h3>
+
+                            <p
+                                class="il-estado"
+                                th:text="${o.confirmado}
+                                ? 'Concluído'
+                                : (${o.agendado} ? 'Ainda não é a hora' : 'Pendente')">
+                                Pendente
+                            </p>
+
+                            <small>
+                                Adicionado por:
+                                <span th:text="${criador[o.id]}">Eu</span>
+                            </small>
+
+                        </div>
+
+
+                        <!-- AÇÃO -->
+                        <div class="il-acao">
+
+                            <form
+                                th:if="${o.naoConfirmado}"
+                                th:action="@{/idoso/lembretes/{id}/confirmar(id=${o.id})}"
+                                method="post">
+
+                                <input
+                                    type="hidden"
+                                    name="dia"
+                                    th:value="${o.dataIso}">
+
+                                <button class="il-confirmar" type="submit">
+
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="m5 12 4 4L19 6"/>
+                                    </svg>
+
+                                    Confirmar lembrete
+
+                                </button>
+
+                            </form>
+
+                            <span
+                                class="il-ok"
+                                th:if="${o.confirmado}"
+                                th:text="'✔ ' + ${o.detalhe}">
+                                ✔ Resposta às 08h05
+                            </span>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- ESTADO VAZIO -->
+                <div class="il-vazio" th:if="${#lists.isEmpty(lista)}">
+
+                    <span class="il-vazio-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="4" y="5" width="16" height="16" rx="3"/>
+                            <path d="M8 3v4m8-4v4M4 10h16"/>
+                            <path d="m9 15 2 2 4-4"/>
+                        </svg>
+                    </span>
+
+                    <h3>Está tudo tranquilo por aqui!</h3>
+
+                    <p th:if="${ehHoje}">
+                        Você não tem lembretes para hoje.
+                    </p>
+
+                    <p th:unless="${ehHoje}">
+                        Você não tem lembretes para esta data.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- RODAPÉ E NOVO LEMBRETE -->
+            <section class="il-rodape">
+
+                <div class="il-dica">
+                    <span class="il-dica-icone" aria-hidden="true">i</span>
+
+                    <p>
+                        Quando chegar a hora de um lembrete,
+                        toque em confirmar para registrar a realização.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="il-novo"
+                    id="abrirNovo">
+
+                    <span aria-hidden="true">+</span>
+                    Adicionar novo lembrete
+
+                </button>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL DE NOVO LEMBRETE -->
+<dialog
+    id="dlgNovo"
+    class="id-dialogo il-dialogo"
+    aria-labelledby="novoTitulo">
+
+    <div class="il-modal-cabecalho">
+
+        <span class="il-modal-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+                <rect x="4" y="5" width="16" height="16" rx="3"/>
+                <path d="M8 3v4m8-4v4M4 10h16"/>
+                <path d="M12 13v5m-2.5-2.5h5"/>
+            </svg>
+        </span>
+
+        <h2 id="novoTitulo">Novo lembrete</h2>
+
+        <p>Organize sua rotina com tranquilidade.</p>
+
+    </div>
+
+    <form th:action="@{/idoso/lembretes/novo}" method="post">
+
+        <label for="titulo">
+            Do que você quer se lembrar?
+        </label>
+
+        <input
+            id="titulo"
+            name="titulo"
+            maxlength="80"
+            required
+            placeholder="Ex.: Regar as plantas"
+            autocomplete="off">
+
+
+        <label for="horario">
+            Em que horário?
+        </label>
+
+        <input
+            id="horario"
+            name="horario"
+            type="time"
+            required>
+
+
+        <label for="data">
+            Para qual data?
+        </label>
+
+        <input
+            id="data"
+            name="data"
+            type="date"
+            required
+            th:attr="min=${hojeIso}"
+            th:value="${dataIso}">
+
+
+        <fieldset>
+
+            <legend>Repetir?</legend>
+
+            <label class="il-op">
+
+                <input
+                    type="radio"
+                    name="repete"
+                    value="uma"
+                    checked>
+
+                <span>Só esta vez</span>
+
+            </label>
+
+            <label class="il-op">
+
+                <input
+                    type="radio"
+                    name="repete"
+                    value="todo-dia">
+
+                <span>Todos os dias</span>
+
+            </label>
+
+        </fieldset>
+
+
+        <button
+            class="id-btn-grande id-perigo"
+            type="submit">
+            Salvar lembrete
+        </button>
+
+        <button
+            class="id-btn-grande id-neutro"
+            type="button"
+            id="fecharNovo">
+            Cancelar
+        </button>
+
+    </form>
+
+</dialog>
+
+
+<script th:src="@{/js/idoso.js}"></script>
+<script th:src="@{/js/idoso-lembretes.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#F4B47F">
+
+    <title>VitaSense • Minha casa</title>
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+
+    <link rel="stylesheet" th:href="@{/css/vitasense.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso.css}">
+    <link rel="stylesheet" th:href="@{/css/idoso-extra.css}">
+    <link rel="stylesheet" th:href="@{/css/casa.css}">
+</head>
+
+<body class="id-page app casa-body">
+
+<div class="id-shell">
+
+    <aside th:replace="~{fragments/idoso :: menu('casa')}"></aside>
+
+    <div class="id-conteudo">
+
+        <header th:replace="~{fragments/idoso :: topo}"></header>
+
+        <main class="id-principal id-casa-pagina">
+
+            <!-- Apresentação -->
+            <section class="casa-cabecalho">
+
+                <div class="casa-titulo-area">
+                    <span class="casa-etiqueta">
+                        <span class="casa-etiqueta-ponto"></span>
+                        SUA CASA CONECTADA
+                    </span>
+
+                    <h1>Minha casa</h1>
+
+                    <p class="id-sub">
+                        Controle seus aparelhos de forma simples e acompanhe
+                        o que está acontecendo em cada cômodo.
+                    </p>
+                </div>
+
+                <div class="casa-resumo">
+                    <span class="casa-resumo-icone">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m3 10 9-7 9 7"></path>
+                            <path d="M5 9v11h14V9"></path>
+                            <path d="M9 20v-6h6v6"></path>
+                        </svg>
+                    </span>
+
+                    <span>
+                        <strong>Ambiente inteligente</strong>
+                        <small>Seus dispositivos em um só lugar</small>
+                    </span>
+                </div>
+
+            </section>
+
+            <!-- Cômodos -->
+            <div class="id-comodos">
+
+                <section class="id-comodo" th:each="c : ${comodos}">
+
+                    <div class="id-comodo-t">
+
+                        <div class="id-comodo-identidade">
+                            <span class="casa-comodo-ponto"></span>
+                            <h2 th:text="${c.nome}">Sala</h2>
+                        </div>
+
+                        <span class="casa-total"
+                              th:text="${c.total} + (${c.total} == 1 ? ' aparelho' : ' aparelhos')">
+                            3 aparelhos
+                        </span>
+
+                    </div>
+
+                    <div class="id-aparelho"
+                         th:each="d : ${c.dispositivos}"
+                         th:classappend="${d.ligado} ? 'on'">
+
+                        <!-- Ícone do aparelho -->
+                        <span class="id-ico"
+                              aria-hidden="true"
+                              th:with="n=${#strings.toLowerCase(d.nome)}, tipo=${#strings.contains(n,'luz') or #strings.contains(n,'lâmpada') or #strings.contains(n,'abajur') ? 'luz' : (#strings.contains(n,'tomada') ? 'tomada' : (#strings.contains(n,'ar-cond') or #strings.contains(n,'ar cond') or #strings.contains(n,'ventilador') or #strings.contains(n,'exaust') ? 'ar' : (#strings.contains(n,'aquec') ? 'fogo' : 'padrao')))}">
+
+                            <th:block th:switch="${tipo}">
+
+                                <svg th:case="'luz'" viewBox="0 0 24 24">
+                                    <path d="M9 18h6m-5 3h4m-2-19a7 7 0 0 0-4 12.7c.6.4 1 1.1 1 1.8h6c0-.7.4-1.4 1-1.8A7 7 0 0 0 12 2Z"/>
+                                </svg>
+
+                                <svg th:case="'tomada'" viewBox="0 0 24 24">
+                                    <path d="M9 7V3m6 4V3M7 7h10v4a5 5 0 0 1-5 5v5m-5-14v4a5 5 0 0 0 5 5"/>
+                                </svg>
+
+                                <svg th:case="'ar'" viewBox="0 0 24 24">
+                                    <path d="M3 8h11a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h7"/>
+                                </svg>
+
+                                <svg th:case="'fogo'" viewBox="0 0 24 24">
+                                    <path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9Z"/>
+                                </svg>
+
+                                <svg th:case="*" viewBox="0 0 24 24">
+                                    <rect x="4" y="4" width="16" height="16" rx="4"/>
+                                    <path d="M12 8v4m-2.8-1.6a4.5 4.5 0 1 0 5.6 0"/>
+                                </svg>
+
+                            </th:block>
+
+                        </span>
+
+                        <!-- Informações -->
+                        <div class="id-aparelho-txt">
+
+                            <b th:text="${d.nome}">Luz principal</b>
+
+                            <span class="id-estado"
+                                  th:text="${d.estadoSimples}">
+                                Ligada
+                            </span>
+
+                            <small th:if="${!d.conectado}">
+                                Não está respondendo
+                            </small>
+
+                            <small th:if="${d.conectado and d.falha}">
+                                Avise o seu responsável
+                            </small>
+
+                        </div>
+
+                        <!-- Controle -->
+                        <form th:action="@{/idoso/casa/dispositivos/{id}/alternar(id=${d.id})}"
+                              method="post">
+
+                            <button type="submit"
+                                    class="id-btn-aparelho"
+                                    th:classappend="${d.ligado} ? 'ligado'"
+                                    th:disabled="${!d.permiteAlterar(!d.ligado)}"
+                                    th:attr="aria-label=${d.ligado ? 'Desligar ' + d.nome : 'Ligar ' + d.nome}">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 3v9m5.5-6.5a8 8 0 1 1-11 0"/>
+                                </svg>
+
+                                <span th:text="${!d.permiteAlterar(!d.ligado)} ? (${!d.conectado} ? 'Sem conexão' : 'Com problema') : (${d.ligado} ? 'Desligar' : 'Ligar')">
+                                    Ligar
+                                </span>
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- Estado vazio -->
+            <p class="id-vazio"
+               th:if="${#lists.isEmpty(comodos)}">
+                Não há aparelhos para controlar por aqui.
+            </p>
+
+        </main>
+
+    </div>
+
+</div>
+
+<script th:src="@{/js/idoso.js}"></script>
+
+</body>
+</html>

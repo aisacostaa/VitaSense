@@ -1,46 +1,693 @@
-/* VitaSense — tela Saúde. Tudo isolado em .saude-page (não mexe nas outras telas) */
-.saude-page{--sv-navy:#0b1957;--sv-blue:#5784e6;--sv-soft:#d2e7ff;--sv-pale:#f1f8ff;--sv-bd:#8197ce;--sv-muted:#667085;background:#fafaff;color:#151b2d;min-height:100vh}
-.saude-page .page{width:min(100% - 48px,1180px);max-width:1180px;margin-inline:auto;padding-bottom:56px}
-.sv-main{padding-bottom:24px}.sv-main h1,.sv-main h2,.sv-main h3,.sv-main p{margin:0}.sv-main small{color:var(--sv-muted);font-size:12px}
-.sv-titulo{border-bottom:1px solid rgba(11,25,87,.55);padding:26px 0 10px;margin-bottom:16px}.sv-titulo h1{color:var(--sv-navy);font-size:clamp(24px,2.2vw,31px);font-weight:750;letter-spacing:-.04em}
-.sv-msg{margin:12px 0;padding:12px 16px;border-radius:10px;background:#eaf8ef;color:#246b45;font-size:14px}
-.sv-intro,.sv-linha{display:flex;justify-content:space-between;align-items:flex-end;gap:16px}.sv-intro{margin:14px 0 8px}
-.sv-lead{font-size:17px}.sv-dir{text-align:right}.sv-dir b{display:block;margin-top:4px;font-size:13px;color:var(--sv-navy)}
-.sv-sec{color:var(--sv-navy);font-size:19px;font-weight:700;margin:28px 0 12px!important}.sv-linha .sv-sec{margin-bottom:12px!important}
 
-.sv-card{background:var(--sv-pale);border:1px solid var(--sv-bd);border-radius:16px;box-shadow:0 8px 24px rgba(11,25,87,.055)}
-.sv-relogio{padding:20px 24px}.sv-relogio-topo{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.sv-ico-grande{width:44px;height:44px;border-radius:12px;background:var(--sv-navy);color:#fff;display:grid;place-items:center;flex:0 0 44px}
-.sv-ico-grande svg{width:24px;height:24px}svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.sv-relogio-nome{flex:1 1 220px}.sv-relogio-nome h3{color:var(--sv-navy);font-size:18px}
-.sv-acoes{display:flex;gap:10px;margin-left:auto}.sv-acoes form{margin:0}
-.sv-relogio-base{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid #aab9df;font-size:13px;color:#344054}.sv-relogio-base b{font-weight:600}
+/* =========================================================
+   VITASENSE — SAÚDE
+   Coral • Laranja • Azul-gelo • Lavanda
+   Glassmorphism e leitura confortável
+========================================================= */
 
-.sv-btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 16px;border:1px solid transparent;border-radius:9px;background:var(--sv-navy);color:#fff;font:inherit;font-size:13px;font-weight:650;text-decoration:none;cursor:pointer;transition:background .18s,transform .18s}
-.sv-btn:hover{transform:translateY(-1px);background:#172b78}
-.sv-btn-claro{background:var(--sv-soft);color:var(--sv-navy)}.sv-btn-claro:hover{background:#c0dcfb}
-.sv-btn-branco{background:#edf4ff;color:var(--sv-navy)}.sv-btn-branco:hover{background:#fff}
-.sv-btn-borda{background:#fff;color:var(--sv-navy);border-color:#7d8fc6;min-height:34px;padding:7px 16px}.sv-btn-borda:hover{background:#edf4ff}
-.sv-tag{display:inline-block;padding:5px 10px;border-radius:7px;background:var(--sv-soft);color:var(--sv-navy);font-size:11px;font-weight:600;white-space:nowrap}
-.sv-tag-escura{background:var(--sv-navy);color:#fff}.sv-tag-clara{background:#e7efff}.sv-tag-off{background:#fde8d8;color:#b54708}
+.vs-wrap {
+    color: #30313B;
+}
 
-.sv-grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-.sv-ind{display:flex;flex-direction:column;gap:6px;padding:16px 16px 12px;background:var(--sv-soft);border:1px solid var(--sv-bd);border-radius:15px;color:var(--sv-navy)}
-.sv-ind h3{display:flex;align-items:center;gap:8px;font-size:14px}.sv-ind h3 svg{width:19px;height:19px;flex:none}
-.sv-valor{margin:8px 0 6px;display:flex;align-items:baseline;gap:8px}.sv-valor b{font-size:30px;color:#151b2d;letter-spacing:-.03em}.sv-valor span{font-size:12px}
-.sv-ind .sv-tag{align-self:flex-start;margin:8px 0 4px}
-.sv-link{display:flex;justify-content:space-between;margin-top:auto;padding-top:10px;border-top:1px solid var(--sv-bd);color:#151b2d;font-size:12px;font-weight:650;text-decoration:none}.sv-link:hover{text-decoration:underline}
+/* CABEÇALHO */
 
-.sv-faixa{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:34px 0 0;padding:18px 24px;border-radius:16px;background:linear-gradient(145deg,#142b70,#0b1957 75%);color:#fff}
-.sv-faixa h3{font-size:16px}.sv-faixa small{color:rgba(255,255,255,.75)}.sv-faixa-t{flex:1 1 180px}.sv-faixa-r b{display:block;font-size:14px}
-.sv-alertas{overflow:hidden;background:#fff}.sv-alerta{display:flex;gap:16px;align-items:flex-start;padding:18px 22px;border-bottom:1px solid #aab9df}.sv-alerta:last-child{border-bottom:0}
-.sv-ico-aviso{width:26px;height:26px;flex:0 0 26px;border-radius:7px;background:var(--sv-blue);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
-.sv-alerta-c{flex:1;min-width:0}.sv-alerta-c h3{font-size:15px;margin-bottom:3px}.sv-alerta-c small{display:block;margin-bottom:6px}.sv-alerta-c p{font-size:13px;color:#344054}
-.sv-alerta-r{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.sv-vazio{padding:22px;text-align:center;color:var(--sv-muted)}
-.sv-abas{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}.sv-abas a{padding:8px 16px;border-radius:999px;background:#fff;border:1px solid var(--sv-bd);color:var(--sv-navy);font-size:13px;font-weight:600;text-decoration:none}.sv-abas a.on{background:var(--sv-navy);color:#fff}
-.sv-tabela-wrap{overflow-x:auto}.sv-tabela{width:100%;border-collapse:collapse;font-size:14px;color:var(--sv-navy)}
-.sv-tabela th{background:var(--sv-navy);color:#fff;text-align:left;padding:12px 16px;font-weight:600}.sv-tabela td{padding:11px 16px;border-top:1px solid #cdd7ea}
-.sv-nota{display:block;margin-top:10px}
-@media(max-width:1000px){.sv-grid4{grid-template-columns:1fr 1fr}.sv-acoes{margin-left:0;width:100%}}
-@media(max-width:640px){.saude-page .page{width:calc(100% - 28px)}.sv-grid4{grid-template-columns:1fr}.sv-intro,.sv-linha,.sv-alerta{flex-direction:column;align-items:flex-start}.sv-dir{text-align:left}.sv-alerta-r{align-items:flex-start}}
+.vs-head {
+    margin-bottom: 30px;
+}
+
+.vs-eyebrow {
+    margin-bottom: 10px;
+    color: #777783;
+    font-size: 13px;
+    font-weight: 550;
+    letter-spacing: .035em;
+}
+
+.vs-eyebrow a {
+    color: #D87552 !important;
+}
+
+.vs-h1 {
+    color: #30313B;
+    font-size: clamp(29px, 3vw, 38px);
+    font-weight: 750;
+    letter-spacing: -.05em;
+    line-height: 1.2;
+}
+
+.vs-lead {
+    margin-top: 9px;
+    color: #686875;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.vs-msg {
+    margin-bottom: 20px;
+    padding: 14px 18px;
+    color: #477D58;
+    background: #E7F4E9;
+    border: 1px solid #C6E4CC;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+/* CARTÕES */
+
+.vs-card {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255,255,255,.88);
+    border: 1px solid rgba(255,255,255,.96);
+    border-radius: 25px;
+
+    box-shadow:
+        0 2px 4px rgba(35,35,45,.025),
+        0 14px 36px rgba(35,35,45,.055),
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+
+.vs-sec {
+    margin-bottom: 26px;
+}
+
+.vs-sh {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 32px 0 15px;
+}
+
+.vs-sh h2 {
+    color: #38343D;
+    font-size: 21px;
+    font-weight: 750;
+    letter-spacing: -.035em;
+}
+
+.vs-sh small {
+    color: #777783;
+    font-size: 13px;
+}
+
+/* SMARTWATCH */
+
+.vs-watch {
+    padding: 26px 30px;
+}
+
+.vs-watch-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.vs-watch-top .vs-ico {
+    display: grid;
+    place-items: center;
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
+    color: #D76F50;
+    background: rgba(252,134,91,.17);
+    border: 1px solid rgba(252,134,91,.16);
+    border-radius: 15px;
+}
+
+.vs-watch-top .vs-ico svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.vs-watch-top .vs-tx {
+    flex: 1 1 200px;
+    min-width: 0;
+}
+
+.vs-watch-top h3 {
+    color: #38343D;
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.vs-watch-top .vs-tx p {
+    margin-top: 4px;
+    color: #777783;
+    font-size: 13px;
+}
+
+.vs-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 13px;
+    color: #477D58;
+    background: #E7F4E9;
+    border: 1px solid #C6E4CC;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.vs-tag i {
+    flex: 0 0 8px;
+    width: 8px;
+    height: 8px;
+    background: #43A967;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(67,169,103,.13);
+}
+
+.vs-tag.off {
+    color: #A85F49;
+    background: #FFF0E7;
+    border-color: #F4C5A8;
+}
+
+.vs-tag.off i {
+    background: #E68A5B;
+    box-shadow: 0 0 0 4px rgba(230,138,91,.14);
+}
+
+.vs-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.vs-actions form {
+    margin: 0;
+}
+
+/* BOTÕES */
+
+.vs-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 44px;
+    padding: 11px 18px;
+    color: #fff;
+    background: #30313B;
+    border: 1px solid #30313B;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
+}
+
+.vs-btn:hover {
+    color: #fff;
+    background: #4A4653;
+    border-color: #4A4653;
+    box-shadow: 0 6px 16px rgba(48,49,59,.18);
+    transform: translateY(-2px);
+}
+
+.vs-btn:active {
+    transform: scale(.97);
+}
+
+.vs-btn.soft {
+    color: #A85F49;
+    background: rgba(252,134,91,.10);
+    border-color: rgba(252,134,91,.30);
+}
+
+.vs-btn.soft:hover {
+    color: #A85F49;
+    background: rgba(252,134,91,.19);
+    border-color: rgba(252,134,91,.55);
+}
+
+.vs-btn:focus-visible {
+    outline: 3px solid #A6BBD0;
+    outline-offset: 4px;
+}
+
+/* INFORMAÇÕES DO SMARTWATCH */
+
+.vs-facts {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 18px;
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(154,156,184,.23);
+}
+
+.vs-facts > div {
+    min-width: 0;
+}
+
+.vs-facts small {
+    display: block;
+    margin-bottom: 6px;
+    color: #777783;
+    font-size: 12px;
+}
+
+.vs-facts b {
+    color: #38343D;
+    font-size: 15px;
+    font-weight: 650;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* INDICADORES */
+
+.vs-inds {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 20px;
+}
+
+.vs-ind {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 26px 28px;
+}
+
+.vs-ind h3 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #D87552;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.vs-ind h3 svg {
+    flex: 0 0 19px;
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: #E97955;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Diferenciação dos indicadores */
+
+.vs-ind:nth-child(2) h3 {
+    color: #777FA7;
+}
+
+.vs-ind:nth-child(2) h3 svg {
+    stroke: #929BC0;
+}
+
+.vs-ind:nth-child(3) h3 {
+    color: #D87552;
+}
+
+.vs-ind:nth-child(3) h3 svg {
+    stroke: #F0A16E;
+}
+
+.vs-ind:nth-child(4) h3 {
+    color: #777FA7;
+}
+
+.vs-ind:nth-child(4) h3 svg {
+    stroke: #929BC0;
+}
+
+.vs-val {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 17px 0 9px;
+}
+
+.vs-val b {
+    color: #30313B;
+    font-size: clamp(40px,5vw,56px);
+    font-weight: 750;
+    letter-spacing: -.055em;
+    line-height: 1;
+}
+
+.vs-val span {
+    color: #777783;
+    font-size: 16px;
+    font-weight: 650;
+}
+
+.vs-ind > small {
+    color: #777783;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.vs-ind > .vs-tag {
+    align-self: flex-start;
+    margin: 15px 0;
+}
+
+.vs-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(154,156,184,.23);
+    color: #D87552;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+.vs-link:hover {
+    color: #777FA7;
+}
+
+.vs-link span {
+    font-size: 22px;
+    line-height: 1;
+}
+
+/* ESTADO VAZIO */
+
+.vs-empty {
+    padding: 25px 14px;
+    color: #777783;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* FAIXA DE HISTÓRICO */
+
+.vs-band {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 24px 30px;
+    color: #fff;
+
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgba(255,255,255,.20),
+            transparent 42%
+        ),
+        linear-gradient(
+            115deg,
+            #E97955 0%,
+            #F19A69 42%,
+            #929BC0 100%
+        );
+
+    border: 1px solid rgba(255,255,255,.55);
+    border-radius: 23px;
+
+    box-shadow:
+        0 10px 26px rgba(217,117,82,.16),
+        inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+.vs-band h3 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.vs-band small {
+    color: rgba(255,255,255,.92);
+    font-size: 13px;
+}
+
+.vs-band .grow {
+    flex: 1 1 200px;
+}
+
+.vs-band .vs-btn.white {
+    color: #4A4653;
+    background: #fff;
+    border-color: rgba(255,255,255,.9);
+}
+
+.vs-band .vs-btn.white:hover {
+    color: #C9664D;
+    background: #FFF4EF;
+}
+
+/* ALERTAS DE SAÚDE */
+
+.vs-list {
+    padding: 5px 19px;
+    overflow: hidden;
+}
+
+.vs-row {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+    padding: 18px 3px;
+    border-bottom: 1px solid rgba(154,156,184,.19);
+    color: inherit;
+    text-decoration: none;
+    transition: background .2s ease;
+}
+
+.vs-row:last-of-type {
+    border-bottom: 0;
+}
+
+.vs-row:hover {
+    background: rgba(252,134,91,.075);
+}
+
+.vs-ico {
+    display: grid;
+    place-items: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    color: #8589B0;
+    background: rgba(154,156,184,.16);
+    border: 1px solid rgba(154,156,184,.12);
+    border-radius: 14px;
+}
+
+.vs-ico.w {
+    color: #C85D4B;
+    background: rgba(252,134,91,.17);
+    border-color: rgba(252,134,91,.17);
+}
+
+.vs-ico svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.vs-tx {
+    flex: 1;
+    min-width: 0;
+}
+
+.vs-tx h3 {
+    overflow: hidden;
+    color: #38343D;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.45;
+    text-overflow: ellipsis;
+}
+
+.vs-tx p {
+    margin-top: 5px;
+    color: #777783;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.vs-pill-w {
+    display: inline-flex;
+    padding: 5px 9px;
+    color: #A94F40;
+    background: #FCE8E1;
+    border: 1px solid rgba(252,134,91,.2);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.vs-m {
+    flex-shrink: 0;
+    color: #777783;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.vs-chev {
+    flex: 0 0 17px;
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: #929BC0;
+    stroke-width: 1.9;
+}
+
+/* =========================================================
+   NAVBAR
+   Usa o padrão global do VitaSense
+========================================================= */
+
+.app .vs-nav {
+    background: rgba(248,247,245,.82);
+    border-bottom: 1px solid rgba(75,65,78,.08);
+    box-shadow: 0 4px 22px rgba(55,47,60,.025);
+
+    backdrop-filter: saturate(180%) blur(24px);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+}
+
+/*
+   A aba selecionada e o avatar herdam o padrão
+   definido em vitasense.css, sem sobrescritas locais.
+*/
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 900px) {
+    .vs-facts {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+    .vs-inds {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .vs-h1 {
+        font-size: 29px;
+    }
+
+    .vs-watch {
+        padding: 22px;
+    }
+
+    .vs-watch-top {
+        align-items: flex-start;
+    }
+
+    .vs-actions {
+        width: 100%;
+    }
+
+    .vs-actions form {
+        flex: 1 1 160px;
+    }
+
+    .vs-actions .vs-btn {
+        width: 100%;
+    }
+
+    .vs-ind {
+        padding: 23px;
+    }
+
+    .vs-band {
+        padding: 22px;
+    }
+
+    .vs-band .vs-btn {
+        width: 100%;
+    }
+
+    .vs-sh {
+        margin-top: 27px;
+    }
+}
+
+@media (max-width: 480px) {
+    .vs-facts {
+        gap: 15px 12px;
+    }
+
+    .vs-facts b {
+        font-size: 14px;
+    }
+
+    .vs-watch-top .vs-tx {
+        flex-basis: calc(100% - 65px);
+    }
+
+    .vs-watch-top > .vs-tag {
+        margin-left: 64px;
+    }
+
+    .vs-val b {
+        font-size: 43px;
+    }
+
+    .vs-list {
+        padding: 4px 12px;
+    }
+
+    .vs-row {
+        gap: 9px;
+    }
+
+    .vs-ico {
+        flex-basis: 34px;
+        width: 34px;
+        height: 34px;
+    }
+
+    .vs-m {
+        font-size: 10px;
+    }
+}
+
+/* ACESSIBILIDADE */
+
+.vs-wrap a:focus-visible,
+.vs-wrap button:focus-visible {
+    outline: 3px solid #929BC0;
+    outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vs-btn,
+    .vs-link,
+    .vs-row {
+        transition: none !important;
+    }
+}

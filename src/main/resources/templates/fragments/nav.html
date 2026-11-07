@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Menu VitaSense. Uso: th:replace="~{fragments/nav :: nav('dashboard')}" -->
+<header th:fragment="nav(ativo)" class="vs-nav">
+
+  <div class="vs-nav-in">
+
+    <a class="vs-brand" th:href="@{/dashboard}" aria-label="VitaSense - início">
+      <img th:src="@{/img/logo.png}" alt="Logo VitaSense">
+      <span>VitaSense</span>
+    </a>
+
+    <nav class="vs-links" aria-label="Navegação principal">
+
+      <a th:href="@{/dashboard}"
+         th:classappend="${ativo == 'dashboard'} ? 'on'">
+        Início
+      </a>
+
+      <a th:href="@{/saude}"
+         th:classappend="${ativo == 'saude'} ? 'on'">
+        Saúde
+      </a>
+
+      <a th:href="@{/cameras}"
+         th:classappend="${ativo == 'cameras'} ? 'on'">
+        Câmeras
+      </a>
+
+      <a th:href="@{/casa}"
+         th:classappend="${ativo == 'casa'} ? 'on'">
+        Minha casa
+      </a>
+
+      <a th:href="@{/alertas}"
+         th:classappend="${ativo == 'alertas'} ? 'on'">
+        Alertas
+        <span class="vs-badge"
+              th:if="${alertasPendentes != null and alertasPendentes > 0}"
+              th:text="${alertasPendentes}">2</span>
+      </a>
+
+      <a th:href="@{/lembretes}"
+         th:classappend="${ativo == 'lembretes'} ? 'on'">
+        Lembretes
+      </a>
+
+      <a th:href="@{/automacoes}"
+         th:classappend="${ativo == 'automacoes'} ? 'on'">
+        Automações
+      </a>
+
+    </nav>
+
+    <div class="vs-user">
+
+      <a class="vs-ibtn"
+         th:href="@{/configuracoes}"
+         title="Configurações"
+         aria-label="Configurações">
+
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="3.2"/>
+          <path d="M12 2.8v2.4m0 13.6v2.4M2.8 12h2.4m13.6 0h2.4M5.5 5.5l1.7 1.7m9.6 9.6 1.7 1.7m0-13-1.7 1.7m-9.6 9.6-1.7 1.7"/>
+        </svg>
+
+      </a>
+
+      <!-- Foto de perfil do responsável -->
+      <div class="vs-avatar">
+
+        <img th:src="@{/configuracoes/foto/usuario}"
+             alt="Foto de perfil"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+
+        <span th:text="${iniciais}">VS</span>
+
+      </div>
+
+      <div class="vs-utxt">
+        <b th:text="${usuarioNome}">Usuário</b>
+        <small th:text="${usuarioPerfil}">Responsável</small>
+      </div>
+
+      <form th:action="@{/logout}" method="post">
+
+        <button class="vs-ibtn"
+                type="submit"
+                title="Sair"
+                aria-label="Sair">
+
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/>
+          </svg>
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</header>
+
+</body>
+</html>

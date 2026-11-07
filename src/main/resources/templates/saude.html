@@ -1,105 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FEF8F0">
   <title>VitaSense • Saúde</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" th:href="@{/css/vitasense.css}">
   <link rel="stylesheet" th:href="@{/css/saude.css}">
 </head>
-<body class="app saude-page">
-<div class="page">
-  <header th:replace="~{fragments/layout :: topo('saude')}"></header>
+<body class="app">
+<header th:replace="~{fragments/nav :: nav('saude')}"></header>
 
-  <main class="sv-main">
-    <div class="sv-titulo"><h1>Monitoramento de saúde</h1></div>
-    <div class="sv-msg" th:if="${ok}" th:text="${ok}"></div>
+<main class="vs-wrap">
+  <div class="vs-head">
+    <p class="vs-eyebrow" th:if="${relogio != null}">Última atualização · <span th:text="${#temporals.format(relogio.ultimaSincronizacao,'dd/MM/yyyy, ''às'' HH:mm')}">29/10/2026, às 21:30</span></p>
+    <h1 class="vs-h1">Monitoramento de saúde</h1>
+    <p class="vs-lead">Acompanhe os indicadores de <span th:text="${pessoa.nome}">Dona Maria</span></p>
+  </div>
+  <div class="vs-msg ok" th:if="${ok}" th:text="${ok}"></div>
 
-    <section class="sv-intro">
-      <div><p class="sv-lead">Acompanhe os indicadores de <span th:text="${pessoa.nome}">Dona Maria</span></p>
-        <small th:if="${relogio != null}" th:text="${relogio.nome} + ' · ' + (${relogio.conectado} ? 'Conectado' : 'Sem conexão')">Smartwatch · Conectado</small></div>
-      <div class="sv-dir" th:if="${relogio != null}">
-        <small>Última atualização: <span th:text="${#temporals.format(relogio.ultimaSincronizacao,'dd/MM/yyyy, ''às'' HH:mm')}">29/10/2026, às 21:30</span></small>
-        <b>Sincronização concluída</b></div>
-    </section>
-
-    <!-- STATUS DO SMARTWATCH -->
-    <h2 class="sv-sec">Status do smartwatch</h2>
-    <article class="sv-card sv-relogio" th:if="${relogio != null}">
-      <div class="sv-relogio-topo">
-        <span class="sv-ico-grande" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="7" y="6" width="10" height="12" rx="3"/><path d="M9 6l.6-3h4.8L15 6M9 18l.6 3h4.8l.6-3M12 10v2l1.5 1"/></svg></span>
-        <div class="sv-relogio-nome"><h3 th:text="${relogio.nome}">Smartwatch</h3><small th:text="${relogio.descricao}">Relógio · VS-024</small></div>
-        <span class="sv-tag" th:classappend="${relogio.conectado} ? '' : 'sv-tag-off'" th:text="${relogio.conectado} ? '● Conectado' : '● Sem conexão'">● Conectado</span>
-        <div class="sv-acoes">
-          <form th:action="@{/saude/verificar}" method="post"><button class="sv-btn sv-btn-claro">Verificar conexão</button></form>
-          <form th:action="@{/saude/atualizar}" method="post"><button class="sv-btn">Atualizar dados</button></form>
-        </div>
+  <!-- SMARTWATCH -->
+  <div class="vs-sh"><h2>Smartwatch</h2></div>
+  <section class="vs-card vs-watch vs-sec" th:if="${relogio != null}">
+    <div class="vs-watch-top">
+      <span class="vs-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="7" y="6" width="10" height="12" rx="3"/><path d="M9 6l.6-3h4.8L15 6M9 18l.6 3h4.8l.6-3M12 10v2l1.5 1"/></svg></span>
+      <div class="vs-tx"><h3 th:text="${relogio.nome}">Smartwatch</h3><p th:text="${relogio.descricao}">Relógio · VS-024</p></div>
+      <span class="vs-tag" th:classappend="${relogio.conectado} ? '' : 'off'"><i></i><span th:text="${relogio.conectado} ? 'Conectado' : 'Sem conexão'">Conectado</span></span>
+      <div class="vs-actions">
+        <form th:action="@{/saude/verificar}" method="post"><button class="vs-btn soft">Verificar conexão</button></form>
+        <form th:action="@{/saude/atualizar}" method="post"><button class="vs-btn">Atualizar dados</button></form>
       </div>
-      <div class="sv-relogio-base">
-        <span>Bateria: <b th:text="${relogio.bateria} + '%'">76%</b></span>
-        <span>Última sincronização: <b th:text="${#temporals.format(relogio.ultimaSincronizacao,'dd/MM/yyyy, ''às'' HH:mm')}">29/10/2026</b></span>
-        <span th:if="${relogio.ultimaVerificacao != null}">Última verificação: <b th:text="${#temporals.format(relogio.ultimaVerificacao,'HH:mm')}">11:30</b></span>
-        <span th:text="${relogio.coletaAutomatica} ? 'Coleta automática ativada' : 'Coleta automática desativada'">Coleta automática ativada</span>
-      </div>
-    </article>
-
-    <!-- INDICADORES -->
-    <div class="sv-linha"><h2 class="sv-sec">Indicadores de saúde</h2><small>Últimas leituras recebidas · Valores fictícios</small></div>
-    <div class="sv-grid4" th:if="${leitura != null}">
-      <article class="sv-ind">
-        <h3><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5.2-8.8 11-8.8 11s-8.8-5.8-8.8-11A4.8 4.8 0 0 1 12 6.2a4.8 4.8 0 0 1 8.8 2.6Z"/><path d="M3.5 12h4l2-3.2 3.1 6.3 2-3.1h5.9"/></svg>Frequência cardíaca</h3>
-        <p class="sv-valor"><b th:text="${leitura.bpm}">78</b> <span>BPM</span></p>
-        <small th:text="${#temporals.format(leitura.momento,'dd/MM/yyyy · HH:mm')}">data</small><small th:text="${relogio.nome}">fonte</small>
-        <span class="sv-tag sv-tag-escura">● Dados disponíveis</span>
-        <a class="sv-link" th:href="@{/saude/historico(metrica='bpm')}">Ver histórico cardíaco <i>→</i></a>
-      </article>
-      <article class="sv-ind">
-        <h3><svg viewBox="0 0 24 24"><path d="M4 13a8 8 0 1 1 16 0"/><path d="M12 13 16.5 8.5M6 19h12"/><circle cx="12" cy="13" r="1"/></svg>Pressão arterial</h3>
-        <p class="sv-valor"><b th:text="${leitura.sistolica} + '/' + ${leitura.diastolica}">120/80</b> <span>mmHg</span></p>
-        <small th:text="${#temporals.format(leitura.momento,'dd/MM/yyyy · HH:mm')}">data</small><small>Medidor de pressão compatível — exemplo</small>
-        <span class="sv-tag sv-tag-escura">● Dados disponíveis</span>
-        <a class="sv-link" th:href="@{/saude/historico(metrica='pressao')}">Ver histórico da pressão <i>→</i></a>
-      </article>
-      <article class="sv-ind">
-        <h3><svg viewBox="0 0 24 24"><path d="M12 3s6 6.2 6 10.5A6 6 0 0 1 6 13.5C6 9.2 12 3 12 3Z"/></svg>Oxigenação do sangue</h3>
-        <p class="sv-valor"><b th:text="${leitura.oxigenacao}">98</b> <span>%</span></p>
-        <small th:text="${#temporals.format(leitura.momento,'dd/MM/yyyy · HH:mm')}">data</small><small th:text="${relogio.nome}">fonte</small>
-        <span class="sv-tag sv-tag-escura">● Dados disponíveis</span>
-        <a class="sv-link" th:href="@{/saude/historico(metrica='oxigenacao')}">Ver histórico da oxigenação <i>→</i></a>
-      </article>
-      <article class="sv-ind">
-        <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Qualidade do sono</h3>
-        <p class="sv-valor" th:if="${sono != null}"><b th:text="${sono.duracao}">7h 30min</b></p>
-        <p class="sv-valor" th:if="${sono == null}"><b>—</b></p>
-        <small th:if="${sono != null}" th:text="${#temporals.format(sono.registradoEm,'dd/MM/yyyy · HH:mm')}">data</small><small>Smartwatch · Última noite</small>
-        <span class="sv-tag sv-tag-escura" th:text="${sono != null} ? '● Dados disponíveis' : '● Sem dados'">● Dados disponíveis</span>
-        <a class="sv-link" th:href="@{/saude/historico(metrica='sono')}">Ver histórico do sono <i>→</i></a>
-      </article>
     </div>
-    <p class="sv-vazio" th:if="${leitura == null}">Nenhuma leitura registrada ainda. Use “Atualizar dados”.</p>
-
-    <!-- HISTÓRICO -->
-    <article class="sv-faixa">
-      <span class="sv-faixa-ico" aria-hidden="true">🕘</span>
-      <div class="sv-faixa-t"><h3>Histórico de medições</h3><small><span th:text="${total}">128</span> registros</small></div>
-      <div class="sv-faixa-r" th:if="${leitura != null}"><small>Registro mais recente</small><b th:text="${#temporals.format(leitura.momento,'dd/MM/yyyy, ''às'' HH:mm')}">29/10/2026</b></div>
-      <span class="sv-tag sv-tag-clara">● Histórico disponível</span>
-      <a class="sv-btn sv-btn-branco" th:href="@{/saude/historico}">Ver histórico de medições</a>
-    </article>
-
-    <!-- ALERTAS DE SAÚDE -->
-    <div class="sv-linha"><div><h2 class="sv-sec">Alertas de saúde</h2><small>Ocorrências anteriores à última atualização. Não há ocorrência ativa nesta demonstração.</small></div>
-      <small><span th:text="${#lists.size(alertas)}">4</span> ocorrências históricas · Todas resolvidas</small></div>
-    <div class="sv-card sv-alertas">
-      <article class="sv-alerta" th:each="a : ${alertas}">
-        <span class="sv-ico-aviso" aria-hidden="true">!</span>
-        <div class="sv-alerta-c"><h3 th:text="${a.titulo}">Título</h3><small th:text="${#temporals.format(a.ocorrencia,'dd/MM/yyyy · HH:mm')}">data</small><p th:text="${a.descricao}">Descrição</p></div>
-        <div class="sv-alerta-r"><span class="sv-tag sv-tag-escura" th:text="${a.resolvido} ? 'Resolvido às ' + ${#temporals.format(a.resolvidoEm,'HH:mm')} : 'Pendente'">Resolvido</span>
-          <a class="sv-btn sv-btn-borda" th:href="@{/alertas}">Ver detalhes</a></div>
-      </article>
-      <p class="sv-vazio" th:if="${#lists.isEmpty(alertas)}">Nenhum alerta de saúde registrado.</p>
+    <div class="vs-facts">
+      <div><small>Bateria</small><b th:text="${relogio.bateria} + '%'">76%</b></div>
+      <div><small>Última sincronização</small><b th:text="${#temporals.format(relogio.ultimaSincronizacao,'dd/MM/yyyy, ''às'' HH:mm')}">29/10/2026</b></div>
+      <div th:if="${relogio.ultimaVerificacao != null}"><small>Última verificação</small><b th:text="${#temporals.format(relogio.ultimaVerificacao,'HH:mm')}">11:30</b></div>
+      <div><small>Coleta</small><b th:text="${relogio.coletaAutomatica} ? 'Automática' : 'Manual'">Automática</b></div>
     </div>
-  </main>
-</div>
+  </section>
+
+  <!-- INDICADORES -->
+  <div class="vs-sh"><h2>Indicadores</h2><small>Últimas leituras · valores fictícios</small></div>
+  <div class="vs-inds vs-sec" th:if="${leitura != null}">
+    <article class="vs-card vs-ind">
+      <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 5.2-8.8 11-8.8 11s-8.8-5.8-8.8-11A4.8 4.8 0 0 1 12 6.2a4.8 4.8 0 0 1 8.8 2.6Z"/></svg>Frequência cardíaca</h3>
+      <p class="vs-val"><b th:text="${leitura.bpm}">78</b><span>BPM</span></p>
+      <small th:text="${#temporals.format(leitura.momento,'dd/MM/yyyy · HH:mm')} + ' · ' + ${relogio.nome}">data</small>
+      <span class="vs-tag"><i></i>Dados disponíveis</span>
+      <a class="vs-link" th:href="@{/saude/historico(metrica='bpm')}">Ver histórico cardíaco <span aria-hidden="true">›</span></a>
+    </article>
+    <article class="vs-card vs-ind">
+      <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13a8 8 0 1 1 16 0"/><path d="M12 13 16.5 8.5M6 19h12"/><circle cx="12" cy="13" r="1"/></svg>Pressão arterial</h3>
+      <p class="vs-val"><b th:text="${leitura.sistolica} + '/' + ${leitura.diastolica}">120/80</b><span>mmHg</span></p>
+      <small th:text="${#temporals.format(leitura.momento,'dd/MM/yyyy · HH:mm')} + ' · Medidor compatível (exemplo)'">data</small>
+      <span class="vs-tag"><i></i>Dados disponíveis</span>
+      <a class="vs-link" th:href="@{/saude/historico(metrica='pressao')}">Ver histórico da pressão <span aria-hidden="true">›</span></a>
+    </article>
+    <article class="vs-card vs-ind">
+      <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.2 6 10.5A6 6 0 0 1 6 13.5C6 9.2 12 3 12 3Z"/></svg>Oxigenação do sangue</h3>
+      <p class="vs-val"><b th:text="${leitura.oxigenacao}">98</b><span>%</span></p>
+      <small th:text="${#temporals.format(leitura.momento,'dd/MM/yyyy · HH:mm')} + ' · ' + ${relogio.nome}">data</small>
+      <span class="vs-tag"><i></i>Dados disponíveis</span>
+      <a class="vs-link" th:href="@{/saude/historico(metrica='oxigenacao')}">Ver histórico da oxigenação <span aria-hidden="true">›</span></a>
+    </article>
+    <article class="vs-card vs-ind">
+      <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>Qualidade do sono</h3>
+      <p class="vs-val"><b th:text="${sono != null} ? ${sono.duracao} : '—'">7h 30min</b></p>
+      <small th:text="${sono != null} ? (${#temporals.format(sono.registradoEm,'dd/MM/yyyy · HH:mm')} + ' · Última noite') : 'Sem registros'">data</small>
+      <span class="vs-tag" th:classappend="${sono == null} ? 'off'"><i></i><span th:text="${sono != null} ? 'Dados disponíveis' : 'Sem dados'">Dados disponíveis</span></span>
+      <a class="vs-link" th:href="@{/saude/historico(metrica='sono')}">Ver histórico do sono <span aria-hidden="true">›</span></a>
+    </article>
+  </div>
+  <p class="vs-empty" th:if="${leitura == null}">Nenhuma leitura registrada ainda. Use “Atualizar dados”.</p>
+
+  <!-- HISTÓRICO -->
+  <section class="vs-card vs-band vs-sec">
+    <div class="grow"><h3>Histórico de medições</h3><small><span th:text="${total}">128</span> registros<span th:if="${leitura != null}"> · mais recente em <span th:text="${#temporals.format(leitura.momento,'dd/MM/yyyy, ''às'' HH:mm')}">29/10/2026</span></span></small></div>
+    <a class="vs-btn white" th:href="@{/saude/historico}">Ver histórico completo</a>
+  </section>
+
+  <!-- ALERTAS DE SAÚDE -->
+  <div class="vs-sh"><h2>Alertas de saúde</h2><small><span th:text="${#lists.size(alertas)}">4</span> ocorrências históricas · todas resolvidas</small></div>
+  <div class="vs-card vs-list">
+    <a class="vs-row" th:each="a : ${alertas}" th:href="@{/alertas}">
+      <span class="vs-ico w" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 2.8 19a1.3 1.3 0 0 0 1.1 2h16.2a1.3 1.3 0 0 0 1.1-2L12 3Z"/><path d="M12 9v5m0 3h.01"/></svg></span>
+      <div class="vs-tx"><h3 th:text="${a.titulo}">Título</h3><p th:text="${a.descricao}">Descrição</p></div>
+      <div style="text-align:right"><span class="vs-tag" th:if="${a.resolvido}" th:text="'Resolvido às ' + ${#temporals.format(a.resolvidoEm,'HH:mm')}">Resolvido</span><span class="vs-pill-w" th:unless="${a.resolvido}">Pendente</span>
+        <p class="vs-m" style="margin-top:4px" th:text="${#temporals.format(a.ocorrencia,'dd/MM/yyyy · HH:mm')}">data</p></div>
+      <svg class="vs-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </a>
+    <p class="vs-empty" th:if="${#lists.isEmpty(alertas)}">Nenhum alerta de saúde registrado.</p>
+  </div>
+</main>
+<script th:src="@{/js/vs-nav.js}"></script>
 </body>
 </html>

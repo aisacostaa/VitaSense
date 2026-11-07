@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FEF8F0">
   <title>VitaSense • Aviso</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <style>
-    .vs-erro{min-height:100vh;display:grid;place-items:center;padding:24px;background:#fafaff}
-    .vs-erro div{max-width:460px;background:#fff;border:1px solid #8197ce;border-radius:18px;padding:32px;text-align:center;box-shadow:0 12px 30px rgba(11,25,87,.08)}
-    .vs-erro h1{color:#0b1957;font-size:24px;margin:0 0 10px}.vs-erro p{color:#344054;margin:0 0 22px;line-height:1.5}
-    .vs-erro a{display:inline-block;padding:11px 22px;border-radius:9px;background:#0b1957;color:#fff;text-decoration:none;font-weight:600;font-size:14px}
-  </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" th:href="@{/css/vitasense.css}">
+  <link rel="stylesheet" th:href="@{/css/auth.css}">
 </head>
-<body class="vs-erro"><div>
+<body class="app vs-errpage"><div class="vs-card vs-errcard">
   <h1 th:text="${titulo}">Aviso</h1>
   <p th:text="${mensagem}">Mensagem</p>
-  <a th:href="@{/dashboard}">Voltar ao início</a>
+  <a class="vs-btn" th:href="@{/dashboard}">Voltar ao início</a>
 </div></body>
 </html>

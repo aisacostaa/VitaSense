@@ -1,0 +1,1926 @@
+
+/* =========================================================
+   VITASENSE — AUTENTICAÇÃO E CADASTRO
+   Login • Cadastro • Acesso por código • Erro
+
+   Identidade:
+   - Fundo off-white com luzes suaves da marca
+   - Painel Vita com degradê multicolorido
+   - Glassmorphism discreto
+   - Paleta coral, pêssego, rosa, lavanda e azul
+   - Interface clara e acessível
+========================================================= */
+
+
+/* =========================================================
+   01. TOKENS E CONFIGURAÇÕES GERAIS
+========================================================= */
+
+.app {
+    --auth-coral: #FC865B;
+    --auth-pessego: #F79D5F;
+    --auth-rosa: #CF8F8F;
+    --auth-lavanda: #9A9CB8;
+    --auth-azul: #B5C7D8;
+
+    --auth-fundo:
+        radial-gradient(
+            ellipse at 8% 12%,
+            rgba(252, 134, 91, .11),
+            transparent 34%
+        ),
+        radial-gradient(
+            ellipse at 92% 18%,
+            rgba(166, 187, 208, .16),
+            transparent 36%
+        ),
+        radial-gradient(
+            ellipse at 78% 88%,
+            rgba(154, 156, 184, .12),
+            transparent 34%
+        ),
+        radial-gradient(
+            ellipse at 15% 90%,
+            rgba(247, 157, 95, .09),
+            transparent 32%
+        ),
+        #F8F7F5;
+
+    --auth-branco: #FFFFFF;
+    --auth-superficie: rgba(255, 255, 255, .82);
+
+    --auth-grafite: #38343D;
+    --auth-secundario: #625D68;
+    --auth-suave: #85808A;
+
+    --auth-borda: rgba(75, 65, 80, .12);
+    --auth-sombra: 0 18px 50px rgba(55, 45, 55, .08);
+
+    --auth-erro: #A83232;
+    --auth-erro-fundo: #FFF0EF;
+
+    --auth-sucesso: #28764D;
+    --auth-sucesso-fundo: #EDF8F0;
+
+    font-family: 'Inter', sans-serif;
+    color: var(--auth-grafite);
+}
+
+.app *,
+.app *::before,
+.app *::after {
+    box-sizing: border-box;
+}
+
+.app button,
+.app input,
+.app select,
+.app textarea {
+    font: inherit;
+}
+
+.app button,
+.app a,
+.app input,
+.app select,
+.app textarea {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.app button:focus-visible,
+.app a:focus-visible,
+.app input:focus-visible,
+.app select:focus-visible,
+.app textarea:focus-visible {
+    outline: 3px solid rgba(252, 134, 91, .35);
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   02. LOGIN DO RESPONSÁVEL
+========================================================= */
+
+.auth-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+    padding: 36px 22px;
+
+    background: var(--auth-fundo);
+}
+
+.auth-container {
+    width: min(1120px, 100%);
+    margin: auto;
+}
+
+.auth-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+    min-height: 680px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, .9);
+    border-radius: 30px;
+
+    background: rgba(255, 255, 255, .76);
+
+    box-shadow:
+        0 25px 70px rgba(65, 50, 55, .10),
+        inset 0 1px 0 rgba(255, 255, 255, .9);
+}
+
+
+/* =========================================================
+   03. PAINEL VITA — VERBETE DE DICIONÁRIO
+========================================================= */
+
+.auth-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+
+    min-height: 100%;
+    padding: 54px 48px;
+
+    background:
+        linear-gradient(
+            132deg,
+            #F58B60 0%,
+            #F6A078 19%,
+            #EBA09D 39%,
+            #D49DB2 57%,
+            #BBA6C5 75%,
+            #AAB8D0 89%,
+            #B5CCD7 100%
+        );
+
+    border: 1px solid rgba(255, 255, 255, .45);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .45);
+}
+
+.auth-hero::before,
+.auth-hero::after {
+    content: "";
+
+    position: absolute;
+    z-index: -1;
+
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.auth-hero::before {
+    width: 390px;
+    height: 390px;
+
+    top: -175px;
+    right: -150px;
+
+    background: rgba(255, 229, 207, .30);
+    filter: blur(48px);
+}
+
+.auth-hero::after {
+    width: 370px;
+    height: 370px;
+
+    bottom: -205px;
+    right: -110px;
+
+    background: rgba(195, 211, 232, .32);
+    filter: blur(52px);
+}
+
+.auth-hero .hero-content {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 410px;
+
+    margin: auto 0 0;
+
+    text-align: left;
+}
+
+.auth-hero h1 {
+    margin: 0;
+
+    color: #FFFFFF;
+
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(54px, 5.4vw, 68px);
+    font-weight: 400;
+    font-style: normal;
+
+    line-height: 1.08;
+    letter-spacing: -1.8px;
+
+    text-shadow: 0 2px 12px rgba(83, 49, 59, .08);
+}
+
+.auth-hero .hero-pronunciation {
+    display: block;
+
+    margin-top: 10px;
+
+    color: rgba(255, 255, 255, .96);
+
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+
+    letter-spacing: .55px;
+}
+
+.auth-hero .dictionary-definition {
+    min-height: 145px;
+
+    margin-top: 27px;
+    padding-top: 19px;
+
+    border-top: 1px solid rgba(255, 255, 255, .55);
+
+    color: rgba(255, 255, 255, .98);
+
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+
+    line-height: 1.9;
+    text-align: left;
+
+    text-shadow: 0 2px 10px rgba(76, 48, 61, .10);
+}
+
+.auth-hero .typing-cursor {
+    display: inline-block;
+
+    margin-left: 3px;
+
+    color: #FFFFFF;
+    font-weight: 400;
+
+    animation: authCursor 1s steps(2, start) infinite;
+}
+
+@keyframes authCursor {
+    to {
+        visibility: hidden;
+    }
+}
+
+
+/* =========================================================
+   04. FORMULÁRIO DE LOGIN
+========================================================= */
+
+.auth-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 54px 48px;
+
+    background: rgba(255, 255, 255, .88);
+}
+
+.form-content {
+    width: 100%;
+    max-width: 390px;
+
+    margin: auto;
+}
+
+.auth-form .logo {
+    display: block;
+
+    width: 82px;
+    height: auto;
+    max-height: 82px;
+
+    margin: 0 auto 22px;
+
+    object-fit: contain;
+}
+
+.auth-form h2 {
+    margin: 0;
+
+    color: var(--auth-grafite);
+
+    font-size: 32px;
+    font-weight: 700;
+
+    letter-spacing: -1.2px;
+    text-align: center;
+}
+
+.form-subtitle {
+    margin: 10px 0 30px;
+
+    color: var(--auth-secundario);
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   05. MENSAGENS DO SISTEMA
+========================================================= */
+
+.alert {
+    width: 100%;
+
+    margin: 0 0 20px;
+    padding: 13px 15px;
+
+    border: 1px solid transparent;
+    border-radius: 13px;
+
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.alert-error,
+.alert-erro {
+    color: var(--auth-erro);
+    background: var(--auth-erro-fundo);
+
+    border-color: rgba(168, 50, 50, .14);
+}
+
+.alert-success {
+    color: var(--auth-sucesso);
+    background: var(--auth-sucesso-fundo);
+
+    border-color: rgba(40, 118, 77, .14);
+}
+
+.alert ul {
+    margin: 8px 0 0;
+    padding-left: 20px;
+}
+
+
+/* =========================================================
+   06. CAMPOS E FORMULÁRIOS
+========================================================= */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group > label,
+.wiz-main form > section > label,
+.wiz-main section > div > label:not(.rd) {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--auth-grafite);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-group input,
+.wiz-main input:not([type="radio"]):not([type="checkbox"]),
+.wiz-main select,
+.wiz-main textarea {
+    width: 100%;
+    min-height: 51px;
+
+    padding: 13px 15px;
+
+    border: 1px solid var(--auth-borda);
+    border-radius: 13px;
+
+    background: #FCFAF8;
+    color: var(--auth-grafite);
+
+    font-size: 14px;
+
+    transition:
+        border-color .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.form-group input::placeholder,
+.wiz-main input::placeholder,
+.wiz-main textarea::placeholder {
+    color: #96919A;
+    opacity: 1;
+}
+
+.form-group input:hover,
+.wiz-main input:hover,
+.wiz-main select:hover,
+.wiz-main textarea:hover {
+    border-color: rgba(207, 143, 143, .55);
+}
+
+.form-group input:focus,
+.wiz-main input:focus,
+.wiz-main select:focus,
+.wiz-main textarea:focus {
+    outline: none;
+
+    border-color: var(--auth-coral);
+    background: #FFFFFF;
+
+    box-shadow: 0 0 0 4px rgba(252, 134, 91, .12);
+}
+
+
+/* =========================================================
+   07. CAMPO DE SENHA
+========================================================= */
+
+.password-wrapper {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    padding-right: 52px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+
+    transform: translateY(-50%);
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: transparent;
+    color: #77717D;
+
+    cursor: pointer;
+
+    transition:
+        color .2s ease,
+        background .2s ease;
+}
+
+.toggle-password:hover {
+    color: var(--auth-coral);
+    background: rgba(252, 134, 91, .09);
+}
+
+.toggle-password svg {
+    width: 21px;
+    height: 21px;
+}
+
+
+/* =========================================================
+   08. VALIDAÇÃO E LINKS
+========================================================= */
+
+.error-message {
+    display: block;
+
+    min-height: 0;
+    margin-top: 6px;
+
+    color: var(--auth-erro);
+    font-size: 12px;
+}
+
+.error-message:not(:empty) {
+    min-height: 17px;
+}
+
+.forgot-password {
+    display: flex;
+    justify-content: flex-end;
+
+    margin: -5px 0 22px;
+}
+
+.forgot-password a,
+.register-text a {
+    color: #A96F70;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: color .2s ease;
+}
+
+.forgot-password a:hover,
+.register-text a:hover {
+    color: var(--auth-coral);
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   09. BOTÕES DO LOGIN
+========================================================= */
+
+.btn-primary {
+    width: 100%;
+    min-height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 13px 20px;
+
+    border: 1px solid #29272D;
+    border-radius: 14px;
+
+    background: #29272D;
+    color: #FFFFFF;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 7px 17px rgba(41, 39, 45, .13);
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.btn-primary:hover {
+    background: #45414A;
+
+    box-shadow: 0 10px 22px rgba(41, 39, 45, .18);
+
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    background: #201E23;
+    transform: translateY(1px);
+}
+
+.btn-primary:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+
+    transform: none;
+    box-shadow: none;
+}
+
+.login-ou {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    margin: 23px 0;
+
+    color: #938D96;
+    font-size: 12px;
+}
+
+.login-ou::before,
+.login-ou::after {
+    content: "";
+
+    flex: 1;
+    height: 1px;
+
+    background: rgba(75, 65, 80, .13);
+}
+
+.login-ou span {
+    flex: 0 0 auto;
+}
+
+.btn-codigo {
+    width: 100%;
+    min-height: 51px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 18px;
+
+    border: 1px solid rgba(207, 143, 143, .35);
+    border-radius: 14px;
+
+    background: rgba(207, 143, 143, .10);
+    color: #725D67;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.btn-codigo svg {
+    display: none;
+}
+
+.btn-codigo:hover {
+    background: rgba(207, 143, 143, .20);
+    border-color: rgba(207, 143, 143, .65);
+    color: #725D67;
+    transform: translateY(-1px);
+}
+
+.btn-codigo:active {
+    transform: translateY(1px);
+}
+
+.codigo-ajuda {
+    margin: 11px 0 22px;
+
+    color: var(--auth-secundario);
+
+    font-size: 12px;
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+.register-text {
+    margin: 24px 0 0;
+
+    color: var(--auth-secundario);
+
+    font-size: 13px;
+    text-align: center;
+}
+
+
+/* =========================================================
+   10. CADASTRO — WIZARD DE QUATRO ETAPAS
+========================================================= */
+
+.wiz {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+
+    margin: 0;
+
+    background: var(--auth-fundo);
+}
+
+.wiz-side {
+    position: sticky;
+    top: 0;
+
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 42px 28px;
+
+    background: rgba(255, 255, 255, .76);
+
+    border-right: 1px solid rgba(75, 65, 80, .09);
+
+    box-shadow: 8px 0 30px rgba(55, 45, 55, .025);
+}
+
+.wiz-brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    margin-bottom: 58px;
+}
+
+.wiz-brand .logo {
+    width: 52px;
+    height: 52px;
+
+    object-fit: contain;
+}
+
+.wiz-brand h2 {
+    margin: 0;
+
+    color: var(--auth-grafite);
+
+    font-size: 20px;
+    font-weight: 700;
+
+    letter-spacing: -.7px;
+}
+
+.steps {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.steps::before {
+    content: "";
+
+    position: absolute;
+
+    top: 21px;
+    bottom: 21px;
+    left: 17px;
+
+    width: 1px;
+
+    background: rgba(154, 156, 184, .30);
+}
+
+.steps li {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    color: #77717D;
+}
+
+.steps li > span {
+    flex: 0 0 36px;
+
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(75, 65, 80, .15);
+    border-radius: 50%;
+
+    background: #FFFFFF;
+    color: #77717D;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: all .2s ease;
+}
+
+.steps li b {
+    display: block;
+
+    color: var(--auth-secundario);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.steps li small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #928C96;
+    font-size: 11px;
+}
+
+.steps li.active > span,
+.steps li.atual > span,
+.steps li[aria-current="step"] > span {
+    border-color: var(--auth-coral);
+    background: var(--auth-coral);
+    color: #FFFFFF;
+
+    box-shadow: 0 4px 12px rgba(252, 134, 91, .22);
+}
+
+.steps li.active b,
+.steps li.atual b,
+.steps li[aria-current="step"] b {
+    color: #A66C63;
+}
+
+.steps li.completed > span,
+.steps li.concluida > span {
+    border-color: var(--auth-rosa);
+    background: rgba(207, 143, 143, .18);
+    color: #986D73;
+}
+
+.quote {
+    margin: auto 0 0;
+    padding-top: 35px;
+
+    border-top: 1px solid rgba(75, 65, 80, .10);
+
+    color: var(--auth-secundario);
+
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.wiz-main {
+    width: 100%;
+    max-width: 920px;
+
+    margin: 0 auto;
+    padding: 55px 65px 25px;
+}
+
+.wiz-main form {
+    width: 100%;
+}
+
+.wiz-main form > section {
+    width: 100%;
+    max-width: 720px;
+
+    margin: 0 auto;
+    padding: 0 0 35px;
+
+    animation: wizEntrada .3s ease both;
+}
+
+@keyframes wizEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wiz-main section[hidden] {
+    display: none !important;
+}
+
+.wiz-main section > small:first-child {
+    display: inline-flex;
+    align-items: center;
+
+    margin-bottom: 15px;
+    padding: 7px 12px;
+
+    border: 1px solid rgba(207, 143, 143, .25);
+    border-radius: 30px;
+
+    background: rgba(207, 143, 143, .10);
+
+    color: #986D73;
+
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+
+.wiz-main section h1 {
+    margin: 0 0 12px;
+
+    color: var(--auth-grafite);
+
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 700;
+
+    letter-spacing: -1.2px;
+    line-height: 1.2;
+}
+
+.wiz-main section > p {
+    margin: 0 0 30px;
+
+    color: var(--auth-secundario);
+
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.wiz-main section > label {
+    display: block;
+
+    margin: 20px 0 8px;
+
+    color: var(--auth-grafite);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.wiz-main section > input,
+.wiz-main section > textarea,
+.wiz-main section > select {
+    margin-bottom: 7px;
+}
+
+.wiz-main textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.wiz-main input[type="date"],
+.wiz-main input[type="number"] {
+    color: var(--auth-grafite);
+}
+
+.wiz-main input[type="radio"],
+.wiz-main input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+
+    accent-color: var(--auth-coral);
+    cursor: pointer;
+}
+
+.row2,
+.row3 {
+    display: grid;
+    gap: 18px;
+
+    margin-top: 8px;
+}
+
+.row2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.row3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.row2 > div,
+.row3 > div {
+    min-width: 0;
+}
+
+.row2 label:not(.rd),
+.row3 label:not(.rd) {
+    display: block;
+
+    margin: 12px 0 8px;
+
+    color: var(--auth-grafite);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.row2 input,
+.row3 input,
+.row2 select,
+.row3 select {
+    width: 100%;
+}
+
+.rd {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    min-height: 38px;
+
+    margin: 5px 0;
+
+    color: var(--auth-secundario);
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+.rd input {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.card {
+    margin: 18px 0;
+    padding: 22px;
+
+    border: 1px solid rgba(75, 65, 80, .10);
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, .78);
+
+    box-shadow:
+        0 8px 25px rgba(55, 45, 55, .035),
+        inset 0 1px 0 rgba(255, 255, 255, .9);
+}
+
+.card-h {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    margin-bottom: 15px;
+    padding-bottom: 13px;
+
+    border-bottom: 1px solid rgba(75, 65, 80, .09);
+}
+
+.card-h h3 {
+    margin: 0;
+
+    color: var(--auth-grafite);
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.card-h a {
+    color: #A96F70;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.card-h a:hover {
+    color: var(--auth-coral);
+    text-decoration: underline;
+}
+
+.card > div:not(.card-h) {
+    color: var(--auth-secundario);
+
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.wiz-foot {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+
+    margin: 0 -65px;
+    padding: 18px 65px;
+
+    border-top: 1px solid rgba(75, 65, 80, .09);
+
+    background: rgba(248, 247, 245, .88);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.wiz-foot > span {
+    color: var(--auth-secundario);
+    font-size: 12px;
+}
+
+.wiz-foot > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wiz-foot .btn {
+    min-width: 112px;
+    min-height: 46px;
+
+    padding: 11px 20px;
+
+    border: 1px solid #29272D;
+    border-radius: 12px;
+
+    background: #29272D;
+    color: #FFFFFF;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.wiz-foot .btn:hover {
+    background: #45414A;
+
+    box-shadow: 0 6px 16px rgba(41, 39, 45, .13);
+
+    transform: translateY(-1px);
+}
+
+.wiz-foot .btn:active {
+    transform: translateY(1px);
+}
+
+.wiz-foot .btn.ghost {
+    border-color: rgba(75, 65, 80, .17);
+
+    background: rgba(255, 255, 255, .75);
+    color: var(--auth-grafite);
+
+    box-shadow: none;
+}
+
+.wiz-foot .btn.ghost:hover {
+    border-color: rgba(207, 143, 143, .55);
+    background: #FFFFFF;
+}
+
+
+/* =========================================================
+   11. ACESSO POR CÓDIGO
+========================================================= */
+
+.ac-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+    padding: 28px 18px;
+
+    background: var(--auth-fundo);
+}
+
+.ac-card {
+    width: min(470px, 100%);
+
+    padding: 42px 38px;
+
+    border: 1px solid rgba(255, 255, 255, .95);
+    border-radius: 26px;
+
+    background: rgba(255, 255, 255, .86);
+
+    box-shadow:
+        0 22px 60px rgba(55, 45, 55, .09),
+        inset 0 1px 0 rgba(255, 255, 255, .95);
+
+    text-align: center;
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.ac-card.ac-larga {
+    width: min(570px, 100%);
+}
+
+.ac-logo {
+    display: block;
+
+    width: 86px;
+    height: 86px;
+
+    margin: 0 auto 20px;
+
+    object-fit: contain;
+}
+
+.ac-card h1,
+.ac-card h2 {
+    margin: 0 0 12px;
+
+    color: var(--auth-grafite);
+
+    font-size: 27px;
+    font-weight: 700;
+
+    letter-spacing: -.8px;
+}
+
+.ac-sub {
+    max-width: 390px;
+
+    margin: 0 auto 26px;
+
+    color: var(--auth-secundario);
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.ac-card label {
+    display: block;
+
+    margin: 20px 0 9px;
+
+    color: var(--auth-grafite);
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-align: left;
+}
+
+.ac-card input:not([type="checkbox"]):not([type="radio"]) {
+    width: 100%;
+    min-height: 54px;
+
+    padding: 13px 15px;
+
+    border: 1px solid var(--auth-borda);
+    border-radius: 13px;
+
+    background: #FCFAF8;
+    color: var(--auth-grafite);
+
+    font-size: 16px;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.ac-card input:focus {
+    outline: none;
+
+    border-color: var(--auth-coral);
+
+    box-shadow: 0 0 0 4px rgba(252, 134, 91, .12);
+}
+
+.ac-codigo {
+    font-size: 24px !important;
+    font-weight: 700;
+
+    letter-spacing: 5px;
+    text-align: center;
+}
+
+.ac-btn {
+    width: 100%;
+    min-height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 20px;
+    padding: 13px 20px;
+
+    border: 1px solid #29272D;
+    border-radius: 13px;
+
+    background: #29272D;
+    color: #FFFFFF;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 7px 17px rgba(41, 39, 45, .12);
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.ac-btn:hover {
+    background: #45414A;
+
+    box-shadow: 0 10px 20px rgba(41, 39, 45, .16);
+
+    transform: translateY(-1px);
+}
+
+.ac-btn:active {
+    background: #201E23;
+    transform: translateY(1px);
+}
+
+.ac-btn:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.ac-btn-borda {
+    border: 1px solid rgba(207, 143, 143, .42);
+
+    background: rgba(207, 143, 143, .10);
+    color: #725D67;
+
+    box-shadow: none;
+}
+
+.ac-btn-borda:hover {
+    border-color: rgba(207, 143, 143, .7);
+
+    background: rgba(207, 143, 143, .20);
+    color: #725D67;
+
+    box-shadow: none;
+}
+
+.ac-btn-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 16px;
+
+    color: #A96F70;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.ac-link {
+    display: inline-block;
+
+    margin-top: 20px;
+
+    color: #A96F70;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.ac-btn-link:hover,
+.ac-link:hover {
+    color: var(--auth-coral);
+    text-decoration: underline;
+}
+
+.ac-aviso {
+    margin: 18px 0;
+    padding: 14px;
+
+    border: 1px solid rgba(207, 143, 143, .24);
+    border-radius: 13px;
+
+    background: rgba(207, 143, 143, .10);
+    color: #725D67;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.ac-botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+.ac-botoes > * {
+    flex: 1;
+}
+
+.ac-passos {
+    margin: 20px 0;
+    padding: 0;
+
+    color: var(--auth-secundario);
+
+    font-size: 13px;
+    line-height: 1.9;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   12. PÁGINA DE ERRO
+========================================================= */
+
+.vs-errpage {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+    padding: 25px;
+
+    background: var(--auth-fundo);
+}
+
+.vs-errcard {
+    width: min(520px, 100%);
+
+    padding: 45px 35px;
+
+    border: 1px solid rgba(255, 255, 255, .9);
+    border-radius: 25px;
+
+    background: rgba(255, 255, 255, .86);
+
+    box-shadow: var(--auth-sombra);
+
+    text-align: center;
+}
+
+.vs-errcard h1 {
+    margin: 0 0 14px;
+
+    color: var(--auth-grafite);
+
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.vs-errcard p {
+    color: var(--auth-secundario);
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   13. RESPONSIVIDADE — TABLETS
+========================================================= */
+
+@media (max-width: 1000px) {
+    .auth-grid {
+        min-height: 620px;
+    }
+
+    .auth-hero {
+        padding: 45px 35px;
+    }
+
+    .auth-form {
+        padding: 42px 32px;
+    }
+
+    .wiz {
+        grid-template-columns: 255px minmax(0, 1fr);
+    }
+
+    .wiz-main {
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+
+    .wiz-foot {
+        margin-right: -40px;
+        margin-left: -40px;
+
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+}
+
+@media (max-width: 800px) {
+    .auth-page {
+        padding: 20px;
+    }
+
+    .auth-grid {
+        grid-template-columns: 1fr;
+
+        max-width: 560px;
+        margin: auto;
+    }
+
+    .auth-hero {
+        min-height: 290px;
+        padding: 38px 34px;
+    }
+
+    .auth-hero .hero-content {
+        max-width: 100%;
+    }
+
+    .auth-hero h1 {
+        font-size: 56px;
+    }
+
+    .auth-hero .dictionary-definition {
+        min-height: 0;
+
+        margin-top: 22px;
+        padding-top: 16px;
+
+        font-size: 15px;
+    }
+
+    .auth-form {
+        padding: 42px 35px;
+    }
+
+    .wiz {
+        display: block;
+    }
+
+    .wiz-side {
+        position: relative;
+
+        width: 100%;
+        height: auto;
+
+        padding: 20px 24px;
+
+        border-right: 0;
+        border-bottom: 1px solid rgba(75, 65, 80, .09);
+    }
+
+    .wiz-brand {
+        margin-bottom: 20px;
+    }
+
+    .steps {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .steps::before {
+        top: 17px;
+        right: 8%;
+        bottom: auto;
+        left: 8%;
+
+        width: auto;
+        height: 1px;
+    }
+
+    .steps li {
+        flex: 1;
+
+        flex-direction: column;
+        gap: 7px;
+
+        text-align: center;
+    }
+
+    .steps li > span {
+        flex-basis: 34px;
+
+        width: 34px;
+        height: 34px;
+    }
+
+    .steps li b {
+        font-size: 10px;
+        line-height: 1.4;
+    }
+
+    .steps li small {
+        display: none;
+    }
+
+    .quote {
+        display: none;
+    }
+
+    .wiz-main {
+        max-width: 720px;
+        padding: 35px 28px 20px;
+    }
+
+    .wiz-foot {
+        margin-right: -28px;
+        margin-left: -28px;
+
+        padding-right: 28px;
+        padding-left: 28px;
+    }
+}
+
+
+/* =========================================================
+   14. RESPONSIVIDADE — CELULARES
+========================================================= */
+
+@media (max-width: 560px) {
+    .auth-page {
+        align-items: flex-start;
+        padding: 12px;
+    }
+
+    .auth-grid {
+        border-radius: 22px;
+    }
+
+    .auth-hero {
+        min-height: 245px;
+        padding: 30px 25px;
+    }
+
+    .auth-hero h1 {
+        font-size: 49px;
+        letter-spacing: -1.2px;
+    }
+
+    .auth-hero .hero-pronunciation {
+        font-size: 11px;
+    }
+
+    .auth-hero .dictionary-definition {
+        margin-top: 18px;
+
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .auth-form {
+        padding: 32px 23px;
+    }
+
+    .auth-form h2 {
+        font-size: 27px;
+    }
+
+    .auth-form .logo {
+        width: 68px;
+        height: 68px;
+    }
+
+    .form-subtitle {
+        margin-bottom: 25px;
+    }
+
+    .wiz-side {
+        padding: 17px 15px;
+    }
+
+    .wiz-brand {
+        margin-bottom: 17px;
+    }
+
+    .wiz-brand .logo {
+        width: 42px;
+        height: 42px;
+    }
+
+    .wiz-brand h2 {
+        font-size: 17px;
+    }
+
+    .steps li b {
+        font-size: 9px;
+    }
+
+    .wiz-main {
+        padding: 30px 19px 15px;
+    }
+
+    .wiz-main section h1 {
+        font-size: 26px;
+    }
+
+    .wiz-main section > p {
+        font-size: 13px;
+    }
+
+    .row2,
+    .row3 {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .card {
+        padding: 17px;
+    }
+
+    .wiz-foot {
+        margin-right: -19px;
+        margin-left: -19px;
+
+        padding: 14px 19px;
+    }
+
+    .wiz-foot .btn {
+        min-width: 90px;
+        padding: 10px 14px;
+    }
+
+    .wiz-foot > span {
+        font-size: 10px;
+    }
+
+    .ac-card {
+        padding: 32px 23px;
+        border-radius: 21px;
+    }
+
+    .ac-card h1,
+    .ac-card h2 {
+        font-size: 24px;
+    }
+
+    .ac-logo {
+        width: 72px;
+        height: 72px;
+    }
+
+    .ac-codigo {
+        font-size: 21px !important;
+        letter-spacing: 4px;
+    }
+
+    .vs-errcard {
+        padding: 35px 22px;
+    }
+}
+
+@media (max-width: 380px) {
+    .auth-form {
+        padding: 28px 18px;
+    }
+
+    .auth-hero {
+        padding: 26px 20px;
+    }
+
+    .wiz-main {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .wiz-foot {
+        margin-right: -15px;
+        margin-left: -15px;
+
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .wiz-foot .btn {
+        min-width: 78px;
+        font-size: 12px;
+    }
+
+    .steps li b {
+        font-size: 8px;
+    }
+}
+
+
+/* =========================================================
+   15. ACESSIBILIDADE E MOVIMENTO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .app *,
+    .app *::before,
+    .app *::after {
+        scroll-behavior: auto !important;
+
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+
+        transition-duration: .01ms !important;
+    }
+}
+
+
+/* =========================================================
+   16. IMPRESSÃO
+========================================================= */
+
+@media print {
+    .auth-page,
+    .ac-page,
+    .vs-errpage,
+    .wiz {
+        background: #FFFFFF !important;
+    }
+
+    .auth-grid,
+    .ac-card,
+    .vs-errcard,
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #DDDDDD !important;
+    }
+
+    .wiz-side {
+        position: static;
+        height: auto;
+    }
+
+    .wiz-foot {
+        display: none !important;
+    }
+}
+
+
+/* =========================================================
+   17. BOTÃO LOGIN DO RESPONSÁVEL
+   Cadastro concluído
+========================================================= */
+
+.ac-page .ac-btn-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 54px;
+
+    margin-top: 24px;
+    padding: 15px 24px;
+
+    background: #34323A !important;
+    color: #FFFFFF !important;
+
+    border: 1px solid rgba(52, 50, 58, 0.12);
+    border-radius: 16px;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+
+    text-decoration: none !important;
+
+    box-shadow:
+        0 5px 14px rgba(41, 40, 45, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.ac-page .ac-btn-link:hover {
+    background: #24232A !important;
+    color: #FFFFFF !important;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 8px 20px rgba(41, 40, 45, 0.18);
+}
+
+.ac-page .ac-btn-link:active {
+    transform: translateY(0);
+    background: #1E1D23 !important;
+}
+
+.ac-page .ac-btn-link:focus-visible {
+    outline: 3px solid rgba(154, 156, 184, 0.65);
+    outline-offset: 4px;
+}

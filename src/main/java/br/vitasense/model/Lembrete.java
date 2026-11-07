@@ -12,10 +12,14 @@ public class Lembrete {
     private LocalDate data;
     private LocalTime horario;
     private boolean notificar;
+    private String criadoPorNome;          // quem criou (responsável ou a própria pessoa)
+    private Boolean criadoPorPessoa;       // wrapper: lembretes antigos vêm como null
     @ManyToOne(optional = false) private PessoaAcompanhada pessoa;
 
     public Lembrete() {}
     public Long getId() { return id; }
+    public String getCriadoPorNome() { return criadoPorNome; } public void setCriadoPorNome(String v) { criadoPorNome = v; }
+    public boolean isCriadoPorPessoa() { return Boolean.TRUE.equals(criadoPorPessoa); } public void setCriadoPorPessoa(boolean v) { criadoPorPessoa = v; }
     public String getTitulo() { return titulo; } public void setTitulo(String v) { titulo = v; }
     public String getCategoria() { return categoria; } public void setCategoria(String v) { categoria = v; }
     public String getDescricao() { return descricao; } public void setDescricao(String v) { descricao = v; }

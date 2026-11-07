@@ -1,0 +1,886 @@
+/* =====================================================
+   VITASENSE — AVISOS DA CASA
+   Interface clara, sofisticada e acolhedora
+===================================================== */
+
+.ia-pagina {
+    --ia-coral: #FC865B;
+    --ia-pessego: #F4B47F;
+    --ia-rosa: #CF8F8F;
+    --ia-lavanda: #9A9CB8;
+    --ia-grafite: #38343D;
+    --ia-secundario: #625D68;
+    --ia-borda: rgba(56, 52, 61, .09);
+
+    width: 100%;
+    max-width: 1220px;
+    min-height: calc(100vh - 80px);
+    margin-inline: auto;
+    padding: 34px 38px 55px;
+    box-sizing: border-box;
+}
+
+/* =====================================================
+   CABEÇALHO
+===================================================== */
+
+.ia-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.ia-etiqueta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: #B96F55;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.ia-etiqueta::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ia-coral);
+    box-shadow: 0 0 0 4px rgba(252, 134, 91, .12);
+}
+
+.ia-cabecalho h1 {
+    margin: 0 0 8px !important;
+    color: var(--ia-grafite);
+    font-size: clamp(29px, 3vw, 36px);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -1.1px;
+}
+
+.ia-cabecalho .id-sub {
+    margin: 0 !important;
+    color: var(--ia-secundario);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.ia-cabecalho-icone {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 78px;
+    height: 78px;
+    border: 1px solid rgba(252, 134, 91, .18);
+    border-radius: 25px;
+    background: rgba(255, 255, 255, .76);
+    color: #C77F67;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.95),
+        0 12px 28px rgba(56, 52, 61, .06);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.ia-cabecalho-icone svg {
+    width: 35px;
+    height: 35px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* =====================================================
+   MENSAGENS DE RETORNO
+===================================================== */
+
+.ia-feedback {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 15px 19px;
+    margin-bottom: 17px;
+    border: 1px solid var(--ia-borda);
+    border-radius: 17px;
+    background: rgba(255,255,255,.82);
+    box-shadow: 0 6px 20px rgba(56,52,61,.045);
+}
+
+.ia-feedback > span {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    font-weight: 800;
+}
+
+.ia-feedback p {
+    margin: 0 !important;
+    font-size: 15px;
+    font-weight: 650;
+}
+
+.ia-sucesso {
+    color: #426B55;
+}
+
+.ia-sucesso > span {
+    background: #E6F1E9;
+}
+
+.ia-erro {
+    color: #A84438;
+}
+
+.ia-erro > span {
+    background: #FBE9E5;
+}
+
+/* =====================================================
+   PAINEL PRINCIPAL
+===================================================== */
+
+.ia-painel {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 27px 0 36px;
+    padding: 23px;
+    border: 1px solid rgba(255,255,255,.9);
+    border-radius: 27px;
+    background: rgba(255,255,255,.73);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.95),
+        0 14px 38px rgba(56,52,61,.055);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+/* =====================================================
+   INDICADORES
+===================================================== */
+
+.ia-resumo {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.ia-resumo-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    padding: 17px;
+    border: 1px solid rgba(56,52,61,.045);
+    border-radius: 19px;
+    background: rgba(255,255,255,.76);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.ia-resumo-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 22px rgba(56,52,61,.055);
+}
+
+.ia-resumo-icone {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
+}
+
+.ia-resumo-icone svg {
+    width: 23px;
+    height: 23px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ia-icone-total {
+    background: #FCEBE4;
+    color: #C77B60;
+}
+
+.ia-icone-pendente {
+    background: #F9F0E4;
+    color: #A77A43;
+}
+
+.ia-icone-importante {
+    background: #F0EDF5;
+    color: #8983A5;
+}
+
+.ia-resumo-item strong {
+    display: block;
+    color: var(--ia-grafite);
+    font-size: 27px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -.7px;
+}
+
+.ia-resumo-item div > span {
+    display: block;
+    margin-top: 5px;
+    color: var(--ia-secundario);
+    font-size: 13px;
+    line-height: 1.35;
+    font-weight: 600;
+}
+
+/* =====================================================
+   FILTROS E BUSCA
+===================================================== */
+
+.ia-ferramentas {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(56,52,61,.08);
+}
+
+.ia-filtros {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ia-filtro {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 43px;
+    padding: 0 16px;
+    border: 1px solid rgba(56,52,61,.10);
+    border-radius: 99px;
+    background: rgba(255,255,255,.82);
+    color: var(--ia-secundario);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background .2s ease,
+        color .2s ease,
+        border-color .2s ease,
+        transform .15s ease,
+        box-shadow .2s ease;
+}
+
+.ia-filtro:hover {
+    border-color: rgba(199,127,103,.45);
+    background: #FFF8F4;
+    color: #A96650;
+}
+
+.ia-filtro:active {
+    transform: scale(.97);
+}
+
+.ia-filtro.ativo {
+    border-color: var(--ia-grafite);
+    background: var(--ia-grafite);
+    color: #fff;
+    box-shadow: 0 5px 13px rgba(56,52,61,.16);
+}
+
+.ia-filtro span {
+    display: inline-grid;
+    place-items: center;
+    min-width: 21px;
+    height: 21px;
+    padding: 0 5px;
+    border-radius: 99px;
+    background: rgba(56,52,61,.07);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.ia-filtro.ativo span {
+    background: rgba(255,255,255,.17);
+    color: #fff;
+}
+
+.ia-filtro:focus-visible,
+.ia-btn:focus-visible,
+.ia-link:focus-visible {
+    outline: 3px solid rgba(199,127,103,.35);
+    outline-offset: 3px;
+}
+
+.ia-busca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 245px;
+    min-width: 190px;
+    height: 45px;
+    padding: 0 14px;
+    border: 1px solid rgba(56,52,61,.10);
+    border-radius: 14px;
+    background: rgba(255,255,255,.82);
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.ia-busca:focus-within {
+    border-color: rgba(199,127,103,.65);
+    box-shadow: 0 0 0 4px rgba(252,134,91,.09);
+}
+
+.ia-busca svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: #89838D;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+}
+
+.ia-busca input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--ia-grafite);
+    font: inherit;
+    font-size: 14px;
+}
+
+.ia-busca input::placeholder {
+    color: #89838D;
+}
+
+/* =====================================================
+   SEÇÕES
+===================================================== */
+
+.ia-secao {
+    width: 100%;
+    margin-top: 37px;
+}
+
+.ia-sec {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 0 0 17px;
+}
+
+.ia-sec h2 {
+    margin: 0 !important;
+    color: var(--ia-grafite);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+}
+
+.ia-sec small {
+    display: block;
+    margin-top: 5px;
+    color: var(--ia-secundario);
+    font-size: 14px;
+}
+
+.ia-sec-contador {
+    display: grid;
+    place-items: center;
+    min-width: 35px;
+    height: 35px;
+    padding: 0 9px;
+    border: 1px solid rgba(199,127,103,.15);
+    border-radius: 50%;
+    background: #FFF2EC;
+    color: #A96650;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+/* =====================================================
+   CARTÕES DE AVISOS
+===================================================== */
+
+.ia-aviso {
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px minmax(0,1fr) auto;
+    align-items: start;
+    gap: 18px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 14px;
+    padding: 23px 25px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 23px;
+    background: rgba(255,255,255,.79);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.95),
+        0 9px 28px rgba(56,52,61,.055);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.ia-aviso::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: #D6A6A1;
+    opacity: .8;
+}
+
+.ia-aviso:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 32px rgba(56,52,61,.085);
+}
+
+/* Avisos importantes */
+
+.ia-aviso.importante {
+    border-color: rgba(252,134,91,.18);
+    background: rgba(255,250,247,.91);
+}
+
+.ia-aviso.importante::before {
+    background: var(--ia-coral);
+}
+
+/* Ícones */
+
+.ia-ico-box {
+    display: grid;
+    place-items: center;
+    width: 49px;
+    height: 49px;
+    border-radius: 16px;
+}
+
+.ia-ico-alerta {
+    background: #FCEBE4;
+    color: #B96F55;
+}
+
+.ia-ico-info {
+    background: #F0EDF5;
+    color: #8983A5;
+}
+
+.id-page .ia-ico {
+    width: 25px;
+    height: 25px;
+    margin: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Conteúdo */
+
+.ia-corpo {
+    min-width: 0;
+}
+
+.ia-titulo-linha {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 9px;
+}
+
+.ia-corpo h3 {
+    margin: 0 !important;
+    color: var(--ia-grafite);
+    font-size: 20px;
+    line-height: 1.35;
+    font-weight: 800;
+}
+
+.ia-corpo p {
+    margin: 0 0 16px !important;
+    color: var(--ia-secundario);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+/* Status */
+
+.ia-status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 25px;
+    padding: 4px 10px;
+    border: 1px solid rgba(199,127,103,.14);
+    border-radius: 99px;
+    background: #FFF0E8;
+    color: #A96650;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.ia-status.lido {
+    border-color: rgba(154,156,184,.18);
+    background: #F0EDF5;
+    color: #77718E;
+}
+
+/* Horário */
+
+.ia-aviso time {
+    padding-top: 5px;
+    color: var(--ia-secundario);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* =====================================================
+   BOTÕES E AÇÕES
+===================================================== */
+
+.ia-acoes {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.ia-acoes form {
+    margin: 0;
+}
+
+.ia-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 45px;
+    padding: 0 19px;
+    border: 1px solid rgba(56,52,61,.12);
+    border-radius: 99px;
+    background: #38343D;
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 750;
+    cursor: pointer;
+    box-shadow: 0 5px 12px rgba(56,52,61,.12);
+    transition: background .2s ease, transform .15s ease, box-shadow .2s ease;
+}
+
+.ia-btn:hover {
+    background: #514B57;
+    box-shadow: 0 8px 17px rgba(56,52,61,.17);
+}
+
+.ia-btn:active {
+    transform: scale(.97);
+}
+
+.ia-btn span {
+    font-size: 16px;
+}
+
+.ia-lido {
+    color: #77718E;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.ia-link {
+    color: #A96650;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+.ia-link:hover {
+    color: #804B3B;
+    text-decoration: underline;
+}
+
+/* =====================================================
+   ESTADO VAZIO
+===================================================== */
+
+.ia-tudo-certo {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 30px;
+    border: 1px solid rgba(255,255,255,.9);
+    border-radius: 25px;
+    background: rgba(255,255,255,.78);
+    color: var(--ia-grafite);
+    box-shadow: 0 12px 30px rgba(56,52,61,.05);
+}
+
+.ia-ok-icone {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 65px;
+    height: 65px;
+    border: 1px solid rgba(154,156,184,.15);
+    border-radius: 21px;
+    background: #F0EDF5;
+}
+
+.id-page .ia-ok-icone svg {
+    width: 36px;
+    height: 36px;
+    fill: none;
+    stroke: #8983A5;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ia-tudo-certo b {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.ia-tudo-certo span {
+    display: block;
+    color: var(--ia-secundario);
+    font-size: 16px;
+    line-height: 1.55;
+}
+
+/* =====================================================
+   BUSCA SEM RESULTADOS
+===================================================== */
+
+.ia-sem-resultado {
+    padding: 36px 20px;
+    margin-top: 20px;
+    border: 1px dashed rgba(154,156,184,.42);
+    border-radius: 22px;
+    background: rgba(255,255,255,.58);
+    text-align: center;
+}
+
+.ia-sem-resultado > span {
+    display: block;
+    margin-bottom: 8px;
+    color: #8983A5;
+    font-size: 36px;
+}
+
+.ia-sem-resultado b {
+    display: block;
+    color: var(--ia-grafite);
+    font-size: 19px;
+}
+
+.ia-sem-resultado p {
+    margin: 7px 0 0 !important;
+    color: var(--ia-secundario);
+    font-size: 15px;
+}
+
+/* Ocultação pelos filtros */
+
+.ia-aviso[hidden],
+.ia-secao[hidden],
+.ia-sem-resultado[hidden] {
+    display: none !important;
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 1000px) {
+    .ia-pagina {
+        padding: 27px 25px 42px;
+    }
+
+    .ia-aviso {
+        padding: 21px;
+    }
+}
+
+@media (max-width: 850px) {
+    .ia-ferramentas {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .ia-busca {
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 650px) {
+    .ia-pagina {
+        padding: 23px 16px 36px;
+    }
+
+    .ia-cabecalho-icone {
+        width: 59px;
+        height: 59px;
+        border-radius: 19px;
+    }
+
+    .ia-cabecalho-icone svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .ia-painel {
+        padding: 15px;
+        border-radius: 21px;
+    }
+
+    .ia-resumo {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    .ia-resumo-item {
+        padding: 12px 14px;
+    }
+
+    .ia-resumo-icone {
+        width: 42px;
+        height: 42px;
+    }
+
+    .ia-resumo-item strong {
+        font-size: 23px;
+    }
+
+    .ia-filtros {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0,1fr));
+        gap: 6px;
+    }
+
+    .ia-filtro {
+        gap: 5px;
+        padding: 0 7px;
+        font-size: 12px;
+    }
+
+    .ia-aviso {
+        grid-template-columns: 43px minmax(0,1fr);
+        gap: 13px;
+        padding: 19px 16px;
+        border-radius: 20px;
+    }
+
+    .ia-ico-box {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+    }
+
+    .ia-aviso time {
+        grid-column: 2;
+        padding-top: 0;
+        font-size: 13px;
+    }
+
+    .ia-corpo h3 {
+        font-size: 18px;
+    }
+
+    .ia-corpo p {
+        font-size: 15px;
+    }
+
+    .ia-tudo-certo {
+        align-items: flex-start;
+        gap: 15px;
+        padding: 22px 17px;
+    }
+
+    .ia-ok-icone {
+        width: 49px;
+        height: 49px;
+        border-radius: 16px;
+    }
+
+    .ia-tudo-certo b {
+        font-size: 20px;
+    }
+
+    .ia-tudo-certo span {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 380px) {
+    .ia-cabecalho-icone {
+        display: none;
+    }
+
+    .ia-filtro {
+        font-size: 11px;
+    }
+
+    .ia-filtro span {
+        min-width: 18px;
+        height: 18px;
+    }
+
+    .ia-acoes {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ia-btn {
+        width: 100%;
+    }
+}
+
+/* =====================================================
+   ACESSIBILIDADE
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .ia-resumo-item,
+    .ia-filtro,
+    .ia-aviso,
+    .ia-btn,
+    .ia-link {
+        transition: none !important;
+    }
+
+    .ia-resumo-item:hover,
+    .ia-aviso:hover {
+        transform: none;
+    }
+}

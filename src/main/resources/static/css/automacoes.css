@@ -1,47 +1,446 @@
-/* VitaSense — tela Automações (isolada em .automacoes-page) */
-.automacoes-page{--au-navy:#0b1957;--au-blue:#5784e6;--au-soft:#d2e7ff;--au-pale:#f1f8ff;--au-bd:#8197ce;--au-muted:#667085;background:#fafaff;color:#151b2d;min-height:100vh}
-.automacoes-page .page{width:min(100% - 48px,1180px);max-width:1180px;margin-inline:auto;padding-bottom:56px}
-.au-main h1,.au-main h2,.au-main h3,.au-main h4,.au-main p{margin:0}.au-main small{color:var(--au-muted);font-size:12px}form{margin:0}
-.au-titulo{border-bottom:1px solid rgba(11,25,87,.55);padding:26px 0 10px;margin-bottom:16px}.au-titulo h1{color:var(--au-navy);font-size:clamp(24px,2.2vw,31px);font-weight:750;letter-spacing:-.04em}
-.au-msg{margin:12px 0;padding:12px 16px;border-radius:10px;font-size:14px}.au-msg.ok{background:#eaf8ef;color:#246b45}.au-msg.erro{background:#fff0f0;color:#a52b2b}.au-msg ul{margin-left:18px}
-.au-intro,.au-linha{display:flex;justify-content:space-between;align-items:center;gap:16px}.au-intro{margin:14px 0 4px}.au-lead{font-size:17px;margin-bottom:4px!important}.au-dir{text-align:right}.au-dir small{display:block;margin-top:6px}
-.au-sec{color:var(--au-navy);font-size:20px;font-weight:700;margin:28px 0 8px!important}.au-linha .au-sec{margin-bottom:12px!important}.au-sub{margin-bottom:14px!important;font-size:13px;color:#344054}
-.au-btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 18px;border:1px solid transparent;border-radius:9px;background:var(--au-navy);color:#fff;font:inherit;font-size:13px;font-weight:650;text-decoration:none;cursor:pointer;transition:background .18s,transform .18s}
-.au-btn:hover{background:#172b78;transform:translateY(-1px)}.au-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.au-btn-borda{background:#fff;color:var(--au-navy);border-color:var(--au-navy)}.au-btn-borda:hover{background:#edf4ff}
 
-.au-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.au-card{background:var(--au-soft);border:1px solid var(--au-navy);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:8px;color:var(--au-navy)}
-.au-card-t{display:flex;justify-content:space-between;align-items:center}.au-card h3{font-size:17px}.au-card p{font-size:13px;color:#1f2a44}
-.au-badge{padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700}.au-badge.on{background:var(--au-blue);color:#fff}.au-badge.off{background:#fff;color:var(--au-navy)}
-.au-gat{font-size:13px;margin-top:6px}.au-alvo{font-size:13px}.au-card small{color:#344054}
-.au-card-f{display:flex;align-items:flex-start;gap:16px;margin-top:6px}
-.au-det summary{cursor:pointer;font-size:13px;font-weight:600;text-decoration:underline;padding:10px 0;list-style:none}.au-det summary::-webkit-details-marker{display:none}
-.au-det>div{margin-top:4px;font-size:12px}.au-det-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.au-mini{padding:6px 12px;border:1px solid var(--au-navy);border-radius:7px;background:#fff;color:var(--au-navy);font:inherit;font-size:12px;font-weight:600;cursor:pointer}.au-mini:hover{background:#edf4ff}.au-mini-x{color:#a52b2b;border-color:#a52b2b}
+/* =========================================================
+   VITASENSE — AUTOMAÇÕES
+   Estilo exclusivo desta tela
+   Coral • Pêssego • Azul-gelo • Lavanda
+========================================================= */
 
-.au-passo{background:#fff;border:1px solid var(--au-navy);border-radius:16px;padding:22px 24px;margin-bottom:18px;color:var(--au-navy)}
-.au-passo h3{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:19px;padding-bottom:14px;margin-bottom:16px!important;border-bottom:1px solid #dce1eb}
-.au-passo h3 span{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:7px;background:var(--au-navy);color:#fff;font-size:15px}.au-passo h3 small{font-size:13px;font-weight:400;flex-basis:100%;margin-left:42px;margin-top:-6px}
-.au-duas{display:grid;grid-template-columns:1fr 1.1fr;gap:26px;align-items:start}
-.au-radios{display:flex;flex-direction:column;gap:12px}
-.au-op{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid #9aa6c9;border-radius:9px;cursor:pointer;font-size:14px;background:#fff;transition:background .15s}
-.au-op:has(input:checked){background:var(--au-soft);border-color:var(--au-navy)}.au-op input{width:auto;height:auto;margin:0}.au-op-off{opacity:.5;cursor:not-allowed}
-.au-painel h4{font-size:16px;margin-bottom:12px!important}.au-painel label,.au-passo>label,.au-r2 label{display:block;margin-top:12px;font-size:13px;font-weight:600}
-.au-painel small{display:block;margin-top:8px}.au-painel p{margin-top:10px!important;font-size:13px;color:#344054}
-.au-main input:not([type=radio]):not([type=checkbox]),.au-main select,.au-main textarea{display:block;width:100%;height:44px;margin-top:6px;padding:0 14px;border:1px solid #9aa6c9;border-radius:9px;background:#fff;font:inherit;font-size:14px;color:var(--au-navy)}
-.au-main textarea{height:80px;padding:12px 14px;resize:vertical}.au-main input[readonly]{background:#f3f5fb}
-.au-r2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.au-aviso{margin-top:14px;padding:14px 16px;border:1px solid var(--au-bd);border-radius:10px;background:var(--au-pale)}.au-aviso p{margin-top:6px!important;font-size:12px!important}
-.au-dias{margin-top:16px;font-size:13px;font-weight:600}.au-dias>div{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
-.au-chip{margin:0!important;cursor:pointer}.au-chip input{position:absolute;opacity:0;width:0!important;height:0!important}
-.au-chip span{display:inline-block;padding:9px 18px;border-radius:8px;background:#fff;border:1px solid var(--au-navy);color:var(--au-navy);font-size:13px;font-weight:600}
-.au-chip input:checked+span{background:var(--au-navy);color:#fff}
-.au-rev{margin-top:20px;padding:18px 20px;background:var(--au-soft);border:1px solid var(--au-navy);border-radius:12px}.au-rev-t{display:flex;justify-content:space-between;margin-bottom:8px}.au-rev p{font-size:13px;line-height:1.55;color:#1f2a44}
-.au-ok{display:flex!important;gap:10px;align-items:center;margin-top:16px!important;font-weight:400!important}.au-ok input{width:auto!important;height:auto!important;margin:0!important}
-.au-form-f{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}.au-form-f div{display:flex;gap:10px}
-.au-hist{border:1px solid var(--au-navy);border-radius:14px;overflow:hidden;background:var(--au-pale)}
-.au-hist-h,.au-hist-l{display:grid;grid-template-columns:170px 1fr 2fr;gap:16px;padding:14px 22px;font-size:13px;color:var(--au-navy)}
-.au-hist-h{background:var(--au-blue);color:#fff;font-weight:600}.au-hist-l{border-top:1px solid var(--au-bd)}.au-hist-l p{margin-top:3px!important;font-size:12px;color:#344054}.au-hist-l b.falha{color:#b54708}
-.au-vazio{padding:22px;text-align:center;color:var(--au-muted)}
-@media(max-width:900px){.au-cards,.au-duas,.au-r2{grid-template-columns:1fr}.au-hist-h{display:none}.au-hist-l{grid-template-columns:1fr;gap:4px}}
-@media(max-width:600px){.automacoes-page .page{width:calc(100% - 28px)}.au-intro{flex-direction:column;align-items:flex-start}.au-dir{text-align:left}.au-form-f{flex-direction:column;align-items:flex-start}}
+.vs-ahead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* AUTOMAÇÕES CADASTRADAS */
+
+.vs-rts {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 16px;
+}
+
+.vs-rt {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px 26px;
+}
+
+.vs-rt-t {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.vs-rt h3 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+}
+
+/* STATUS */
+
+.vs-on {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 11px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    background: linear-gradient(120deg,#FC865B,#F79D5F);
+    color: #fff;
+}
+
+.vs-on.off {
+    background: rgba(166,187,208,.22);
+    color: #65788D;
+    border: 1px solid rgba(166,187,208,.28);
+}
+
+.vs-rt p {
+    font-size: 14px;
+    color: var(--sec);
+}
+
+.vs-rt .g {
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.vs-rt .al {
+    font-size: 13px;
+    color: #B9684D;
+    font-weight: 500;
+}
+
+.vs-rt small {
+    font-size: 12px;
+    color: var(--sec);
+}
+
+.vs-rt-f {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hair);
+    flex-wrap: wrap;
+}
+
+/* DETALHES */
+
+.vs-rt details summary {
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: #B9684D;
+    padding: 9px 0;
+    list-style: none;
+}
+
+.vs-rt details summary::-webkit-details-marker {
+    display: none;
+}
+
+.vs-rt details > div {
+    font-size: 13px;
+    color: var(--sec);
+}
+
+.vs-rt-b {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.vs-rt-b form {
+    display: contents;
+}
+
+/* BOTÕES PEQUENOS */
+
+.vs-mini {
+    padding: 6px 14px;
+    border: 1px solid rgba(252,134,91,.22);
+    border-radius: 99px;
+    background: rgba(252,134,91,.11);
+    color: #B9684D;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.vs-mini:hover {
+    background: rgba(252,134,91,.20);
+    border-color: rgba(252,134,91,.38);
+}
+
+.vs-mini.x {
+    background: rgba(198,90,69,.10);
+    border-color: rgba(198,90,69,.18);
+    color: #B94F42;
+}
+
+.vs-mini.x:hover {
+    background: rgba(198,90,69,.17);
+}
+
+/* ETAPAS DE CONFIGURAÇÃO */
+
+.vs-step {
+    padding: 28px 30px;
+    margin-bottom: 18px;
+}
+
+.vs-step h3 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--hair);
+}
+
+.vs-step h3 span {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#FC865B,#F79D5F);
+    color: #fff;
+    font-size: 15px;
+}
+
+.vs-step h3 small {
+    flex-basis: 100%;
+    margin-left: 46px;
+    margin-top: -6px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--sec);
+}
+
+/* ORGANIZAÇÃO DAS OPÇÕES */
+
+.vs-two2 {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.vs-ops {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vs-op {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.72);
+    border: 1px solid var(--hair);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.vs-op input {
+    accent-color: #E97955;
+    margin: 0;
+}
+
+.vs-op:has(input:checked) {
+    background: linear-gradient(
+        120deg,
+        rgba(252,134,91,.12),
+        rgba(166,187,208,.17)
+    );
+    border-color: rgba(217,117,82,.45);
+}
+
+.vs-op.off {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* PAINEL DE INFORMAÇÕES */
+
+.vs-pn h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.vs-pn p {
+    font-size: 13px;
+    color: var(--sec);
+    margin-top: 10px;
+}
+
+/* AVISO */
+
+.vs-notice {
+    margin-top: 16px;
+    padding: 16px 18px;
+    border-radius: 18px;
+
+    background: linear-gradient(
+        125deg,
+        rgba(252,134,91,.12),
+        rgba(247,157,95,.10) 48%,
+        rgba(166,187,208,.18)
+    );
+
+    border: 1px solid rgba(217,137,105,.19);
+    color: #625D68;
+
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+
+    font-size: 13px;
+}
+
+.vs-notice b {
+    color: #B9684D;
+}
+
+.vs-notice p {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #625D68;
+}
+
+/* REVISÃO DA AUTOMAÇÃO */
+
+.vs-rev {
+    margin-top: 22px;
+    padding: 20px 22px;
+    border-radius: 22px;
+
+    color: #38343D;
+
+    background: linear-gradient(
+        125deg,
+        rgba(252,134,91,.13),
+        rgba(247,157,95,.12) 48%,
+        rgba(166,187,208,.20)
+    );
+
+    border: 1px solid rgba(217,137,105,.20);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.85),
+        0 8px 22px rgba(75,65,78,.045);
+}
+
+.vs-rev-t {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.vs-rev small {
+    color: #777783;
+}
+
+.vs-rev p {
+    color: #625D68;
+    font-size: 14px;
+    line-height: 1.55;
+    opacity: 1;
+}
+
+/* CONFIRMAÇÃO */
+
+.vs-ok {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 18px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.vs-ok input {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: #E97955;
+}
+
+/* RODAPÉ DO FORMULÁRIO */
+
+.vs-sfoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.vs-sfoot small {
+    font-size: 12px;
+    color: var(--sec);
+}
+
+.vs-sfoot div {
+    display: flex;
+    gap: 10px;
+}
+
+/* HISTÓRICO DE AUTOMAÇÕES */
+
+.vs-ah {
+    display: grid;
+    grid-template-columns: 170px 1fr 2fr;
+    gap: 16px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--hair);
+    font-size: 13px;
+}
+
+.vs-ah:first-child {
+    border: 0;
+}
+
+.vs-ah.h {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sec);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.vs-ah p {
+    font-size: 12px;
+    color: var(--sec);
+    margin-top: 2px;
+}
+
+.vs-ah b.falha {
+    color: var(--warn);
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 900px) {
+    .vs-rts,
+    .vs-two2 {
+        grid-template-columns: 1fr;
+    }
+
+    .vs-ah {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .vs-ah.h {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .vs-step {
+        padding: 22px;
+    }
+
+    .vs-sfoot {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* ACESSIBILIDADE */
+
+.vs-mini:focus-visible,
+.vs-op:focus-within {
+    outline: 3px solid #A6BBD0;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vs-rt,
+    .vs-mini,
+    .vs-op {
+        transition: none !important;
+    }
+}

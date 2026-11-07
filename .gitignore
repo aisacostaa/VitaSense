@@ -1,6 +1,40 @@
+# Java / Maven
 target/
-*.db
-.vscode/
+*.class
+*.jar
+*.war
+
+# IDEs
 .idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
 *.log
+logs/
+
+# Configurações locais e segredos
 .env
+.env.*
+!.env.example
+application-local.properties
+application-secret.properties
+secrets/
+*.pem
+*.key
+
+# Banco de dados local
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos temporários
+tmp/
+temp/

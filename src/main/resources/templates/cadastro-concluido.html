@@ -1,30 +1,82 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>VitaSense • Cadastro concluído</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <link rel="stylesheet" th:href="@{/css/acesso.css}">
-</head>
-<body class="ac-page">
-<main class="ac-card ac-larga">
-  <img th:src="@{/img/logo.png}" alt="VitaSense" class="ac-logo" onerror="this.style.display='none'">
-  <h1>Cadastro concluído!</h1>
-  <p class="ac-sub">Este é o código de acesso de <b th:text="${nomeIdoso}">Dona Maria</b>. Ela entra no sistema só com ele, sem e-mail nem senha.</p>
 
-  <div class="ac-codigo" aria-label="Código de acesso" th:text="${codigoIdoso}">1234-5678</div>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" th:href="@{/css/vitasense.css}">
+  <link rel="stylesheet" th:href="@{/css/auth.css}">
+
+  <meta name="theme-color" content="#FEF8F0">
+</head>
+
+<body class="ac-page app">
+
+<main class="ac-card ac-larga">
+
+  <img
+    th:src="@{/img/logo.png}"
+    alt="VitaSense"
+    class="ac-logo"
+    onerror="this.style.display='none'"
+  >
+
+  <h1>Cadastro concluído!</h1>
+
+  <p class="ac-sub">
+    Este é o código de acesso de
+    <b th:text="${nomeIdoso}">Gilberto Conceição</b>.
+    A pessoa cadastrada poderá entrar no sistema usando apenas este código,
+    sem precisar de e-mail ou senha.
+  </p>
+
+  <div class="ac-codigo" aria-label="Código de acesso" th:text="${codigoIdoso}">
+    1234-5678
+  </div>
+
   <div class="ac-botoes">
-    <button type="button" class="ac-btn" th:attr="data-copiar=${codigoIdoso}">Copiar código</button>
-    <button type="button" class="ac-btn ac-btn-borda" data-imprimir>Imprimir</button>
+    <button
+      type="button"
+      class="ac-btn"
+      th:attr="data-copiar=${codigoIdoso}">
+      Copiar código
+    </button>
+
+    <button
+      type="button"
+      class="ac-btn ac-btn-borda"
+      data-imprimir>
+      Imprimir
+    </button>
   </div>
 
   <ol class="ac-passos">
-    <li>Anote ou imprima o código e entregue à pessoa acompanhada.</li>
-    <li>Ela abre o endereço <b>/acesso</b> do sistema e digita os 8 números.</li>
-    <li>Você pode ver, renovar ou desativar o código depois, em <b>Configurações</b> (⚙).</li>
+    <li>
+      Anote ou imprima o código e entregue à pessoa cadastrada.
+    </li>
+
+    <li>
+      Para acessar o sistema, basta abrir o endereço
+      <b>/acesso</b> e digitar os 8 números.
+    </li>
+
+    <li>
+      Você pode consultar, renovar ou desativar o código depois,
+      em <b>Configurações</b> (⚙).
+    </li>
   </ol>
-  <a class="ac-btn ac-btn-link" th:href="@{/login(cadastrado)}">Ir para o login do responsável</a>
+
+  <a
+    class="ac-btn ac-btn-link"
+    th:href="@{/login(cadastrado)}">
+    Ir para o login do responsável
+  </a>
+
 </main>
+
 <script th:src="@{/js/acesso.js}"></script>
+
 </body>
 </html>

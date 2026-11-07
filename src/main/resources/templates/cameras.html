@@ -1,105 +1,111 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FEF8F0">
   <title>VitaSense • Câmeras</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" th:href="@{/css/vitasense.css}">
   <link rel="stylesheet" th:href="@{/css/cameras.css}">
 </head>
-<body class="app cameras-page">
-<div class="page">
-  <header th:replace="~{fragments/layout :: topo('cameras')}"></header>
+<body class="app">
+<header th:replace="~{fragments/nav :: nav('cameras')}"></header>
 
-  <main class="cm-main">
-    <div class="cm-titulo"><h1>Monitoramento por câmeras</h1></div>
-    <div class="cm-msg ok" th:if="${ok}" th:text="${ok}"></div>
-    <div class="cm-msg erro" th:if="${erro}" th:text="${erro}"></div>
+<main class="vs-wrap">
+  <div class="vs-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+    <div>
+      <p class="vs-eyebrow"><span th:text="${imovel.nome}">Residência</span> · <span th:text="${online}">3</span> de <span th:text="${#lists.size(cameras)}">4</span> câmeras conectadas</p>
+      <h1 class="vs-h1">Câmeras</h1>
+      <p class="vs-lead">Acompanhe os ambientes da residência</p>
+    </div>
+    <form th:action="@{/cameras/atualizar}" method="post"><button class="vs-btn soft">
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/></svg>Atualizar câmeras</button></form>
+  </div>
+  <div class="vs-msg ok" th:if="${ok}" th:text="${ok}"></div>
+  <div class="vs-msg erro" th:if="${erro}" th:text="${erro}"></div>
 
-    <section class="cm-intro">
-      <div><p class="cm-lead">Acompanhe os ambientes da residência</p>
-        <small><span th:text="${imovel.nome}">Residência</span> · <span th:text="${online}">3</span> de <span th:text="${#lists.size(cameras)}">4</span> câmeras conectadas</small></div>
-      <form th:action="@{/cameras/atualizar}" method="post"><button class="cm-btn">↻ Atualizar câmeras</button></form>
-    </section>
+  <div class="vs-camgrid vs-sec" th:if="${cam != null}">
+    <div>
+      <article>
+        <div class="vs-viewer" th:classappend="${!cam.online or !ctl.transmissaoAtiva or !ctl.acessoAutorizado} ? 'off'">
+          <img th:src="@{/img/{f}(f=${cam.imagem})}" alt="" onerror="this.style.display='none'">
+          <video th:if="${cam.online and ctl.transmissaoAtiva and ctl.acessoAutorizado}"
+                 th:src="@{/video/{f}(f=${#strings.replace(cam.imagem,'.jpg','.mp4')})}"
+                 th:attr="data-audio=${aud}" autoplay muted loop playsinline onerror="this.style.display='none'"></video>
+          <span class="vs-vb tl nome"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg><span th:text="${cam.nome}">Sala</span></span>
+          <span class="vs-vb tr" th:text="${!cam.online} ? 'Sem sinal' : (${!ctl.acessoAutorizado} ? 'Acesso revogado' : (${ctl.transmissaoAtiva} ? 'Transmissão ativa' : 'Transmissão interrompida'))">Transmissão ativa</span>
+          <span class="vs-vb bl"><span data-clock th:text="${agora}">29/10/2026 · 21:30:00</span> · horário fictício</span>
+          <span class="vs-vb br" th:text="${cam.estadoTexto}">Conectada</span>
+          <div class="vs-vover" th:if="${!cam.online or !ctl.transmissaoAtiva or !ctl.acessoAutorizado}"><div>
+            <span th:text="${!cam.online} ? ('Câmera desconectada · ' + ${cam.detalhe}) : (${!ctl.acessoAutorizado} ? 'Acesso às câmeras não autorizado' : 'Transmissão interrompida pelo responsável')">Câmera desconectada</span>
+            <form th:if="${!cam.online}" th:action="@{/cameras/{id}/reconectar(id=${cam.id})}" method="post"><button class="vs-btn white">Reconectar câmera</button></form></div></div>
+        </div>
+        <p class="vs-vnote" th:if="${cam.online and ctl.transmissaoAtiva and ctl.acessoAutorizado}">Na residência: aviso de transmissão ativa representado nesta simulação.</p>
+      </article>
 
-    <div class="cm-grid" th:if="${cam != null}">
-      <div class="cm-esq">
-        <h2 class="cm-sec">Visualização principal</h2>
-        <article class="cm-card">
-          <div class="cm-viewer" th:classappend="${!cam.online or !ctl.transmissaoAtiva or !ctl.acessoAutorizado} ? 'cm-off'">
-            <img th:src="@{/img/{f}(f=${cam.imagem})}" alt="" onerror="this.style.display='none'">
-            <video th:if="${cam.online and ctl.transmissaoAtiva and ctl.acessoAutorizado}"
-                   th:src="@{/video/{f}(f=${#strings.replace(cam.imagem,'.jpg','.mp4')})}"
-                   th:attr="data-audio=${aud}" autoplay muted loop playsinline
-                   onerror="this.style.display='none'"></video>
-            <span class="cm-b cm-b-nome">🎥 <span th:text="${cam.nome}">Sala</span></span>
-            <span class="cm-b cm-b-tx" th:text="${!cam.online} ? 'Sem sinal' : (${!ctl.acessoAutorizado} ? 'Acesso revogado' : (${ctl.transmissaoAtiva} ? 'Transmissão ativa' : 'Transmissão interrompida'))">Transmissão ativa</span>
-            <span class="cm-b cm-b-hora"><span data-clock th:text="${agora}">29/10/2026 · 21:30:00</span> · Horário fictício</span>
-            <span class="cm-b cm-b-estado" th:text="${cam.estadoTexto}">Conectada</span>
-            <div class="cm-overlay" th:if="${!cam.online or !ctl.transmissaoAtiva or !ctl.acessoAutorizado}"><div style="text-align:center">
-              <span th:text="${!cam.online} ? ('Câmera desconectada · ' + ${cam.detalhe}) : (${!ctl.acessoAutorizado} ? 'Acesso às câmeras não autorizado' : 'Transmissão interrompida pelo responsável')">Câmera desconectada</span>
-              <form th:if="${!cam.online}" style="margin-top:12px" th:action="@{/cameras/{id}/reconectar(id=${cam.id})}" method="post"><button class="cm-btn cm-btn-claro">↻ Reconectar câmera</button></form></div></div>
-          </div>
-          <p class="cm-aviso" th:if="${cam.online and ctl.transmissaoAtiva and ctl.acessoAutorizado}">Na residência: aviso de transmissão ativa representado nesta simulação.</p>
-        </article>
+      <article class="vs-card vs-audio" id="audio">
+        <h3>Controle de áudio</h3>
+        <p class="vs-astate"><span th:text="${cam.nome}">Sala</span> · <span th:text="${cam.audioBidirecional} ? 'Áudio bidirecional compatível' : 'Somente vídeo'">Áudio</span><br>
+          <span th:text="${mic ? 'Microfone ativo' : 'Microfone desativado'} + ' · ' + ${aud ? 'Áudio habilitado' : 'Áudio desabilitado'} + ' · ' + ${(mic or aud) ? 'Em comunicação' : 'Sem comunicação'}">Microfone desativado · Áudio desabilitado · Sem comunicação</span></p>
+        <div class="vs-abtns">
+          <form th:action="@{/cameras/{id}/audio/falar(id=${cam.id})}" method="post"><button class="vs-btn" th:disabled="${motivo != null or mic}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span th:text="${mic} ? 'Falando…' : 'Falar pelo dispositivo'">Falar pelo dispositivo</span></button></form>
+          <form th:action="@{/cameras/{id}/audio/ouvir(id=${cam.id})}" method="post"><button class="vs-btn soft" th:disabled="${motivo != null}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg><span th:text="${aud} ? 'Desativar áudio' : 'Ativar áudio'">Ativar áudio</span></button></form>
+          <form th:action="@{/cameras/{id}/audio/encerrar(id=${cam.id})}" method="post"><button class="vs-btn soft" th:disabled="${!(mic or aud)}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>Encerrar comunicação</button></form>
+        </div>
+        <small class="vs-help" th:if="${motivo == null}">Falar envia sua voz à residência. Ativar áudio permite ouvir o ambiente. Encerrar fica indisponível enquanto não há comunicação.</small>
+        <small class="vs-help alerta" th:if="${motivo != null}">Áudio indisponível: <span th:text="${motivo}">motivo</span>.</small>
+      </article>
+    </div>
 
-        <article class="cm-card cm-audio" id="audio">
-          <div class="cm-audio-t"><h3>Controle de áudio</h3><small><span th:text="${cam.nome}">Sala</span> · <span th:text="${cam.audioBidirecional} ? 'Áudio bidirecional compatível' : 'Somente vídeo'">Áudio</span></small></div>
-          <p class="cm-estado"
-             th:text="${mic ? 'Microfone ativo' : 'Microfone desativado'} + ' · ' + ${aud ? 'Áudio habilitado' : 'Áudio desabilitado'} + ' · ' + ${(mic or aud) ? 'Em comunicação' : 'Sem comunicação'}">Microfone desativado · Áudio desabilitado · Sem comunicação</p>
-          <div class="cm-audio-btns">
-            <form th:action="@{/cameras/{id}/audio/falar(id=${cam.id})}" method="post"><button class="cm-btn" th:disabled="${motivo != null or mic}">🎙 <span th:text="${mic} ? 'Falando…' : 'Falar pelo dispositivo'">Falar pelo dispositivo</span></button></form>
-            <form th:action="@{/cameras/{id}/audio/ouvir(id=${cam.id})}" method="post"><button class="cm-btn cm-btn-claro" th:disabled="${motivo != null}">🔊 <span th:text="${aud} ? 'Desativar áudio' : 'Ativar áudio'">Ativar áudio</span></button></form>
-            <form th:action="@{/cameras/{id}/audio/encerrar(id=${cam.id})}" method="post"><button class="cm-btn cm-btn-claro" th:disabled="${!(mic or aud)}">⏹ Encerrar comunicação</button></form>
-          </div>
-          <small class="cm-ajuda" th:if="${motivo == null}">Falar envia sua voz à residência. Ativar áudio permite ouvir o ambiente. Encerrar fica indisponível enquanto não há comunicação.</small>
-          <small class="cm-ajuda cm-ajuda-alerta" th:if="${motivo != null}">Áudio indisponível: <span th:text="${motivo}">motivo</span>.</small>
-        </article>
-      </div>
-
-      <aside class="cm-dir">
-        <div class="cm-amb-t"><h2 class="cm-sec">Ambientes</h2><small><span th:text="${#lists.size(cameras)}">4</span> câmeras</small></div>
-        <a class="cm-amb" th:each="c : ${cameras}" th:href="@{/cameras(sel=${c.id})}" th:classappend="${c.id == cam.id} ? 'sel'">
-          <div class="cm-amb-h"><b th:text="${c.nome}">Cozinha</b><span class="cm-sel-tag" th:if="${c.id == cam.id}">Selecionada</span></div>
-          <div class="cm-amb-c"><span class="cm-thumb"><img th:src="@{/img/{f}(f=${c.imagem})}" alt="" onerror="this.style.display='none'"></span>
-            <div><b th:text="${c.estadoTexto}">Conectada</b><small th:text="${c.detalhe}">Áudio bidirecional compatível</small></div></div>
+    <aside aria-label="Ambientes">
+      <div class="vs-sh"><h2>Ambientes</h2><small><span th:text="${#lists.size(cameras)}">4</span> câmeras</small></div>
+      <div class="vs-amb">
+        <a class="vs-ambi" th:each="c : ${cameras}" th:href="@{/cameras(sel=${c.id})}" th:classappend="${c.id == cam.id} ? 'sel'">
+          <span class="vs-thumb"><img th:src="@{/img/{f}(f=${c.imagem})}" alt="" onerror="this.style.display='none'"></span>
+          <span><b th:text="${c.nome}">Cozinha</b><small th:text="${c.estadoTexto}">Conectada</small></span>
+          <span class="vs-selt" th:if="${c.id == cam.id}">Selecionada</span>
         </a>
-      </aside>
-    </div>
-    <p class="cm-vazio" th:if="${cam == null}">Nenhuma câmera cadastrada nesta residência.</p>
+      </div>
+    </aside>
+  </div>
+  <p class="vs-empty" th:if="${cam == null}">Nenhuma câmera cadastrada nesta residência.</p>
 
-    <!-- EVENTOS -->
-    <div class="cm-linha"><h2 class="cm-sec">Eventos recentes</h2><small>Horários fictícios · Mais recentes primeiro</small></div>
-    <div class="cm-eventos">
-      <div class="cm-evento" th:each="e : ${eventos}">
-        <b th:text="${#temporals.format(e.momento,'HH:mm')}">21:28</b>
-        <span class="cm-ev-cam"><svg viewBox="0 0 24 24" th:if="${e.tipo != 'DESCONEXAO'}"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg><svg viewBox="0 0 24 24" th:if="${e.tipo == 'DESCONEXAO'}"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3M3 3l18 18"/></svg><span th:text="${e.camera.nome}">Sala</span></span>
-        <span class="cm-ev-t" th:text="${e.titulo}">Movimento detectado</span>
-        <span class="cm-ev-s" th:text="${e.status}">Ocorrência informativa</span>
-      </div>
-      <p class="cm-vazio" th:if="${#lists.isEmpty(eventos)}">Nenhum evento registrado.</p>
+  <!-- EVENTOS -->
+  <div class="vs-sh"><h2>Eventos recentes</h2><small>Horários fictícios · mais recentes primeiro</small></div>
+  <div class="vs-card vs-list vs-sec">
+    <div class="vs-evt" th:each="e : ${eventos}">
+      <b th:text="${#temporals.format(e.momento,'HH:mm')}">21:28</b>
+      <span class="c"><svg viewBox="0 0 24 24" th:if="${e.tipo != 'DESCONEXAO'}" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg><svg viewBox="0 0 24 24" th:if="${e.tipo == 'DESCONEXAO'}" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3M3 3l18 18"/></svg><span th:text="${e.camera.nome}">Sala</span></span>
+      <span class="t" th:text="${e.titulo}">Movimento detectado</span>
+      <span class="s" th:text="${e.status}">Ocorrência informativa</span>
     </div>
+    <p class="vs-empty" th:if="${#lists.isEmpty(eventos)}">Nenhum evento registrado.</p>
+  </div>
 
-    <!-- PRIVACIDADE -->
-    <h2 class="cm-sec">Privacidade e permissões</h2>
-    <article class="cm-card cm-priv">
-      <div class="cm-priv-g">
-        <div><small>Acesso</small><b th:text="${ctl.acessoAutorizado} ? 'Acesso autorizado' : 'Acesso revogado'">Acesso autorizado</b>
-          <p th:text="${ctl.acessoAutorizado} ? ('Consentimento vigente de ' + ${pessoaNome} + ', representado para esta demonstração.') : 'O acesso às câmeras está bloqueado até nova autorização.'">texto</p></div>
-        <div><small>Vídeo</small><b th:text="${ctl.transmissaoAtiva} ? 'Transmissão ativa' : 'Transmissão interrompida'">Transmissão ativa</b>
-          <p th:text="${ctl.transmissaoAtiva} ? 'Aviso de transmissão visível à pessoa na residência no cenário simulado.' : 'Nenhuma imagem está sendo exibida no momento.'">texto</p></div>
-        <div><small>Comunicação</small><b th:text="${(mic or aud)} ? 'Áudio habilitado' : 'Áudio desabilitado'">Áudio desabilitado</b>
-          <p th:text="${(mic or aud)} ? 'Aviso de microfone e áudio ativos exibido na residência durante a comunicação.' : 'Microfone desativado. Nenhum áudio enviado ou recebido no estado atual.'">texto</p></div>
-      </div>
-      <div class="cm-priv-info"><b>🔔 A pessoa na residência é informada</b>
-        <p>O cenário prevê avisos de acesso autorizado, transmissão e ativação de áudio na residência. Não há acesso silencioso nem gravação automática.</p></div>
-      <div class="cm-priv-btns">
-        <form th:action="@{/cameras/permissoes/acesso}" method="post" data-confirma="Alterar a autorização de acesso às câmeras?"><button class="cm-btn" th:text="${ctl.acessoAutorizado} ? 'Gerenciar permissões (revogar acesso)' : 'Gerenciar permissões (autorizar acesso)'">Gerenciar permissões</button></form>
-        <form th:action="@{/cameras/permissoes/transmissao}" method="post" data-confirma="Alterar a transmissão das câmeras?"><button class="cm-btn" th:text="${ctl.transmissaoAtiva} ? '⏹ Interromper transmissão' : '▶ Retomar transmissão'">Interromper transmissão</button></form>
-      </div>
-    </article>
-  </main>
-</div>
+  <!-- PRIVACIDADE -->
+  <div class="vs-sh"><h2>Privacidade e permissões</h2></div>
+  <article class="vs-card vs-priv">
+    <div class="vs-pg">
+      <div><small>Acesso</small><b th:text="${ctl.acessoAutorizado} ? 'Acesso autorizado' : 'Acesso revogado'">Acesso autorizado</b>
+        <p th:text="${ctl.acessoAutorizado} ? ('Consentimento vigente de ' + ${pessoaNome} + ', representado para esta demonstração.') : 'O acesso às câmeras está bloqueado até nova autorização.'">texto</p></div>
+      <div><small>Vídeo</small><b th:text="${ctl.transmissaoAtiva} ? 'Transmissão ativa' : 'Transmissão interrompida'">Transmissão ativa</b>
+        <p th:text="${ctl.transmissaoAtiva} ? 'Aviso de transmissão visível à pessoa na residência no cenário simulado.' : 'Nenhuma imagem está sendo exibida no momento.'">texto</p></div>
+      <div><small>Comunicação</small><b th:text="${(mic or aud)} ? 'Áudio habilitado' : 'Áudio desabilitado'">Áudio desabilitado</b>
+        <p th:text="${(mic or aud)} ? 'Aviso de microfone e áudio ativos exibido na residência durante a comunicação.' : 'Microfone desativado. Nenhum áudio enviado ou recebido no estado atual.'">texto</p></div>
+    </div>
+    <div class="vs-pinfo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg>
+      <div><b>A pessoa na residência é informada</b><p>O cenário prevê avisos de acesso autorizado, transmissão e ativação de áudio na residência. Não há acesso silencioso nem gravação automática.</p></div></div>
+    <div class="vs-pbtns">
+      <form th:action="@{/cameras/permissoes/acesso}" method="post" data-confirma="Alterar a autorização de acesso às câmeras?"><button class="vs-btn" th:text="${ctl.acessoAutorizado} ? 'Revogar acesso' : 'Autorizar acesso'">Gerenciar permissões</button></form>
+      <form th:action="@{/cameras/permissoes/transmissao}" method="post" data-confirma="Alterar a transmissão das câmeras?"><button class="vs-btn soft" th:text="${ctl.transmissaoAtiva} ? 'Interromper transmissão' : 'Retomar transmissão'">Interromper transmissão</button></form>
+    </div>
+  </article>
+</main>
+<script th:src="@{/js/vs-nav.js}"></script>
 <script th:src="@{/js/cameras.js}"></script>
 </body>
 </html>

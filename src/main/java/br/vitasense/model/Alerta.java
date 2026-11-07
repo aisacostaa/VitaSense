@@ -9,6 +9,7 @@ public class Alerta {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     private String titulo, descricao, prioridade, categoria, origem, informacoes, orientacao, visualizadoPor, resolvidoPor, resolucao;
     private LocalDateTime ocorrencia, visualizadoEm, resolvidoEm;
+    private LocalDateTime vistoPelaPessoaEm;      // quando a pessoa acompanhada marcou "Já li"
     private Boolean visualizado;                     // wrapper: linhas antigas vêm como null
     @Enumerated(EnumType.STRING) private StatusAlerta status;
     @ManyToOne(optional = false) private Imovel imovel;
@@ -19,6 +20,7 @@ public class Alerta {
         this.ocorrencia = ocorrencia; this.status = status; this.imovel = imovel;
     }
     public Long getId() { return id; }
+    public LocalDateTime getVistoPelaPessoaEm() { return vistoPelaPessoaEm; } public void setVistoPelaPessoaEm(LocalDateTime v) { vistoPelaPessoaEm = v; }
     public String getTitulo() { return titulo; }
     public String getDescricao() { return descricao; }
     public LocalDateTime getOcorrencia() { return ocorrencia; }

@@ -1,0 +1,1008 @@
+/* =========================================================
+   VITASENSE — DESIGN SYSTEM
+   Identidade visual refinada
+   Fundo claro com reflexos suaves da marca
+   ========================================================= */
+
+.app {
+    --bg: #F8F7F5;
+    --card: rgba(255, 255, 255, .82);
+    --ink: #38343D;
+    --sec: #625D68;
+    --hair: rgba(75, 65, 78, .10);
+
+    --pine: #FC865B;
+    --pine-d: #E97955;
+    --pine-soft: rgba(252, 134, 91, .12);
+
+    --lime: #E4ECF4;
+
+    --warn: #C65A45;
+    --warn-soft: rgba(198, 90, 69, .11);
+
+    --shadow:
+        0 1px 2px rgba(55, 45, 55, .025),
+        0 12px 32px -16px rgba(55, 45, 55, .13);
+
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+        "SF Pro Text", Inter, system-ui, sans-serif;
+
+    background:
+        radial-gradient(
+            ellipse at 5% 5%,
+            rgba(252, 134, 91, .055),
+            transparent 34%
+        ),
+        radial-gradient(
+            ellipse at 95% 35%,
+            rgba(166, 187, 208, .09),
+            transparent 35%
+        ),
+        #F8F7F5;
+
+    color: var(--ink);
+    font: 15px/1.47 var(--font);
+    letter-spacing: -.011em;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+.app,
+.app *,
+.app *::before,
+.app *::after {
+    box-sizing: border-box;
+}
+
+.app :where(h1,h2,h3,h4,p,ul,form) {
+    margin: 0;
+}
+
+.app :where(ul) {
+    padding: 0;
+    list-style: none;
+}
+
+.app svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.app button {
+    font-family: inherit;
+}
+
+.vs-wrap {
+    width: min(100% - 48px, 1120px);
+    margin: 0 auto;
+    padding-bottom: 72px;
+}
+
+/* =========================================================
+   NAVEGAÇÃO
+   ========================================================= */
+
+.vs-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    background: rgba(248, 247, 245, .82);
+
+    backdrop-filter: saturate(180%) blur(22px);
+    -webkit-backdrop-filter: saturate(180%) blur(22px);
+
+    border-bottom: 1px solid var(--hair);
+    padding-top: env(safe-area-inset-top,0px);
+}
+
+.vs-nav-in {
+    width: min(100% - 48px, 1120px);
+    height: 56px;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.vs-brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: var(--ink);
+    text-decoration: none;
+
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: -.02em;
+
+    flex: none;
+}
+
+.vs-brand i {
+    width: 28px;
+    height: 28px;
+
+    border-radius: 9px;
+
+    background: linear-gradient(135deg, #FC865B, #F79D5F);
+    color: #FFFFFF;
+
+    display: grid;
+    place-items: center;
+}
+
+.vs-brand i svg {
+    width: 15px;
+    height: 15px;
+    stroke-width: 2.6;
+}
+
+.vs-brand img {
+    height: 28px;
+    width: auto;
+}
+
+.vs-links {
+    display: flex;
+    gap: 2px;
+
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    flex: 1;
+}
+
+.vs-links::-webkit-scrollbar {
+    display: none;
+}
+
+.vs-links a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 7px 12px;
+    border-radius: 99px;
+
+    color: var(--sec);
+
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition: background .2s, color .2s;
+}
+
+.vs-links a svg {
+    width: 15px;
+    height: 15px;
+}
+
+.vs-links a:hover {
+    color: var(--ink);
+    background: rgba(252, 134, 91, .07);
+}
+
+.vs-links a.on {
+    background: linear-gradient(110deg, #FC865B, #EBA09D 58%, #B5C7D8);
+    color: #FFFFFF;
+    font-weight: 600;
+
+    box-shadow: 0 4px 12px rgba(207, 143, 143, .16);
+}
+
+.vs-badge {
+    min-width: 18px;
+    height: 18px;
+
+    padding: 0 5px;
+    border-radius: 99px;
+
+    background: var(--warn);
+    color: #fff;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    display: inline-grid;
+    place-items: center;
+}
+
+.vs-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: none;
+}
+
+.vs-ibtn {
+    position: relative;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    display: grid;
+    place-items: center;
+
+    color: var(--sec);
+    background: transparent;
+
+    border: 0;
+    cursor: pointer;
+    text-decoration: none;
+
+    transition: background .2s, color .2s;
+}
+
+.vs-ibtn:hover {
+    background: var(--pine-soft);
+    color: var(--pine-d);
+}
+
+.vs-ibtn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.vs-ibtn .vs-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+
+    min-width: 16px;
+    height: 16px;
+
+    font-size: 9px;
+}
+
+/* =========================================================
+   FOTO DE PERFIL DO RESPONSÁVEL
+   ========================================================= */
+
+.vs-nav .vs-avatar {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    max-width: 36px;
+    flex: 0 0 36px;
+
+    position: relative;
+    display: block;
+
+    overflow: hidden;
+    border-radius: 50%;
+
+    padding: 0;
+    margin: 0;
+
+    background: linear-gradient(135deg, #FC865B, #B5C7D8);
+    color: #FFFFFF;
+
+    border: 1px solid rgba(75, 65, 78, .12);
+    box-sizing: border-box;
+    isolation: isolate;
+}
+
+.vs-nav .vs-avatar img {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+    object-fit: cover;
+    object-position: center;
+
+    border: 0;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+}
+
+.vs-nav .vs-avatar span {
+    position: absolute;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #FC865B, #B5C7D8);
+}
+
+.vs-utxt {
+    line-height: 1.2;
+}
+
+.vs-utxt b {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.vs-utxt small {
+    font-size: 11px;
+    color: var(--sec);
+}
+
+/* =========================================================
+   CABEÇALHOS
+   ========================================================= */
+
+.vs-head {
+    padding: 48px 0 30px;
+}
+
+.vs-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--sec);
+}
+
+.vs-h1 {
+    font-size: clamp(30px,5vw,46px);
+    line-height: 1.08;
+    font-weight: 700;
+    letter-spacing: -.035em;
+    margin-top: 8px;
+}
+
+.vs-lead {
+    color: var(--sec);
+    font-size: 17px;
+    margin-top: 6px;
+}
+
+.vs-sh {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 4px 14px;
+}
+
+.vs-sh h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.025em;
+}
+
+.vs-sh a {
+    color: var(--pine-d);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.vs-sh a:hover {
+    color: #C96F54;
+}
+
+.vs-sh small {
+    color: var(--sec);
+    font-size: 13px;
+}
+
+.vs-sec {
+    margin-bottom: 44px;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+.vs-card {
+    background: var(--card);
+    border: 1px solid rgba(255, 255, 255, .88);
+    border-radius: 28px;
+
+    box-shadow:
+        var(--shadow),
+        inset 0 1px 0 rgba(255, 255, 255, .75);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.vs-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: 0;
+    border-radius: 99px;
+
+    padding: 11px 20px;
+
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+
+    cursor: pointer;
+    text-decoration: none;
+
+    background: #34323A;
+    color: #fff;
+
+    transition: transform .2s, background .2s, box-shadow .2s;
+}
+
+.vs-btn:hover {
+    background: #4A4650;
+    box-shadow: 0 6px 16px rgba(52, 50, 58, .13);
+}
+
+.vs-btn:active {
+    transform: scale(.97);
+}
+
+.vs-btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.vs-btn.soft {
+    background: rgba(252, 134, 91, .12);
+    color: #A95F4B;
+    border: 1px solid rgba(252, 134, 91, .18);
+}
+
+.vs-btn.soft:hover {
+    background: rgba(252, 134, 91, .19);
+}
+
+.vs-btn.white {
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid var(--hair);
+}
+
+.vs-btn.glass {
+    background: rgba(255,255,255,.2);
+    color: #fff;
+    backdrop-filter: blur(16px);
+}
+
+.app :focus-visible {
+    outline: 3px solid rgba(252, 134, 91, .38);
+    outline-offset: 3px;
+}
+
+.vs-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    color: #A95F4B;
+    background: rgba(252, 134, 91, .12);
+
+    padding: 5px 11px;
+    border-radius: 99px;
+    white-space: nowrap;
+}
+
+.vs-tag i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.vs-pill-w {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 99px;
+    background: var(--warn-soft);
+    color: var(--warn);
+}
+
+.vs-empty {
+    padding: 28px;
+    text-align: center;
+    color: var(--sec);
+    font-size: 14px;
+}
+
+.vs-list {
+    padding: 6px 0;
+}
+
+.vs-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 22px;
+
+    border-top: 1px solid var(--hair);
+
+    color: inherit;
+    text-decoration: none;
+
+    transition: background .2s ease;
+}
+
+.vs-row:hover {
+    background: rgba(252, 134, 91, .035);
+}
+
+.vs-row:first-child {
+    border: 0;
+}
+
+.vs-ico {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 12px;
+
+    display: grid;
+    place-items: center;
+    flex: none;
+
+    background: linear-gradient(135deg, #FC865B, #F4B47F);
+    color: #FFFFFF;
+}
+
+.vs-ico svg {
+    width: 20px;
+    height: 20px;
+}
+
+.vs-ico.w {
+    background: var(--warn-soft);
+    color: var(--warn);
+}
+
+.vs-tx {
+    flex: 1;
+    min-width: 0;
+}
+
+.vs-tx h3 {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -.015em;
+}
+
+.vs-tx p {
+    font-size: 13px;
+    color: var(--sec);
+    margin-top: 1px;
+}
+
+.vs-m {
+    font-size: 12px;
+    color: var(--sec);
+    white-space: nowrap;
+}
+
+.vs-chev {
+    width: 16px;
+    height: 16px;
+    color: #A6A0AA;
+    flex: none;
+}
+
+/* =========================================================
+   COMPONENTES COMPARTILHADOS
+   ========================================================= */
+
+.app [hidden] {
+    display: none !important;
+}
+
+.vs-msg {
+    margin: 0 0 20px;
+    padding: 14px 18px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.vs-msg.ok {
+    background: rgba(40, 118, 77, .10);
+    color: #28764D;
+    border: 1px solid rgba(40, 118, 77, .12);
+}
+
+.vs-msg.erro {
+    background: var(--warn-soft);
+    color: #A8441A;
+    border: 1px solid rgba(198, 90, 69, .12);
+}
+
+.vs-msg ul {
+    margin: 4px 0 0 18px;
+}
+
+.vs-seg {
+    display: inline-flex;
+    gap: 2px;
+
+    padding: 3px;
+    border-radius: 99px;
+
+    background: rgba(252, 134, 91, .10);
+
+    margin-bottom: 20px;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.vs-seg a {
+    padding: 7px 16px;
+    border-radius: 99px;
+
+    color: var(--sec);
+
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.vs-seg a.on {
+    background: #fff;
+    color: var(--ink);
+    font-weight: 600;
+    box-shadow: var(--shadow);
+}
+
+.vs-tablewrap {
+    overflow-x: auto;
+}
+
+.vs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.vs-table th {
+    text-align: left;
+    padding: 16px 24px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    color: var(--sec);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+
+    border-bottom: 1px solid var(--hair);
+}
+
+.vs-table td {
+    padding: 14px 24px;
+    border-top: 1px solid var(--hair);
+    font-variant-numeric: tabular-nums;
+}
+
+.vs-table tbody tr:first-child td {
+    border-top: 0;
+}
+
+.vs-note {
+    display: block;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--sec);
+}
+
+/* =========================================================
+   RESUMO EM FAIXA
+   ========================================================= */
+
+.vs-stats {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    padding: 8px 0;
+}
+
+.vs-stat {
+    padding: 18px 26px;
+    border-left: 1px solid var(--hair);
+}
+
+.vs-stat:first-child {
+    border: 0;
+}
+
+.vs-stat .l {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--sec);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.vs-stat .l svg {
+    width: 16px;
+    height: 16px;
+    color: var(--pine);
+}
+
+.vs-stat.w .l svg {
+    color: var(--warn);
+}
+
+.vs-stat b {
+    display: block;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -.035em;
+    line-height: 1.15;
+    margin-top: 8px;
+}
+
+.vs-stat span {
+    font-size: 13px;
+    color: var(--sec);
+}
+
+/* =========================================================
+   FORMULÁRIOS
+   ========================================================= */
+
+.vs-f {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-top: 16px;
+}
+
+.vs-f input:not([type=checkbox]):not([type=radio]):not([type=file]),
+.vs-f select,
+.vs-f textarea,
+.vs-sel {
+    display: block;
+    width: 100%;
+    height: 46px;
+    margin-top: 6px;
+    padding: 0 14px;
+
+    border: 1px solid var(--hair);
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, .75);
+
+    font: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ink);
+
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.vs-f textarea {
+    height: 92px;
+    padding: 12px 14px;
+    resize: vertical;
+}
+
+.vs-f input:focus,
+.vs-f select:focus,
+.vs-f textarea:focus {
+    outline: 0;
+    border-color: var(--pine);
+    box-shadow: 0 0 0 4px rgba(252, 134, 91, .13);
+}
+
+.vs-f input[readonly] {
+    opacity: .7;
+}
+
+.vs-r2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 18px;
+}
+
+.vs-r3 {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 0 18px;
+}
+
+.vs-radios {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.vs-radios label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 9px 16px;
+    border-radius: 99px;
+
+    background: rgba(255, 255, 255, .72);
+    border: 1px solid var(--hair);
+
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.vs-radios label:has(input:checked) {
+    background: #FC865B;
+    border-color: #FC865B;
+    color: #fff;
+}
+
+.vs-radios input {
+    accent-color: #FFFFFF;
+}
+
+.vs-hint {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--sec);
+    font-weight: 400;
+}
+
+.vs-fact {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.vs-fact form {
+    display: contents;
+}
+
+.vs-btn.sm {
+    padding: 7px 16px;
+    font-size: 13px;
+}
+
+/* =========================================================
+   PÍLULAS DE SELEÇÃO MÚLTIPLA
+   ========================================================= */
+
+.vs-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.vs-chips label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 8px 14px;
+    border-radius: 99px;
+
+    background: rgba(255, 255, 255, .72);
+    border: 1px solid var(--hair);
+
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.vs-chips label:has(input:checked) {
+    background: #FC865B;
+    border-color: #FC865B;
+    color: #fff;
+}
+
+.vs-chips input {
+    accent-color: #FFFFFF;
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+
+@media (max-width: 960px) {
+    .vs-stats {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .vs-stat:nth-child(3) {
+        border-left: 0;
+    }
+
+    .vs-stat:nth-child(n+3) {
+        border-top: 1px solid var(--hair);
+    }
+}
+
+@media (max-width: 900px) {
+    .vs-utxt {
+        display: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .vs-r2,
+    .vs-r3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .vs-wrap,
+    .vs-nav-in {
+        width: calc(100% - 32px);
+    }
+
+    .vs-nav-in {
+        gap: 12px;
+    }
+
+    .vs-brand span {
+        display: none;
+    }
+
+    .vs-head {
+        padding-top: 34px;
+    }
+
+    .vs-row {
+        padding: 14px 16px;
+    }
+
+    .vs-m {
+        display: none;
+    }
+
+    .vs-stat {
+        padding: 16px 18px;
+    }
+
+    .vs-stat b {
+        font-size: 24px;
+    }
+}
+
+/* =========================================================
+   MOVIMENTO REDUZIDO
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .app * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

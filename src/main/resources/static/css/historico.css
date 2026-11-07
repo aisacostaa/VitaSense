@@ -1,0 +1,355 @@
+
+/* =========================================================
+   VITASENSE — HISTÓRICO DE SAÚDE
+   Coral, pêssego, azul-gelo e lavanda
+========================================================= */
+
+body.app {
+    --hist-coral: #FC865B;
+    --hist-peach: #F79D5F;
+    --hist-blue: #A6BBD0;
+    --hist-lavender: #9A9CB8;
+    --hist-ink: #38343D;
+    --hist-muted: #625D68;
+    --hist-border: rgba(65, 65, 75, .09);
+}
+
+/* CONTEÚDO */
+
+body.app .vs-wrap {
+    width: min(1440px, calc(100% - 56px));
+    margin: 0 auto;
+    padding: 42px 0 64px;
+}
+
+body.app .vs-head {
+    margin-bottom: 30px;
+}
+
+body.app .vs-eyebrow {
+    margin: 0 0 12px;
+    color: #C56F50;
+    font-size: 13px;
+    font-weight: 750;
+    letter-spacing: .055em;
+}
+
+body.app .vs-eyebrow a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color .2s ease, transform .2s ease;
+}
+
+body.app .vs-eyebrow a:hover {
+    color: #E97955 !important;
+    transform: translateX(-3px);
+}
+
+body.app .vs-h1 {
+    margin: 0;
+    color: var(--hist-ink);
+    font-size: clamp(28px, 3vw, 38px);
+    font-weight: 800;
+    letter-spacing: -.045em;
+    line-height: 1.15;
+}
+
+body.app .vs-lead {
+    margin: 11px 0 0;
+    color: var(--hist-muted);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* FILTROS */
+
+body.app .vs-seg {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 0 0 22px;
+    padding: 7px;
+    width: fit-content;
+    max-width: 100%;
+    background: rgba(255, 255, 255, .72);
+    border: 1px solid rgba(255, 255, 255, .92);
+    border-radius: 18px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .9),
+        0 8px 24px rgba(67, 59, 67, .055);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+body.app .vs-seg a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 17px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    color: #625D68;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+        background .2s ease,
+        color .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
+}
+
+body.app .vs-seg a:hover {
+    color: #B96649;
+    background: rgba(252, 134, 91, .10);
+    border-color: rgba(252, 134, 91, .14);
+    transform: translateY(-1px);
+}
+
+body.app .vs-seg a.on {
+    color: #754B43;
+    background: linear-gradient(
+        115deg,
+        rgba(252, 134, 91, .32),
+        rgba(247, 157, 95, .25) 42%,
+        rgba(164, 187, 208, .32) 76%,
+        rgba(154, 156, 184, .27)
+    );
+    border-color: rgba(194, 144, 133, .24);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .85),
+        0 4px 12px rgba(154, 156, 184, .10);
+}
+
+body.app .vs-seg a:focus-visible {
+    outline: 3px solid rgba(166, 187, 208, .75);
+    outline-offset: 3px;
+}
+
+/* TABELA — CARD DE VIDRO */
+
+body.app .vs-tablewrap {
+    width: 100%;
+    overflow: hidden;
+    background: rgba(255, 255, 255, .84);
+    border: 1px solid rgba(255, 255, 255, .96);
+    border-radius: 23px;
+    box-shadow:
+        0 15px 42px rgba(61, 55, 65, .065),
+        inset 0 1px 0 rgba(255, 255, 255, .95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+body.app .vs-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--hist-ink);
+    font-size: 14px;
+    text-align: left;
+}
+
+body.app .vs-table thead {
+    background: linear-gradient(
+        110deg,
+        rgba(252, 134, 91, .15),
+        rgba(247, 157, 95, .12) 40%,
+        rgba(166, 187, 208, .19) 76%,
+        rgba(154, 156, 184, .13)
+    );
+}
+
+body.app .vs-table th {
+    padding: 19px 23px;
+    color: #57515E;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .075em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border-bottom: 1px solid rgba(65, 65, 75, .09);
+}
+
+body.app .vs-table td {
+    padding: 19px 23px;
+    color: #494550;
+    font-size: 14px;
+    font-weight: 550;
+    border-bottom: 1px solid rgba(65, 65, 75, .065);
+    transition: background .18s ease;
+}
+
+body.app .vs-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+body.app .vs-table tbody tr:not(:has(.vs-empty)):hover td {
+    background: rgba(166, 187, 208, .10);
+}
+
+body.app .vs-table td:first-child {
+    color: #625D68;
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+body.app .vs-table td:not(:first-child) {
+    color: #38343D;
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+}
+
+body.app .vs-table .vs-empty {
+    padding: 38px 20px;
+    color: #77717C;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* OBSERVAÇÃO */
+
+body.app .vs-note {
+    display: block;
+    margin: 17px 3px 0;
+    color: #625D68;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* NAVBAR — ESTADO ATIVO NA PALETA VITASENSE */
+
+.vs-nav .vs-links a.active,
+.vs-nav .vs-links a.on,
+.vs-nav .vs-links a[aria-current="page"] {
+    color: #A85F49 !important;
+    background: linear-gradient(
+        120deg,
+        rgba(252, 134, 91, .32) 0%,
+        rgba(247, 157, 95, .25) 38%,
+        rgba(164, 187, 208, .32) 72%,
+        rgba(154, 156, 184, .28) 100%
+    ) !important;
+    border-color: rgba(154, 156, 184, .38) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .85),
+        0 5px 16px rgba(154, 156, 184, .13);
+}
+
+.vs-nav .vs-links a.active svg,
+.vs-nav .vs-links a.on svg,
+.vs-nav .vs-links a[aria-current="page"] svg {
+    color: #D87552 !important;
+}
+
+/* AVATAR — FOTO REAL OU GRADIENTE DA MARCA */
+
+.vs-nav .vs-avatar {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        #FC865B 0%,
+        #F79D5F 38%,
+        #A6BBD0 72%,
+        #9A9CB8 100%
+    ) !important;
+    color: #fff !important;
+}
+
+.vs-nav .vs-avatar img {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+.vs-nav .vs-avatar span {
+    position: relative;
+    z-index: 1;
+    color: #fff !important;
+    background: transparent !important;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 760px) {
+    body.app .vs-wrap {
+        width: min(100% - 32px, 600px);
+        padding: 28px 0 44px;
+    }
+
+    body.app .vs-head {
+        margin-bottom: 23px;
+    }
+
+    body.app .vs-h1 {
+        font-size: 29px;
+    }
+
+    body.app .vs-seg {
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        border-radius: 15px;
+        scrollbar-width: thin;
+    }
+
+    body.app .vs-seg a {
+        flex: 0 0 auto;
+        padding: 0 14px;
+    }
+
+    body.app .vs-tablewrap {
+        overflow-x: auto;
+        border-radius: 18px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    body.app .vs-table {
+        min-width: 560px;
+    }
+
+    body.app .vs-table th,
+    body.app .vs-table td {
+        padding: 16px;
+    }
+
+    body.app .vs-note {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 420px) {
+    body.app .vs-wrap {
+        width: calc(100% - 24px);
+    }
+
+    body.app .vs-h1 {
+        font-size: 26px;
+    }
+
+    body.app .vs-seg a {
+        min-height: 37px;
+        font-size: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.app .vs-seg a,
+    body.app .vs-eyebrow a,
+    body.app .vs-table td {
+        transition: none !important;
+    }
+}

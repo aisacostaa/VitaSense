@@ -1,7 +1,0 @@
-/* Botão "Entrar com código" da tela de login (usa as variáveis do seu style.css quando existirem) */
-.login-ou{display:flex;align-items:center;gap:12px;margin:22px 0 16px;color:var(--muted,#777d8c);font-size:13px}
-.login-ou::before,.login-ou::after{content:"";flex:1;height:1px;background:#dce1eb}
-.btn-codigo{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:55px;border:1.5px solid var(--navy,#0b1957);border-radius:12px;background:#fff;color:var(--navy,#0b1957);font-family:inherit;font-size:16px;font-weight:600;text-decoration:none;transition:background .2s,transform .2s}
-.btn-codigo:hover{background:#edf1ff;transform:translateY(-1px)}
-.btn-codigo svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.codigo-ajuda{margin-top:10px;text-align:center;font-size:12px;color:var(--muted,#777d8c)}

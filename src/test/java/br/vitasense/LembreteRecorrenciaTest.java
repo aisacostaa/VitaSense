@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LembreteRecorrenciaTest {
-    private final LembreteService svc = new LembreteService(null, null, null);   // ocorreEm() não usa repositórios
+    private final LembreteService svc = new LembreteService(null, null, null, null, null);   // ocorreEm() não usa repositórios
     private static final LocalDate SEGUNDA = LocalDate.of(2026, 11, 2);            // segunda-feira
 
     private Lembrete lembrete(String recorrencia, String dias) {
